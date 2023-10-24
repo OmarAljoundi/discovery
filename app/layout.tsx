@@ -15,6 +15,13 @@ import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import 'swiper/css/scrollbar'
 import 'swiper/css/effect-cards'
+import ToolBar from '@/layout/customer/top-bar'
+import Menu from '@/layout/customer/menu'
+import Footer from '@/layout/customer/footer'
+import { supabaseClient } from '@/lib/supabaseClient'
+import { CONFIG_PATH, SETTING_PATH } from '@/lib/keys'
+import { Setting } from '@/types/custom'
+import SettingLayoutProvider from '@/provider/setting-layout-provider'
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
   display: 'swap',
@@ -30,6 +37,17 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = headers()
+  const { data, error } = await supabaseClient.storage.from('discovery').list(SETTING_PATH)
+  let responseData: Setting | undefined
+  if (data && data.length > 0 && data.find((x) => x.name === CONFIG_PATH)) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_URL}${SETTING_PATH}/${CONFIG_PATH}`, { next: { revalidate: 0 } })
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`)
+    }
+
+    responseData = (await response.json()) as Setting
+  }
   const types = await getTourTypes()
   return (
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
@@ -38,7 +56,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ReactQueryProvider>
             <ModalProvider />
             <Toaster position="top-right" expand={true} richColors />
-            {children}
+            {headersList.get('x-dir') == 'rtl' ? (
+              <SettingLayoutProvider settingData={responseData}>
+                <ToolBar />
+                <Menu />
+                {children}
+                <Footer />
+              </SettingLayoutProvider>
+            ) : (
+              <> {children}</>
+            )}
           </ReactQueryProvider>
         </CustomerClientProvider>
       </body>

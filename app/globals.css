@@ -120,7 +120,7 @@ html {
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 142.1 76.2% 36.3%;
+    --primary: 274 100% 27%;
     --primary-foreground: 355.7 100% 97.3%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -187,6 +187,45 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.swiper-container {
+  padding-bottom: 10px;
+}
+.mySwiper {
+  position: relative;
+  overflow: visible;
+}
+
+.swiper-container {
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  display: flex;
+}
+
+.swiper-slide {
+  flex: 0 0 auto;
+  width: 80%; /* Adjust the width as needed */
+  margin: 0 auto;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  background: transparent;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next {
+  right: 0;
 }
 
 .loader {

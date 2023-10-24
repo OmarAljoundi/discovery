@@ -4,11 +4,15 @@ import { useQuery } from 'react-query'
 import { getDestination } from '@/lib/operations'
 import { Radio, RadioGroup, Skeleton } from '@nextui-org/react'
 import { cn } from '@/lib/utils'
+import { useParams, useRouter } from 'next/navigation'
 
 interface FilterLocationProps {}
 
 const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
   const { data, isLoading } = useQuery('Locations', async () => await getDestination(), { refetchInterval: false, refetchOnWindowFocus: false })
+  const { destination } = useParams()
+  console.log('destination', decodeURIComponent(destination as string))
+  const route = useRouter()
   return (
     <div className="flex flex-col gap-1 w-full">
       <FilterHeader title="الوجهة السياحية" divider />
@@ -24,10 +28,10 @@ const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
             </div>
           </div>
         ))}
-      <RadioGroup>
+      <RadioGroup onChange={(e) => route.push(`/tour-listing/${e.target.value}`)} defaultValue={decodeURIComponent(destination as string)}>
         {data?.results?.map((dest) => (
           <Radio
-            value={dest.name!}
+            value={dest.slug!}
             key={dest.id}
             classNames={{
               base: cn(

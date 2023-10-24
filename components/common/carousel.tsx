@@ -20,11 +20,15 @@ export default function Carousel({ images, ...rest }: CarouselProps) {
         pagination={{
           clickable: true,
         }}
+        slideClass="swiper-slide width-inherit"
         navigation={false}
       >
         {images.length == 0 && (
           <SwiperSlide>
             <Image
+              removeWrapper={true}
+              isBlurred
+              as={NextImage}
               {...rest}
               width={1280}
               height={600}
@@ -32,19 +36,23 @@ export default function Carousel({ images, ...rest }: CarouselProps) {
               alt=""
               loading="lazy"
               radius="none"
+              quality={50}
               classNames={{ img: 'object-cover' }}
             />
           </SwiperSlide>
         )}
         {images.map((slide, i) => (
-          <SwiperSlide key={i}>
+          <SwiperSlide key={i} style={{ width: 'inherit!important' }}>
             <Image
+              removeWrapper={true}
+              as={NextImage}
+              isBlurred
               {...rest}
               width={1280}
               height={600}
               src={slide}
+              quality={50}
               alt=""
-              loading="lazy"
               radius="none"
               fallbackSrc={'/images.placeholder.svg'}
               classNames={{ img: 'object-cover' }}

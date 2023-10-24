@@ -8,7 +8,7 @@ export interface BreadCrumbProps {
 const BreadCrumb: FunctionComponent<BreadCrumbProps> = ({ items }) => {
   return (
     <ol className="flex items-center whitespace-nowrap min-w-0" aria-label="Breadcrumb">
-      {items
+      {[{ name: 'الرئيسية', href: '/' }, ...items]
         .filter((x) => x.href)
         .map((item) => (
           <li className="text-sm" key={item.name}>
