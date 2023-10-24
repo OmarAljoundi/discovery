@@ -13,14 +13,13 @@ export default async function middleware(req: NextRequest) {
   requestHeaders.set('x-lang', req.nextUrl.pathname.includes('admin') ? 'en' : 'ar')
 
   const res = NextResponse.next({ request: { headers: requestHeaders } })
-  const supabase = createMiddlewareClient<Database>({ req, res })
-  const response = await supabase.auth.getSession()
-
-  console.log('isAuthed? ', response?.data?.session ? 'TRUE' : 'FALSE')
 
   const isDashboard = req.nextUrl.pathname.includes('dashboard')
 
   if (isDashboard) {
+    const supabase = createMiddlewareClient<Database>({ req, res })
+    const response = await supabase.auth.getSession()
+    console.log('isAuthed? ', response?.data?.session ? 'TRUE' : 'FALSE')
     if (response.data.session == null) {
       return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL!}/admin/login`, { headers: requestHeaders })
     }
