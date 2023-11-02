@@ -12,6 +12,7 @@ import { FunctionComponent } from 'react'
 import { motion } from 'framer-motion'
 import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/motions'
 import { Location, TourType } from '@/types/custom'
+
 interface HeroFilterProps {
   types?: TourType[]
   destinations?: Location[]
@@ -63,7 +64,15 @@ const HeroFilter: FunctionComponent<HeroFilterProps> = ({ destinations, types })
       </motion.div>
 
       <motion.div variants={{ ...ITEMS_VAR }}>
-        <Button className="w-full" size={'sm'} as={Link} href={getUrl()} endContent={<SearchIcon className="text-white" />} color="primary">
+        <Button
+          className="w-full"
+          size={'sm'}
+          as={Link}
+          scroll={false}
+          href={getUrl()}
+          endContent={<SearchIcon className="text-white" />}
+          color="primary"
+        >
           <span className="mr-2 text-white text-lg">أبحث</span>
         </Button>
       </motion.div>

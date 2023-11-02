@@ -1,32 +1,123 @@
 'use client'
-import BreadCrumb from '@/components/common/bread-crumb'
+import BreadCrumb, { BreadCrumbProps } from '@/components/common/bread-crumb'
 import Filter from '@/components/filter'
-import MobileSortFilterButtons from '@/components/filter/mobile-sort-filter-buttons'
+import FilterSection from '@/components/filter/filter-section'
 import Sort from '@/components/filter/sort'
-import { Separator } from '@radix-ui/react-separator'
-import { FunctionComponent, ReactNode } from 'react'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useDestination } from '@/hooks/react-query/use-destination'
+import { useFilterCustomer } from '@/hooks/use-customer-filter'
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { getTotalSearchCount } from '@/lib/utils'
+import { Badge, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, useDisclosure } from '@nextui-org/react'
+import { FilterIcon, X } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { FunctionComponent, ReactNode, useMemo } from 'react'
 
 interface LayoutListProps {
   children: ReactNode
 }
-
 const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
-  return (
-    <main className="block md:flex  md:gap-x-4 p-8">
-      <nav className="hidden md:block md:max-w-[240px] xl:max-w-xs w-full">
-        <Filter />
-      </nav>
-      <div className="w-full">
-        <div className="flex justify-between">
-          <BreadCrumb items={[]} />
-          <Sort />
-          <MobileSortFilterButtons />
-        </div>
+  const { data, isLoading } = useDestination()
+  const params = useParams()
+  const { isOpen, onOpen, onOpenChange } = useDisclosure()
+  const search = useFilterCustomer()
 
-        <Separator className="my-2" />
-        {children}
+  const breads = useMemo(() => {
+    if (!isLoading) {
+      let BreadCrumbs: BreadCrumbProps = {
+        items: [
+          {
+            name: 'جميع الرحلات',
+            href: '/tour-listing',
+          },
+        ],
+      }
+
+      if (params?.destination && params?.section) {
+        BreadCrumbs.items.push({
+          name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
+          href: `/tour-listing/${params?.destination}`,
+        })
+        BreadCrumbs.items.push({
+          name: decodeURIComponent(params.section as string).replaceAll('-', ' '),
+        })
+      } else if (params?.destination) {
+        BreadCrumbs.items.push({
+          name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
+        })
+      }
+      return BreadCrumbs
+    }
+    return
+  }, [params?.destination, params?.section, isLoading])
+
+  return (
+    <div className="container mb-12 pt-6 lg:mb-16 px-3 lg:px-0">
+      <div className="mb-4 flex flex-col items-start gap-y-2 sm:flex-row sm:items-center justify-between">
+        {isLoading ? <Skeleton className="w-44 h-4 rounded-lg" /> : <BreadCrumb items={breads?.items || []} />}
+
+        <div className="relative  items-center gap-3 capitalize flex md:[&amp;>li]:!text-base">
+          {getTotalSearchCount(search.filters) > 0 ? (
+            <div className="flex gap-x-2">
+              <Button color="danger" endContent={<X className="w-4 h-4" />} variant="solid" size="sm" onPress={() => search.onDestroy()}>
+                حذف الفلتر
+              </Button>
+              <Badge content={getTotalSearchCount(search.filters)} color="primary">
+                <Button isIconOnly variant="bordered" size="sm" onPress={onOpen} className=" lg:hidden">
+                  <FilterIcon className="w-4 h-4" />
+                </Button>
+              </Badge>
+            </div>
+          ) : (
+            <Button isIconOnly variant="bordered" size="sm" onPress={onOpen} className=" lg:hidden">
+              <FilterIcon />
+            </Button>
+          )}
+
+          <Sort />
+        </div>
       </div>
-    </main>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[330px_5fr] 2xl:gap-12">
+        <div className="h-full overflow-y-auto md:overflow-visible bg-white xl:px-0.5 hidden lg:block">
+          <div className="grid grid-cols-1 gap-8 px-5 pb-3 md:px-7 xl:p-0 xl:pb-0">
+            <Filter />
+          </div>
+        </div>
+        <FilterSection classNames="lg:hidden" />
+        <div className="my-3">{children}</div>
+      </div>
+      <Modal
+        classNames={{
+          base: 'overflow-auto rounded-t-xl',
+          header: 'text-center text-3xl bg-white  border-b sticky top-0 z-50 ',
+          footer: 'bg-white shadow-card border-t sticky bottom-0 z-50 justify-between',
+        }}
+        size="full"
+        hideCloseButton={false}
+        isOpen={isOpen}
+        placement={'bottom'}
+        onOpenChange={onOpenChange}
+      >
+        <ModalContent className="max-h-[75%]" as={ScrollArea} dir="rtl">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 ">محرك البحث</ModalHeader>
+              <ModalBody>
+                <Filter />
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onPress={onClose}>
+                  عرض النتائج
+                </Button>
+                <Button color="danger" variant="light" onPress={onClose}>
+                  حذف الفلتر
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+    </div>
   )
 }
 

@@ -48,7 +48,11 @@ const CardDetails: FunctionComponent<Hotel> = ({ created_at, id, images, name, r
         </div>
       </CardHeader>
       <CardBody className="overflow-visible py-2 border-t pb-4">
-        <Carousel className="h-48" images={images?.map((x) => `${process.env.NEXT_PUBLIC_IMAGE_URL}${x}`) ?? []} />
+        <Carousel
+          uniqueKey={`hotel_admin_${id}`}
+          classNames={{ image: 'aspect-[3/2]' }}
+          images={images?.map((x) => `${process.env.NEXT_PUBLIC_IMAGE_URL}${x}`) ?? []}
+        />
       </CardBody>
       <CardFooter className="pt-2 p-0 border-t">
         <div className="flex gap-1 justify-between items-center w-full pt-3 pb-1 px-4">

@@ -12,8 +12,7 @@ const FilterHeader: FunctionComponent<FilterHeaderProps> = ({ icon: Icon, title,
   return (
     <>
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl">{title}</h1>
-        {Icon && <Icon className="w-8 h-8 text-primary" />}
+        <h1 className="text-lg">{title}</h1>
       </div>
       {divider && <Separator />}
     </>

@@ -16,19 +16,62 @@ export const DAYSFILTER = [
 ]
 
 export const COUNTIRESLIST = [
-   "الصين", "اليابان", "الهند", "كوريا الجنوبية", "فيتنام", "تايلاند", "إندونيسيا", "ماليزيا", "باكستان", "نيبال", "بنغلاديش", "سريلانكا", "بوتان", "منغوليا", "كازاخستان",
-    "أوزبكستان", "قيرغيزستان", "طاجيكستان", "أفغانستان", "إيران", "العراق", "المملكة العربية السعودية", "تركيا", "إسرائيل", "الأردن", "لبنان", 
-    "الإمارات العربية المتحدة", "قطر", "عمان", "الكويت"
-   ,"المملكة المتحدة", "ألمانيا", "فرنسا", "إيطاليا", "إسبانيا", "هولندا", "بلجيكا", "سويسرا", "السويد", "النرويج", "الدنمارك", "فنلندا", "روسيا",
-    "بولندا", "اليونان", "التشيك", "النمسا", "المجر", "البرتغال", "رومانيا", "بلغاريا", "كرواتيا", "أوكرانيا"
- ,"نيجيريا", "مصر", "جنوب إفريقيا", "كينيا", "غانا", "المغرب", "تونس", "إثيوبيا", "تنزانيا", "أوغندا", "الجزائر", "مالي", "السنغال",
-  "النيجر", "الكاميرون", "ساحل العاج", "أنغولا", "مدغشقر", "رواندا", "موريشيوس"
- , "الولايات المتحدة", "كندا", "المكسيك", "جامايكا", "كوستاريكا", "بنما", "غواتيمالا", "هندوراس", "السلفادور", "نيكاراغوا", "بليز"
-,  "البرازيل", "الأرجنتين", "تشيلي", "بيرو", "كولومبيا", "فنزويلا", "الإكوادور", "بوليفيا", "باراغواي", "أوروغواي"
-   , "أستراليا", "نيوزيلندا", "بابوا نيو غينيا", "فيجي", "ساموا", "تونغا", "جزر سليمان", "فانواتو", "ميكرونيزيا", "بالاو", "جزر مارشال"
+  { label: "النمسا", countryCode: "AT" },
+  { label: "ايطاليا", countryCode: "IT" },
+  { label: "سويسرا", countryCode: "CH" },
+  { label: "المانيا", countryCode: "DE" },
+  { label: "فرنسا", countryCode: "FR" },
+  { label: "اسبانيا", countryCode: "ES" },
+  { label: "التشيك", countryCode: "CZ" },
+  { label: "النرويج", countryCode: "NO" },
+  { label: "تركيا", countryCode: "TR" },
+  { label: "هولندا", countryCode: "NL" },
+  { label: "المجر", countryCode: "HU" },
+  { label: "ماليزيا", countryCode: "MY" },
+  { label: "اندونيسيا", countryCode: "ID" },
+  { label: "تايلند", countryCode: "TH" },
+  { label: "السويد", countryCode: "SE" },
+  { label: "فنلندا", countryCode: "FI" },
+  { label: "الدنمارك", countryCode: "DK" },
+  { label: "امريكا", countryCode: "US" },
+  { label: "المكسيك", countryCode: "MX" },
+  { label: "البرتغال", countryCode: "PT" },
+  { label: "اليونان", countryCode: "GR" },
+  { label: "المغرب", countryCode: "MA" },
+  { label: "سيرلنكا", countryCode: "LK" },
+  { label: "المالديف", countryCode: "MV" },
+  { label: "روسيا", countryCode: "RU" },
+  { label: "بولندا", countryCode: "PL" },
+  { label: "استونيا", countryCode: "EE" },
+  { label: "لاتفيا", countryCode: "LV" },
+  { label: "البوسنة", countryCode: "BA" },
+  { label: "اذربيجان", countryCode: "AZ" },
+  { label: "جورجيا", countryCode: "GE" },
+  { label: "سلوفينيا", countryCode: "SI" },
+  { label: "كرواتيا", countryCode: "HR" },
+  { label: "بلغاريا", countryCode: "BG" },
+  { label: "رومانيا", countryCode: "RO" },
+  { label: "صربيا", countryCode: "RS" },
+  { label: "الجبل الاسود", countryCode: "ME" },
+  { label: "بلجيكا", countryCode: "BE" },
+  { label: "البانيا", countryCode: "AL" },
+  { label: "مولدافا", countryCode: "MD" },
+  { label: "اليابان", countryCode: "JP" },
+  { label: "كوريا الجنوبية", countryCode: "KR" },
+  { label: "الصين", countryCode: "CN" },
+  { label: "تونس", countryCode: "TN" },
+  { label: "مصر", countryCode: "EG" },
+  { label: "الاردن", countryCode: "JO" },
+  { label: "الامارات", countryCode: "AE" },
+  { label: "السعودية", countryCode: "SA" },
 ];
 
-export const ORDERFILTER =[
+type OrderFilter = {
+  label:string,
+    value:string,
+    order:Order
+}
+export const ORDERFILTER:OrderFilter[] =[
    {
      label:"الأقل سعراَ",
      value:"price_double",
@@ -107,6 +150,7 @@ export type QueryString = {
   country?:any[]
   days?:any[]
   maxprice?:any
+  minprice?:any
   location?:number | null 
   tab?:string | null
   type?:string[]
@@ -117,6 +161,7 @@ export const queryString:QueryString = {
   country:[],
   days:[],
   maxprice:null,
+  minprice:null,
   location:null,
   type:[],
   
@@ -178,9 +223,13 @@ type TourSearch = {
   days?: string;
   type?: string | null;
   maxprice?: number | null;
+  minprice?: number | null;
   sortMemebr?: string | null;
   sortOrder?: Order | null;
 };
+
+
+
 
 export function filterTours(prop:TourSearch, tours:Tour[]) {
   const {
@@ -189,21 +238,21 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
     type,
     maxprice,
     sortMemebr,
+    minprice,
     sortOrder,
   } = prop;
 
   let filteredTours = [...tours];
-
   if (country) {
     const countriesToCheck = country.split(',');
-     filteredTours = tours.filter((tour) => {
+     filteredTours = filteredTours.filter((tour) => {
       return countriesToCheck.some((country) => tour.tour_countries?.includes(country.trim()));
     });
   }
 
   if (type) {
     const typesToCheck = type.split(',');
-     filteredTours = tours.filter((tour) => {
+     filteredTours = filteredTours.filter((tour) => {
       return typesToCheck.some((t) => t.trim() === tour.tour_type?.name);
     });
   }
@@ -215,6 +264,13 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
       totalDays = totalDays.concat(item.period);
     });
     filteredTours = filteredTours.filter(tour => totalDays.includes(tour.number_of_days));
+  }
+
+  if (maxprice) {
+    filteredTours = filteredTours.filter(tour => tour.price! <= maxprice);
+  }
+  if (minprice) {
+    filteredTours = filteredTours.filter(tour => tour.price! >= minprice);
   }
 
   if (sortMemebr && sortOrder) {
@@ -231,10 +287,18 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
     filteredTours.sort((a, b) => a.price! - b.price!);
   }
 
-  if (maxprice) {
-    filteredTours = filteredTours.filter(tour => tour.price! < maxprice);
-  }
-
-
   return filteredTours;
+}
+
+export function getTotalSearchCount(search?:QueryString){
+  if(!search)
+  return 0
+var total = 0;
+total += search.country?.length || 0;
+total += search.days?.length || 0;
+total += search.maxprice ? 1 : 0;
+total += search.minprice ? 1: 0;
+total += search.type?.length || 0;
+
+return total
 }

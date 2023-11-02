@@ -182,7 +182,7 @@ export async function getTours() {
     OrderByOptions: [],
     PageIndex: 0,
     PageSize: 1000,
-    Select: '*,tour_type(*)',
+    Select: '*,tour_type(*),tour_hotels(*,hotel(*))',
     Table: 'tour',
   }
   const response = await http<Response<Tour>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST] }).post(_SQ)

@@ -11,11 +11,11 @@ const BreadCrumb: FunctionComponent<BreadCrumbProps> = ({ items }) => {
       {[{ name: 'الرئيسية', href: '/' }, ...items]
         .filter((x) => x.href)
         .map((item) => (
-          <li className="text-sm" key={item.name}>
-            <Link className="flex items-center text-gray-500 hover:text-blue-600" href={item.href!}>
+          <li className="text-xs md:text-sm" key={item.name}>
+            <Link className="flex items-center text-gray-500 hover:text-primary" href={item.href!}>
               {item.name}
               <svg
-                className="flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 dark:text-gray-600 rotate-180"
+                className="flex-shrink-0 mx-1 md:mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 dark:text-gray-600 rotate-180"
                 width="16"
                 height="16"
                 viewBox="0 0 16 16"
@@ -25,14 +25,14 @@ const BreadCrumb: FunctionComponent<BreadCrumbProps> = ({ items }) => {
                 <path
                   d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14"
                   stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
                 />
               </svg>
             </Link>
           </li>
         ))}
-      <li className="text-sm font-semibold text-gray-800 truncate dark:text-gray-200" aria-current="page">
+      <li className="text-xs md:text-sm font-semibold text-gray-800 truncate dark:text-gray-200" aria-current="page">
         {items.find((x) => !x.href)?.name}
       </li>
     </ol>

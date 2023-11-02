@@ -1,10 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['nyjwscuqqrgvxpajhreu.supabase.co', 'nextui-docs-v2.vercel.app', 'flagcdn.com'],
-  },
-  experimental: {
-    serverActions: true,
+    remotePatterns: [
+      {
+        hostname: 'nyjwscuqqrgvxpajhreu.supabase.co',
+      },
+      {
+        hostname: 'nextui-docs-v2.vercel.app',
+      },
+      {
+        hostname: 'flagcdn.com',
+      },
+    ],
   },
 }
 

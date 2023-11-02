@@ -1,8 +1,6 @@
 'use client'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Badge, Button, Card, Image } from '@nextui-org/react'
-import { Separator } from '@radix-ui/react-separator'
-import { ArrowLeft, CalendarDays, Clock, MapPin } from 'lucide-react'
+import { Card } from '@nextui-org/react'
 import { FunctionComponent } from 'react'
 
 interface TourListingLoadingProps {}

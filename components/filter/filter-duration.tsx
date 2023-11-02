@@ -1,13 +1,41 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import FilterHeader from './filter-header'
 import { CalendarClock, User } from 'lucide-react'
-import { DAYSFILTER, cn } from '@/lib/utils'
+import { DAYSFILTER, cn, daysFilter } from '@/lib/utils'
 import { Checkbox, CheckboxGroup } from '@nextui-org/react'
+import { useFilterCustomer } from '@/hooks/use-customer-filter'
+import qs from 'query-string'
+import { useSearchParams } from 'next/navigation'
 
 interface FilterDurationProps {}
 
 const FilterDuration: FunctionComponent<FilterDurationProps> = () => {
-  const [groupSelected, setGroupSelected] = React.useState([])
+  const [groupSelected, setGroupSelected] = React.useState<string[]>([])
+  const filter = useFilterCustomer()
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    filter.onCreate({
+      ...filter.filters,
+      days: groupSelected,
+    })
+  }, [groupSelected])
+
+  useEffect(() => {
+    const query = qs.parseUrl(window.location.href, {
+      arrayFormat: 'comma',
+      decode: true,
+    }).query
+
+    if (typeof query.days == 'string') query.days = [query.days]
+    if (query.days && query.days.length > 0) {
+      const labelSet = new Set(query.days)
+      const filteredObjects = daysFilter.filter((obj) => labelSet.has(obj.value))
+      setGroupSelected(filteredObjects.map((x) => x.value))
+    } else {
+      setGroupSelected([])
+    }
+  }, [searchParams.get('days')])
+
   return (
     <div className="flex flex-col gap-1 w-full">
       <FilterHeader title="عدد الأيام" icon={CalendarClock} divider />

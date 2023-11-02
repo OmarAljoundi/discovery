@@ -1,5 +1,3 @@
-import { Button } from '@nextui-org/react'
-import Image from 'next/image'
 import { FunctionComponent } from 'react'
 import HeroFilter from './hero-filter'
 import { useSetting } from '@/hooks/use-setting'
@@ -37,7 +35,7 @@ const HeroSection: FunctionComponent<HeroSectionProps> = () => {
               <SearchFilterLoading />
             </div>
           </div>
-          <div className="col-span-12 h-56 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
+          <div className="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
             <div className="relative h-full group overflow-hidden">
               <Skeleton className="h-full rounded-none px-3" />
             </div>
@@ -49,14 +47,14 @@ const HeroSection: FunctionComponent<HeroSectionProps> = () => {
   return (
     <div className="container">
       <div className="flex flex-col-reverse sm:grid sm:grid-cols-12">
-        <div className="-mt-[40px] sm:mt-0 z-50 sm:z-0 col-span-12 sm:col-span-4 md:col-span-4 lg:col-span-4 ">
+        <div className="sm:mt-0 z-50 sm:z-0 col-span-12 sm:col-span-4 md:col-span-4 lg:col-span-4 ">
           <div className="w-full h-full">
             <HeroFilter destinations={response![0].results} types={response![1].results} />
           </div>
         </div>
         <ReactIdSwiper
           {...swiperParams}
-          containerClass="col-span-12 h-56 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden"
+          containerClass="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden"
         >
           {config?.map((item, index) => (
             <motion.div
@@ -76,7 +74,7 @@ const HeroSection: FunctionComponent<HeroSectionProps> = () => {
                 },
               }}
             >
-              <div className="relative h-full group overflow-hidden">
+              <div className="relative h-full group overflow-hidden ">
                 <BlurImage
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}
                   alt="Hero Image"
@@ -84,7 +82,7 @@ const HeroSection: FunctionComponent<HeroSectionProps> = () => {
                   fetchPriority={index == 0 ? 'high' : 'auto'}
                   loading={index == 0 ? 'eager' : 'lazy'}
                   fill
-                  className="bg-overlay mx-auto max-w-full h-auto"
+                  className="bg-gray-300 mx-auto max-w-full"
                 />
                 <figcaption
                   className="absolute p-3 bottom-10 max-w-[150px] rounded-none left-0 sm:bottom-8 sm:left-5 flex sm:max-w-xs  justify-between sm:rounded-xl border border-white

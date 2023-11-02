@@ -29,7 +29,7 @@ const Menu = () => {
   return (
     <header className="bg-white shadow-card">
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <Link className="block text-teal-600" href="/">
+        <Link className="block text-teal-600" href="/" scroll={false}>
           <span className="sr-only">Home</span>
           <Image src={'/images/discovery_logo.png'} width={50} height={0} alt="موندو تورز" />
         </Link>
@@ -39,7 +39,7 @@ const Menu = () => {
             <ul className="flex items-center gap-6 text-sm">
               {MenuItems.map((item) => (
                 <li key={item.title}>
-                  <Link className="text-black transition hover:text-gray-500/75 font-primary font-semibold" href={item.link}>
+                  <Link scroll={false} className="text-black transition hover:text-gray-500/75 font-primary font-semibold" href={item.link}>
                     {item.title}
                   </Link>
                 </li>

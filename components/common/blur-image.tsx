@@ -10,14 +10,13 @@ export default function BlurImage(props: ComponentProps<typeof Image>) {
   const [isLoading, setLoading] = useState(true)
 
   return (
-    <>
+    <div className="aspect-[3/2] rounded-medium">
       <Image
         {...props}
         alt={props.alt}
-        className={cn(props.className, 'duration-700 ease-in-out', isLoading ? 'scale-105 blur-lg' : 'scale-100 blur-0')}
-        onLoadingComplete={() => setLoading(false)}
+        className={cn(props.className, 'duration-700 ease-in-out rounded-medium', isLoading ? 'scale-105 blur-lg' : 'scale-100 blur-0')}
+        onLoad={() => setLoading(false)}
       />
-      {isLoading && <Skeleton className="w-44 h-40" />}
-    </>
+    </div>
   )
 }

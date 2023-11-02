@@ -54,9 +54,11 @@ export type Hotel = {
 }
 
 export type TourHotels = {
+  id?: number
   created_at?: string
   tour_id?: number
   hotel_id?: number
+  hotel?: Hotel
 }
 export type TourType = {
   created_at?: string

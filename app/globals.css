@@ -111,9 +111,19 @@ html {
     animation: animloaderAdmin 2s 0.2s ease infinite;
   }
 }
-
+.swiper-pagination {
+  margin-bottom: 20px;
+}
 @layer base {
   :root {
+    --swiper-pagination-color: hsl(var(--primary));
+    --swiper-pagination-bullet-width: 10px;
+    --swiper-pagination-bullet-height: 10px;
+    --swiper-pagination-bullet-inactive-color: #4e008a26;
+    --swiper-pagination-bullet-inactive-opacity: 1;
+    --swiper-pagination-bullet-opacity: 1;
+    --swiper-pagination-bullet-horizontal-gap: 4px;
+    --swiper-pagination-bullet-vertical-gap: 6px;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -121,7 +131,7 @@ html {
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
     --primary: 274 100% 27%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --primary-foreground: 274 100% 27%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -134,15 +144,7 @@ html {
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.75rem;
-    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    --swiper-pagination-color: white;
-    --swiper-pagination-bullet-width: 10px;
-    --swiper-pagination-bullet-height: 10px;
-    --swiper-pagination-bullet-inactive-color: #000;
-    --swiper-pagination-bullet-inactive-opacity: 0.6;
-    --swiper-pagination-bullet-opacity: 1;
-    --swiper-pagination-bullet-horizontal-gap: 4px;
-    --swiper-pagination-bullet-vertical-gap: 6px;
+    --card-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
   }
 
   .dark {

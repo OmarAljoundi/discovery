@@ -1,18 +1,24 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import FilterHeader from './filter-header'
-import { useQuery } from 'react-query'
-import { getDestination } from '@/lib/operations'
 import { Radio, RadioGroup, Skeleton } from '@nextui-org/react'
 import { cn } from '@/lib/utils'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useFilterCustomer } from '@/hooks/use-customer-filter'
+import { useDestination } from '@/hooks/react-query/use-destination'
 
 interface FilterLocationProps {}
 
 const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
-  const { data, isLoading } = useQuery('Locations', async () => await getDestination(), { refetchInterval: false, refetchOnWindowFocus: false })
+  const { data, isLoading } = useDestination()
   const { destination } = useParams()
-  console.log('destination', decodeURIComponent(destination as string))
+  const filter = useFilterCustomer()
   const route = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    filter.onDestroy()
+  }, [pathname])
+
   return (
     <div className="flex flex-col gap-1 w-full">
       <FilterHeader title="الوجهة السياحية" divider />
@@ -28,7 +34,29 @@ const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
             </div>
           </div>
         ))}
-      <RadioGroup onChange={(e) => route.push(`/tour-listing/${e.target.value}`)} defaultValue={decodeURIComponent(destination as string)}>
+      <RadioGroup
+        onChange={(e) => {
+          if (e.target.value == 'All') {
+            route.push(`/tour-listing`, { scroll: true })
+          } else {
+            route.push(`/tour-listing/${e.target.value}`, { scroll: true })
+          }
+        }}
+        defaultValue={decodeURIComponent(destination as string)}
+      >
+        <Radio
+          value={'All'}
+          key={'All'}
+          classNames={{
+            base: cn(
+              'inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between',
+              'flex-row-reverse max-w-full w-full cursor-pointer rounded-lg gap-4 px-2 py-1 border-2 border-transparent',
+              'data-[selected=true]:bg-content2',
+            ),
+          }}
+        >
+          عرض جميع الوجهات
+        </Radio>
         {data?.results?.map((dest) => (
           <Radio
             value={dest.slug!}
@@ -36,7 +64,7 @@ const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
             classNames={{
               base: cn(
                 'inline-flex m-0 bg-content1 hover:bg-content2 items-center justify-between',
-                'flex-row-reverse max-w-[300px] cursor-pointer rounded-lg gap-4 px-2 py-1 border-2 border-transparent',
+                'flex-row-reverse max-w-full w-full cursor-pointer rounded-lg gap-4 px-2 py-1 border-2 border-transparent',
                 'data-[selected=true]:bg-content2',
               ),
             }}

@@ -1,8 +1,7 @@
 export const dynamic = 'force-dynamic'
-
 import './globals.css'
 import type { Metadata } from 'next'
-import { Cairo, Inter } from 'next/font/google'
+import { Cairo } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { ReactQueryProvider } from '@/provider/react-query-provider'
 import { cn } from '@/lib/utils'
@@ -37,7 +36,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = headers()
-  const { data, error } = await supabaseClient.storage.from('discovery').list(SETTING_PATH)
+  const { data } = await supabaseClient.storage.from('discovery').list(SETTING_PATH)
   let responseData: Setting | undefined
   if (data && data.length > 0 && data.find((x) => x.name === CONFIG_PATH)) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_URL}${SETTING_PATH}/${CONFIG_PATH}`, { next: { revalidate: 0 } })
@@ -48,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
     responseData = (await response.json()) as Setting
   }
+
   const types = await getTourTypes()
   return (
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>

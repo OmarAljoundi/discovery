@@ -92,6 +92,7 @@ const BestTours: FunctionComponent<BestToursProps> = () => {
           <Swiper {...swiperParams} ref={swiperRef}>
             {data?.map((item, index) => (
               <motion.div
+                className="fsdffsdf"
                 key={item.id}
                 initial="hidden"
                 whileInView="visible"

@@ -4,6 +4,7 @@ import { create } from 'zustand'
 interface useFilterCustomerStore {
   filters?: QueryString
   onCreate: (filters: QueryString) => void
+  onDestroy: () => void
 }
 
 export const useFilterCustomer = create<useFilterCustomerStore>((set) => ({
