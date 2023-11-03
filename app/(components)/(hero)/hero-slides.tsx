@@ -14,10 +14,10 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
   const config = useSetting((x) => x.setting?.home?.sliders ?? [])
 
   return (
-    <div className="relative col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
+    <div className="relative col-span-12 h-full sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
       <Swiper
         spaceBetween={30}
-        className="p-3"
+        className="swiper_zero_padding"
         initialSlide={4}
         modules={[Navigation, Pagination]}
         navigation={{
@@ -61,15 +61,15 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
                     fetchPriority={index == 0 ? 'high' : 'auto'}
                     loading={index == 0 ? 'eager' : 'lazy'}
                     fill
-                    className="bg-gray-300 mx-auto max-w-full rounded-none"
+                    className="bg-gray-300 mx-auto max-w-full rounded-none object-cover"
                   />
                   <figcaption
-                    className="absolute z-20 p-3 bottom-10 max-w-[150px] rounded-none left-0 sm:bottom-8 sm:left-5 flex sm:max-w-xs text-white  justify-between sm:rounded-xl  
+                    className="absolute z-20 justify-center items-center -translate-y-10  p-3 bottom-0 left-0 right-0 top-0 mx-auto max-w-[300px] rounded-none  flex  text-white   sm:rounded-xl  
                     sm:py-4 sm:px-6"
                   >
-                    <div>
-                      <h1 className="text-base lg:text-xl xl:text-3xl text-white ">{item.title}</h1>
-                      <p className="text-xs  lg:text-lg xl:text-lg mt-2 text-white ">{item.sub_title}</p>
+                    <div className="text-center">
+                      <h1 className="text-3xl text-white ">{item.title}</h1>
+                      <p className="text-lg mt-2 text-white ">{item.sub_title}</p>
                     </div>
                   </figcaption>
                 </div>
@@ -78,7 +78,7 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="w-auto absolute bottom-6 right-6 z-50">
+      <div className="w-auto absolute bottom-6 sm:right-6 sm:left-auto sm:mx-0 left-0 mx-auto right-0 z-50">
         <div className="flex gap-x-4 items-center justify-center mt-5">
           <button
             className="disabled:opacity-50  z-10 -next flex justify-center items-center button -blue-1

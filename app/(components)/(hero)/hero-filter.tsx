@@ -65,15 +65,7 @@ const HeroFilter: FunctionComponent<HeroFilterProps> = ({ destinations, types })
       </motion.div>
 
       <motion.div variants={{ ...ITEMS_VAR }}>
-        <Button
-          className="w-full"
-          size={'sm'}
-          as={Link}
-          scroll={false}
-          href={getUrl()}
-          endContent={<SearchIcon className="text-white" />}
-          color="primary"
-        >
+        <Button className="w-full" size={'sm'} as={Link} href={getUrl()} endContent={<SearchIcon className="text-white" />} color="primary">
           <span className="mr-2 text-white text-lg">أبحث</span>
         </Button>
       </motion.div>

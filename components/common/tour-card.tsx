@@ -17,14 +17,14 @@ const TourCard: FunctionComponent<TourCardProps> = ({ tour }) => {
     <div key={tour.id}>
       <Carousel
         uniqueKey={`tour_card__images_${tour.id}`}
-        classNames={{ image: 'aspect-[3/2]' }}
+        classNames={{ image: 'aspect-[3/2] rounded-b-none', container: 'rounded-b-none' }}
         includeArrows={!!tour.images && tour.images.length > 1}
         images={tour.images?.map((x) => `${process.env.NEXT_PUBLIC_IMAGE_URL}${x}`) ?? []}
       />
 
       <div
-        className="py-3 px-5 -mt-[16px]
-       relative bg-white z-40 shadow-card after:rounded-b-none 
+        className="py-3 px-5
+       relative bg-white z-40 shadow-card rounded-b-none 
     "
       >
         <div className="flex justify-start gap-x-2 h-6">

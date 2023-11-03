@@ -21,6 +21,7 @@ const FilterSection: FunctionComponent<FilterSectionProps> = ({ classNames }) =>
       return data.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.location_attributes
     },
     keepPreviousData: true,
+    enabled: !!params.destination || !!params.section,
   })
 
   if (isLoading)

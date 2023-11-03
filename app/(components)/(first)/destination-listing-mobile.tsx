@@ -6,9 +6,9 @@ import { Button } from '@nextui-org/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { FunctionComponent } from 'react'
-import { Navigation, Scrollbar } from 'swiper/modules'
+import { FreeMode, Navigation, Scrollbar } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
+import 'swiper/css/free-mode'
 interface DestinationListingMobileProps {
   destinations: Location[]
 }
@@ -47,8 +47,9 @@ const DestinationListingMobile: FunctionComponent<DestinationListingMobileProps>
           el: '.js-popular-destination-scrollbar',
           draggable: true,
         }}
+        freeMode={true}
         initialSlide={4}
-        modules={[Scrollbar, Navigation]}
+        modules={[Scrollbar, Navigation, FreeMode]}
         navigation={{
           nextEl: '.js-destination-next',
           prevEl: '.js-destination-prev',
@@ -76,36 +77,30 @@ const DestinationListingMobile: FunctionComponent<DestinationListingMobileProps>
       >
         {destinations?.map((item) => (
           <SwiperSlide key={item.id}>
-            <Link href={`/tour-listing/${item.slug}`} className="citiesCard -type-1 d-block rounded-4 group hover:cursor-pointer" key={item.id}>
-              <div className="citiesCard__image ratio aspect-[3/4] ">
+            <Link href={`/tour-listing/${item.slug}`} className="citiesCard -type-1 d-block  group hover:cursor-pointer" key={item.id}>
+              <div
+                className="citiesCard__image ratio aspect-[3/4] h-full w-full before:w-full  
+                   before:absolute before:h-full before:bottom-0 before:left-0 before:bg-gradient-to-t 
+                 before:from-black/75 before:z-10  
+                  before:to-black/10"
+              >
                 <BlurImage
                   src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item?.image?.url}` || ''}
                   loading="eager"
                   alt=""
                   fill
-                  className="object-cover"
-                  containerClassName="w-full h-full aspect-w-1 aspect-h-1 w-full overflow-hidden  bg-gray-200 xl:aspect-w-7 xl:aspect-h-8"
+                  className="object-cover rounded-none"
+                  containerClassName="w-full h-full aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-none  bg-gray-200 xl:aspect-w-7 xl:aspect-h-8"
                 />
-              </div>
-              <div className="citiesCard__content flex flex-col justify-between text-center pt-8 pb-5 px-5">
-                <div className="citiesCard__bg" />
-                <div className="citiesCard__top">
-                  <div className="text-14 text-white fw-bold" dir="rtl">
-                    {getTotalTours(item)} رحلة ضمن هذا البرنامج
+                <figcaption
+                  className="absolute z-20  justify-center items-center   p-3 bottom-0 left-0 right-0 mx-auto  rounded-none  flex  text-white    
+                    sm:py-4 sm:px-6"
+                >
+                  <div className="text-center">
+                    <h1 className="text-base text-white ">{item.name}</h1>
+                    <p className="text-base mt-2 text-white ">{getTotalTours(item)} رحلة ضمن البرنامج</p>
                   </div>
-                </div>
-                <div className="citiesCard__bottom translate-y-16 group-hover:translate-y-0 transition-all">
-                  <figcaption
-                    className="absolute p-2 bottom-0 right-0 mx-auto w-fit  left-0  mb-16  sm:left-5 flex   justify-between  border border-white
-                    bg-white/75 rounded-xl shadow-lg shadow-black/5 saturate-200 backdrop-blur-sm"
-                  >
-                    <h4 className="text-sm xl:text-xl md:text-xl text-black">{item.name}</h4>
-                  </figcaption>
-
-                  <Button color="primary" variant="shadow">
-                    عرض الرحلات
-                  </Button>
-                </div>
+                </figcaption>
               </div>
             </Link>
           </SwiperSlide>

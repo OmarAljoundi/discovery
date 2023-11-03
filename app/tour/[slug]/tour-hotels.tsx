@@ -19,10 +19,6 @@ const TourHotels: FC<{ tour: Tour }> = ({ tour }) => {
           dir="ltr"
           spaceBetween={30}
           className="p-3"
-          scrollbar={{
-            el: '.js-popular-destination-scrollbar',
-            draggable: true,
-          }}
           initialSlide={4}
           modules={[Scrollbar, Navigation, Pagination]}
           navigation={{

@@ -99,7 +99,6 @@ const TourImages: FunctionComponent<TourImagesProps> = ({ tour }) => {
             <BsArrowRightShort />
           </IconTourProvider>
         </button>
-        <div className="slider-scrollbar bg-light-2 mt-2  js-popular-destination-scrollbar" />
       </div>
     </div>
   )

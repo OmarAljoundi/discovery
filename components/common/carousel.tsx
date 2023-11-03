@@ -26,6 +26,7 @@ export default function Carousel({ images, classNames, uniqueKey, includeArrows 
     <div className="relative">
       <Swiper
         dir="ltr"
+        className="swiper_zero_padding"
         spaceBetween={0}
         slidesPerView={1}
         pagination={true}
@@ -54,7 +55,7 @@ export default function Carousel({ images, classNames, uniqueKey, includeArrows 
 
         {images.map((slide, i) => (
           <SwiperSlide key={i} style={{ width: 'inherit!important' }}>
-            <div className="relative h-full group overflow-hidden rounded-medium ">
+            <div className="relative h-full group overflow-hidden">
               <BlurImage
                 src={slide}
                 width={1000}

@@ -10,7 +10,7 @@ export default function BlurImage(props: ImageProps) {
   const [isLoading, setLoading] = useState(true)
 
   return (
-    <div className={cn(' rounded-medium', props?.containerClassName)}>
+    <div className={cn(props?.containerClassName)}>
       <Image
         {...props}
         alt={props.alt}

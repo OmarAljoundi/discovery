@@ -20,7 +20,7 @@ export const MenuItems = [
     link: 'https://www.instagram.com/p/B2Gr4omDs0y/',
   },
   {
-    title: 'عن موندو',
+    title: 'عن دسكفري',
     link: '/about-us',
   },
 ]
