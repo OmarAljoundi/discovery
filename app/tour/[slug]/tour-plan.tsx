@@ -1,4 +1,5 @@
 'use client'
+import BlurImage from '@/components/common/blur-image'
 import IconTourProvider from '@/provider/icon-tour-provider'
 import { Tour } from '@/types/custom'
 import { Accordion, AccordionItem, Avatar, Chip } from '@nextui-org/react'
@@ -25,12 +26,19 @@ const TourPlan: FunctionComponent<TourPlanProps> = ({ tour }) => {
         aria-label={section.title}
         startContent={
           <Chip color="primary" radius="lg">
-            {index.toString()}
+            {(index + 1).toString()}
           </Chip>
         }
         title={section.title}
       >
-        <div>{section.description}</div>
+        <div className="grid grid-cols-12 justify-between gap-x-2 items-start overflow-hidden">
+          <div className="col-span-9">
+            <p>{section.description}</p>
+          </div>
+          <div className="col-span-3">
+            {section.image && <BlurImage src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${section.image}`} alt={section.title} width={300} height={150} />}
+          </div>
+        </div>
       </AccordionItem>
     ))
   }

@@ -1,21 +1,20 @@
 'use client'
+import { FunctionComponent } from 'react'
 import TourCard from '@/components/common/tour-card'
 import { useSetting } from '@/hooks/use-setting'
-import { getTours } from '@/lib/operations'
-import { Button, Image } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
-import { FunctionComponent, useRef } from 'react'
-import { useQuery } from 'react-query'
+import { useRef } from 'react'
 import Swiper from 'react-id-swiper'
 import 'swiper/css'
 import { Separator } from '@/components/ui/separator'
-import TourCardLoading from '@/components/common/tour-card-loading'
 import { motion } from 'framer-motion'
+import { Tour } from '@/types/custom'
+interface BestToursListProps {
+  data: Tour[]
+}
 
-interface BestToursProps {}
-
-const BestTours: FunctionComponent<BestToursProps> = () => {
+const BestToursList: FunctionComponent<BestToursListProps> = ({ data }) => {
   const config = useSetting()
   const swiperRef = useRef<any>(null)
   const goNext = () => {
@@ -28,13 +27,6 @@ const BestTours: FunctionComponent<BestToursProps> = () => {
       swiperRef.current.swiper.slidePrev()
     }
   }
-  const { data, isLoading } = useQuery('Best-Tours', async () => await getTours(), {
-    refetchInterval: false,
-    refetchOnWindowFocus: false,
-    select: (data) => {
-      return data?.filter((x) => config.setting?.best_tours?.tours?.includes(x.id!))
-    },
-  })
 
   const swiperParams = {
     slidesPerView: 'auto',
@@ -62,7 +54,6 @@ const BestTours: FunctionComponent<BestToursProps> = () => {
       },
     },
   }
-
   return (
     <div className="bg-[url(/images/best_seller_background.png)] bg-[#f1f6ff] bg-right-bottom bg-no-repeat bg-auto py-16">
       <div className="container">
@@ -78,19 +69,10 @@ const BestTours: FunctionComponent<BestToursProps> = () => {
           </div>
         </div>
         <Separator className="my-4" />
-        {isLoading && (
-          <motion.div className="grid grid-cols-4 gap-x-4">
-            {[1, 2, 3, 4].map((_, index) => (
-              <motion.div key={index}>
-                <TourCardLoading />
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-
-        {!isLoading && (
-          <Swiper {...swiperParams} ref={swiperRef}>
-            {data?.map((item, index) => (
+        <Swiper {...swiperParams} ref={swiperRef}>
+          {data
+            ?.filter((x) => config.setting?.best_tours?.tours?.includes(x.id!))
+            ?.map((item, index) => (
               <motion.div
                 className="fsdffsdf"
                 key={item.id}
@@ -112,11 +94,10 @@ const BestTours: FunctionComponent<BestToursProps> = () => {
                 <TourCard tour={item} />
               </motion.div>
             ))}
-          </Swiper>
-        )}
+        </Swiper>
       </div>
     </div>
   )
 }
 
-export default BestTours
+export default BestToursList

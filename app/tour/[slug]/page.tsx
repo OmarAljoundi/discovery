@@ -25,20 +25,18 @@ const TourPage: FunctionComponent<{ params: { slug: string } }> = async ({ param
   if (!tour) return notFound()
 
   return (
-    <div>
-      <div className="container">
-        <div className="space-y-4">
-          <div className="shadow-medium p-3 rounded-md mt-4">
-            <BreadCrumb items={[{ name: tour.name! }, ...BreadCrumbs.items]} />
-          </div>
-          <TourImages tour={tour} />
-          <TourInitailInfo tour={tour} />
-          <TourSectionInfo tour={tour} />
-          <TourPlan tour={tour} />
-          <TourBenfits tour={tour} />
-          <TourHotels tour={tour} />
-          <TourRelated tour={tour} />
+    <div className="container mb-10">
+      <div className="space-y-4">
+        <div className="shadow-medium p-3 rounded-md mt-4">
+          <BreadCrumb items={[{ name: tour.name! }, ...BreadCrumbs.items]} />
         </div>
+        <TourImages tour={tour} />
+        <TourInitailInfo tour={tour} />
+        <TourSectionInfo tour={tour} />
+        <TourPlan tour={tour} />
+        <TourBenfits tour={tour} />
+        <TourHotels tour={tour} />
+        <TourRelated tour={tour} />
       </div>
     </div>
   )

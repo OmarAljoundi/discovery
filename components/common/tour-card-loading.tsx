@@ -1,3 +1,4 @@
+'use client'
 import { Card } from '@nextui-org/react'
 import { FunctionComponent } from 'react'
 import { Skeleton } from '../ui/skeleton'

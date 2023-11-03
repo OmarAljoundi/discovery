@@ -1,3 +1,4 @@
+'use client'
 import CountryDropdown from '@/components/hero-filter/country-dropdown'
 import DestinationDropdown from '@/components/hero-filter/destination-dropdown'
 import DurationDropdown from '@/components/hero-filter/duration-dropdown'

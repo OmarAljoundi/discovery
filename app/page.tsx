@@ -1,23 +1,13 @@
-'use client'
-import { useEffect } from 'react'
-import BestTours from './(components)/best-tours'
-import HeroSection from './(components)/hero-section'
-import { useFilterCustomer } from '@/hooks/use-customer-filter'
+import { getDestination, getTourTypes, getTours } from '@/lib/operations'
+import HeroSection from './(components)/(hero)/hero-section'
+import BestToursList from './(components)/(second)/best-tours-list'
 
-export default function Home() {
-  const filter = useFilterCustomer()
-  useEffect(() => {
-    window.scroll({
-      behavior: 'instant',
-      left: 0,
-      top: 0,
-    })
-    filter.onDestroy()
-  }, [])
+export default async function Home() {
+  var response = await Promise.all([getDestination(), getTourTypes(), getTours()])
   return (
     <div>
-      <HeroSection />
-      <BestTours />
+      <HeroSection destinations={response[0].results || []} types={response[1].results || []} />
+      <BestToursList data={response[2] || []} />
     </div>
   )
 }

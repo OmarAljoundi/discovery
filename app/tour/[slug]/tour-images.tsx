@@ -2,10 +2,9 @@
 import BlurImage from '@/components/common/blur-image'
 import { Tour } from '@/types/custom'
 import { FunctionComponent } from 'react'
-import ReactIdSwiper, { ReactIdSwiperProps } from 'react-id-swiper'
 import { motion } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Scrollbar } from 'swiper/modules'
+import { Navigation } from 'swiper/modules'
 import IconTourProvider from '@/provider/icon-tour-provider'
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 interface TourImagesProps {
@@ -19,12 +18,8 @@ const TourImages: FunctionComponent<TourImagesProps> = ({ tour }) => {
         dir="ltr"
         spaceBetween={30}
         className="overflow-visible-important"
-        scrollbar={{
-          el: '.js-popular-destination-scrollbar',
-          draggable: true,
-        }}
         initialSlide={4}
-        modules={[Scrollbar, Navigation]}
+        modules={[Navigation]}
         navigation={{
           nextEl: '.js-destination-next',
           prevEl: '.js-destination-prev',
