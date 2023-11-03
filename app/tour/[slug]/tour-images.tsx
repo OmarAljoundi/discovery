@@ -73,7 +73,8 @@ const TourImages: FunctionComponent<TourImagesProps> = ({ tour }) => {
                   fetchPriority={index == 0 ? 'high' : 'auto'}
                   loading={index == 0 ? 'eager' : 'lazy'}
                   fill
-                  className="bg-gray-300 mx-auto max-w-full rounded-medium"
+                  containerClassName="aspect-[3/2]"
+                  className="bg-gray-300 mx-auto max-w-full rounded-medium "
                 />
               </div>
             </motion.div>

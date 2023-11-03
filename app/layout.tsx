@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 import './globals.css'
+import '../public/scss/citiesCard.scss'
 import type { Metadata } from 'next'
 import { Cairo } from 'next/font/google'
 import { Toaster } from 'sonner'

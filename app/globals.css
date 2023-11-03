@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+.swiper-scrollbar {
+  background: #d6d6d6;
+}
+
+.swiper-container-horizontal > .swiper-scrollbar {
+  border-radius: 2px;
+  height: 5px;
+  width: 200px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+div.swiper-scrollbar-drag {
+  position: absolute;
+  background: hsl(var(--primary));
+  z-index: 99999;
+}
 #__next,
 .main,
 body,

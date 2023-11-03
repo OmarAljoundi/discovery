@@ -1,16 +1,16 @@
 'use client'
 import cn from 'clsx'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-
+import { useState } from 'react'
 import type { ComponentProps } from 'react'
-import { Skeleton } from '../ui/skeleton'
 
-export default function BlurImage(props: ComponentProps<typeof Image>) {
+type ImageProps = ComponentProps<typeof Image> & { containerClassName?: string }
+
+export default function BlurImage(props: ImageProps) {
   const [isLoading, setLoading] = useState(true)
 
   return (
-    <div className="aspect-[3/2] rounded-medium">
+    <div className={cn(' rounded-medium', props?.containerClassName)}>
       <Image
         {...props}
         alt={props.alt}
