@@ -1,14 +1,25 @@
 'use client'
-import BreadCrumb, { BreadCrumbProps } from '@/components/common/bread-crumb'
+import { BreadCrumbProps } from '@/components/common/bread-crumb'
 import Filter from '@/components/filter'
 import FilterSection from '@/components/filter/filter-section'
 import Sort from '@/components/filter/sort'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useDestination } from '@/hooks/react-query/use-destination'
 import { useFilterCustomer } from '@/hooks/use-customer-filter'
-import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
 import { getTotalSearchCount } from '@/lib/utils'
-import { Badge, Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, useDisclosure } from '@nextui-org/react'
+import {
+  Badge,
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Skeleton,
+  useDisclosure,
+} from '@nextui-org/react'
 import { FilterIcon, X } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { FunctionComponent, ReactNode, useMemo } from 'react'
@@ -26,6 +37,10 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
     if (!isLoading) {
       let BreadCrumbs: BreadCrumbProps = {
         items: [
+          {
+            name: 'الرئيسية',
+            href: '/',
+          },
           {
             name: 'جميع الرحلات',
             href: '/tour-listing',
@@ -51,10 +66,22 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
     return
   }, [params?.destination, params?.section, isLoading])
 
+  const Breads = () => {
+    return (
+      <Breadcrumbs variant={'solid'} color="primary" maxItems={3}>
+        {breads?.items.map((item) => (
+          <BreadcrumbItem href={item.href ?? ''} key={item.name}>
+            {item.name}
+          </BreadcrumbItem>
+        ))}
+      </Breadcrumbs>
+    )
+  }
+
   return (
     <div className="container mb-12 pt-6 lg:mb-16 px-3 lg:px-0">
       <div className="mb-4 flex flex-col items-start gap-y-2 sm:flex-row sm:items-center justify-between">
-        {isLoading ? <Skeleton className="w-44 h-4 rounded-lg" /> : <BreadCrumb items={breads?.items || []} />}
+        {isLoading ? <Skeleton className="w-44 h-4 rounded-lg" /> : <Breads />}
 
         <div className="relative  items-center gap-3 capitalize flex md:[&amp;>li]:!text-base">
           {getTotalSearchCount(search.filters) > 0 ? (

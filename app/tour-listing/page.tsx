@@ -5,13 +5,7 @@ import { getTours } from '@/lib/operations'
 import { FunctionComponent } from 'react'
 
 interface TourListingPageProps {}
-const breads: BreadCrumbProps = {
-  items: [
-    {
-      name: 'جميع الرحلات',
-    },
-  ],
-}
+
 const TourListingPage: FunctionComponent<TourListingPageProps> = async () => {
   const tours = await getTours()
   return <TourRendering tours={tours || []} />

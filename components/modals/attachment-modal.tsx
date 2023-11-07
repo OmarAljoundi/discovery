@@ -56,7 +56,7 @@ const AttachmentModal: FunctionComponent<AttachmentModalProps> = () => {
       dialogClass="max-w-[1000px] max-h-[800px] h-full"
       renderFooter={FooterComponent}
     >
-      <Tabs defaultValue="upload_new_attachments" className="w-full">
+      <Tabs defaultSelectedKey={'upload_new_attachments'} className="w-full">
         <Tab className="w-full" key={'upload_new_attachments'} title={'Upload New Attachments'}>
           <UploadNewAttachments selectedAttachments={selectedAttachments} setselectedAttachments={setSelectedAttachment} />
         </Tab>

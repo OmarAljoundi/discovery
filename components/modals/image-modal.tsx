@@ -73,7 +73,7 @@ export const ImageModal = () => {
       dialogClass="max-w-[1000px] max-h-[800px] h-full"
       renderFooter={FooterComponent}
     >
-      <Tabs defaultValue="upload_new_imagess" className="w-full mt-8">
+      <Tabs defaultSelectedKey="upload_new_imagess" className="w-full mt-8">
         <Tab className="w-full" title={'Upload New Images'}>
           <UploadNewImages selectedImages={selectedImages} setSelectedImages={setSelectedImages} />
         </Tab>

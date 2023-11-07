@@ -49,8 +49,8 @@ const Sort: FunctionComponent<SortProps> = () => {
       <div>
         <Select
           selectionMode="single"
-          className="w-36 lg:w-44 p-0"
           selectedKeys={values}
+          className="w-36 lg:w-44"
           onSelectionChange={setValues}
           isMultiline
           variant="bordered"
@@ -58,9 +58,10 @@ const Sort: FunctionComponent<SortProps> = () => {
           placeholder="الترتيب حسب"
           size="sm"
           classNames={{
-            base: 'p-0',
-            mainWrapper: 'p-0 h-8',
+            base: 'p-0 ',
+            mainWrapper: 'p-0',
             value: 'mr-4',
+            trigger: 'min-h-fit',
           }}
         >
           {(order) => (

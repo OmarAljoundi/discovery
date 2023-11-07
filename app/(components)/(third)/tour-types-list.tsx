@@ -9,7 +9,7 @@ import Link from 'next/link'
 import { FunctionComponent } from 'react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-
+import { motion } from 'framer-motion'
 interface TourTypesListProps {
   tourTypes: TourType[]
 }
@@ -65,7 +65,23 @@ const TourTypesList: FunctionComponent<TourTypesListProps> = ({ tourTypes }) => 
         >
           {tourTypes?.map((i, index) => (
             <SwiperSlide key={index}>
-              <div className="shadow-medium rounded-medium">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={{
+                  hidden: { opacity: 0, translateY: 20 },
+                  visible: {
+                    opacity: 1,
+                    translateY: 0,
+                    transition: {
+                      duration: 1,
+                      staggerChildren: 0.2,
+                    },
+                  },
+                }}
+                className="shadow-medium rounded-medium"
+              >
                 <div className="grid p-4 space-y-2 justify-items-center">
                   <IconTourProvider>
                     <BlurImage
@@ -88,7 +104,7 @@ const TourTypesList: FunctionComponent<TourTypesListProps> = ({ tourTypes }) => 
                     التفاصيل
                   </Button>
                 </div>
-              </div>
+              </motion.div>
             </SwiperSlide>
           ))}
         </Swiper>

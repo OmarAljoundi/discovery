@@ -4,14 +4,9 @@ import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 import dynamic from 'next/dynamic'
 
-const BreadCrumbs: BreadCrumbProps = {
-  items: [
-    {
-      name: 'جميع الرحلات',
-      href: '/tour-listing',
-    },
-  ],
-}
+const TourBreadcrumb = dynamic(() => import('./tour-breadcrumb').then((mod) => mod.default), {
+  ssr: false,
+})
 const TourSectionInfo = dynamic(() => import('./tour-section-info').then((mod) => mod.default), {
   ssr: false,
 })
@@ -42,9 +37,7 @@ const TourPage: FunctionComponent<{ params: { slug: string } }> = async ({ param
   return (
     <div className="container mb-10">
       <div className="space-y-4">
-        <div className="shadow-medium p-3 rounded-md mt-4">
-          <BreadCrumb items={[{ name: tour.name! }, ...BreadCrumbs.items]} />
-        </div>
+        <TourBreadcrumb tourName={tour.name || ''} />
         <TourImages tour={tour} />
         <TourInitailInfo tour={tour} />
         <TourSectionInfo tour={tour} />

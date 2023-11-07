@@ -1,35 +1,100 @@
 'use client'
 
-import Image from 'next/image'
-import { AiOutlineInstagram, AiOutlineWhatsApp } from 'react-icons/ai'
-import { HiOutlineMapPin } from 'react-icons/hi2'
-
+import BlurImage from '@/components/common/blur-image'
+import { Separator } from '@/components/ui/separator'
+import IconTourProvider from '@/provider/icon-tour-provider'
+import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa'
+import { MenuItems } from './menu'
+import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/motions'
+import { useStatic } from '@/hooks/use-static'
 const Footer = () => {
+  const types = useStatic((x) => x.types)
   return (
-    <footer className="bg-gray-100">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="flex justify-center text-teal-600">
-          <Image src={'/images/discovery_logo.png'} width={200} height={0} alt="دسكفري" />
+    <footer>
+      <div className="container px-6 py-12 mx-auto">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+          <div className="sm:col-span-2">
+            <h1 className="text-primary text-xl mb-4">دسكفري للسياحة والسفر</h1>
+            <p className="pl-14">
+              دسكفري للسياحة هي واحدة من أكبر الشركات المتخصصة بالسفر و السياحية فى سلطنة عمان التي تعمل تحت شعار (انت اختار ) نقدم مئات البرامج
+              أسبوعيا و يوميا لاكثر من 50 دولة حول العالم مع تقديم خيار الاختيار للمسافر لمدة و تاريخ و طريقة الرحلة.
+            </p>
+          </div>
+
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">روابط مهمة</p>
+
+            <div className="flex flex-col items-start mt-5 space-y-2">
+              {MenuItems.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.link}
+                  className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="font-semibold text-gray-800 dark:text-white">انوع الرحلات</p>
+
+            <div className="flex flex-col items-start mt-5 space-y-2">
+              {types.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/tour-listing?type=${item.name}`}
+                  className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
+                >
+                  {item.name}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 font-primary"></p>
+        <Separator className="my-6 border-gray-200 md:my-8 dark:border-gray-700" />
 
-        <ul className="mt-12 flex justify-center gap-6 md:gap-8">
-          <div className="contact-info flex gap-4 ">
-            <a href="https://api.whatsapp.com/send/?phone=%2B96895929251&text&type=phone_number&app_absent=0" target="_blank">
-              <AiOutlineWhatsApp className="text-primary text-3xl" />
-            </a>
+        <div className="flex items-center justify-between">
+          <a href="#">
+            <BlurImage src={'/images/discovery_logo.png'} className="max-w-[100px]" alt="Discovery Logo" width={300} height={100} />
+          </a>
+
+          <div className="flex -mx-2">
             <a
-              href="https://www.google.com/maps/place/Mundo+Tours+%D9%85%D9%88%D9%86%D8%AF%D9%88+%D9%84%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9%E2%80%AD/@23.6012323,58.3711332,16z/data=!4m6!3m5!1s0x3e8e01dc526316a5:0xe8acf9b4eea6c8ce!8m2!3d23.6012665!4d58.3708565!16s%2Fg%2F11fnw0jpzp?entry=ttu"
-              target="_blank"
+              href="#"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Reddit"
             >
-              <HiOutlineMapPin className="text-primary text-3xl" />
+              <IconTourProvider>
+                <FaFacebookF />
+              </IconTourProvider>
             </a>
-            <a href="https://www.instagram.com/Mundooman/" target="_blank">
-              <AiOutlineInstagram className="text-primary text-3xl" />
+
+            <a
+              href="#"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Facebook"
+            >
+              <IconTourProvider>
+                <FaInstagram />
+              </IconTourProvider>
+            </a>
+
+            <a
+              href="#"
+              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              aria-label="Github"
+            >
+              <IconTourProvider>
+                <FaWhatsapp />
+              </IconTourProvider>
             </a>
           </div>
-        </ul>
+        </div>
       </div>
     </footer>
   )
