@@ -2,32 +2,14 @@ import BreadCrumb, { BreadCrumbProps } from '@/components/common/bread-crumb'
 import { getTours } from '@/lib/operations'
 import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
-import dynamic from 'next/dynamic'
-
-const TourBreadcrumb = dynamic(() => import('./tour-breadcrumb').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourSectionInfo = dynamic(() => import('./tour-section-info').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourInitailInfo = dynamic(() => import('./tour-initail-info').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourPlan = dynamic(() => import('./tour-plan').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourBenfits = dynamic(() => import('./tour-benfits').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourHotels = dynamic(() => import('./tour-hotels').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourImages = dynamic(() => import('./tour-images').then((mod) => mod.default), {
-  ssr: false,
-})
-const TourRelated = dynamic(() => import('./tour-related').then((mod) => mod.default), {
-  ssr: false,
-})
+import TourBreadcrumb from './tour-breadcrumb'
+import TourImages from './tour-images'
+import TourInitailInfo from './tour-initail-info'
+import TourSectionInfo from './tour-section-info'
+import TourPlan from './tour-plan'
+import TourBenfits from './tour-benfits'
+import TourHotels from './tour-hotels'
+import TourRelated from './tour-related'
 
 const TourPage: FunctionComponent<{ params: { slug: string } }> = async ({ params }) => {
   const tour = (await getTours())?.find((x) => x.slug == decodeURIComponent(params.slug))

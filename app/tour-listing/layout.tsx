@@ -21,6 +21,7 @@ import {
   useDisclosure,
 } from '@nextui-org/react'
 import { FilterIcon, X } from 'lucide-react'
+import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { FunctionComponent, ReactNode, useMemo } from 'react'
 
