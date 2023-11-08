@@ -55,7 +55,7 @@ const BestToursList: FunctionComponent<BestToursListProps> = ({ data }) => {
     },
   }
   return (
-    <div className="bg-[url(/images/best_seller_background.png)]  bg-center bg-no-repeat bg-auto py-16">
+    <div className=" py-16">
       <div className="container">
         <div className="flex justify-between items-end">
           <h1 className="text-xl">أفضل الرحلات السياحة</h1>
