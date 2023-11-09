@@ -10,12 +10,13 @@ import 'swiper/css'
 import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
 import { Tour } from '@/types/custom'
+import { useContent } from '@/hooks/react-query/use-content'
 interface BestToursListProps {
   data: Tour[]
 }
 
 const BestToursList: FunctionComponent<BestToursListProps> = ({ data }) => {
-  const config = useSetting()
+  const { data: config, isLoading } = useContent()
   const swiperRef = useRef<any>(null)
   const goNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -71,7 +72,7 @@ const BestToursList: FunctionComponent<BestToursListProps> = ({ data }) => {
         <Separator className="my-4" />
         <Swiper {...swiperParams} ref={swiperRef}>
           {data
-            ?.filter((x) => config.setting?.best_tours?.tours?.includes(x.id!))
+            ?.filter((x) => config?.best_tours?.tours?.includes(x.id!))
             ?.map((item, index) => (
               <motion.div
                 key={item.id}

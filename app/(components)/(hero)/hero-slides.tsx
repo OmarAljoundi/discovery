@@ -7,11 +7,25 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import IconTourProvider from '@/provider/icon-tour-provider'
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import { Navigation, Pagination } from 'swiper/modules'
+import { useContent } from '@/hooks/react-query/use-content'
+import { Skeleton } from '@/components/ui/skeleton'
 
 interface HeroSlidesProps {}
 
 const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
-  const config = useSetting((x) => x.setting?.home?.sliders ?? [])
+  const { isLoading, data } = useContent()
+
+  if (isLoading) {
+    return (
+      <div className="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
+        <div className="relative h-full group overflow-hidden">
+          <Skeleton className="h-full rounded-none px-3" />
+        </div>
+      </div>
+    )
+  }
+
+  console.log('data', data)
 
   return (
     <div className="relative col-span-12 h-full sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
@@ -29,7 +43,7 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
           clickable: true,
         }}
       >
-        {config?.map((item, index) => (
+        {data?.home?.sliders?.map((item, index) => (
           <SwiperSlide key={item.uuid}>
             <motion.div
               initial="hidden"
@@ -52,7 +66,7 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
                   className="absolute top-0 left-0 flex flex-col justify-between h-full w-full before:w-full  
                    before:absolute before:h-full before:bottom-0 before:left-0 before:bg-gradient-to-t 
                  before:from-black/50 before:z-10  
-                  before:to-black/50"
+                 before:to-black/50"
                 >
                   <BlurImage
                     src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}

@@ -1,11 +1,9 @@
 export const revalidate = 0
 
 import { CONFIG_PATH, SETTING_PATH } from '@/lib/keys'
-import { GetJsonFile } from '@/lib/storage-operations'
 import { supabaseClient } from '@/lib/supabaseClient'
 import SettingLayoutProvider from '@/provider/setting-layout-provider'
 import { Setting } from '@/types/custom'
-import { notFound } from 'next/navigation'
 import { FunctionComponent, ReactNode } from 'react'
 interface SettingLayoutProps {
   children: ReactNode
