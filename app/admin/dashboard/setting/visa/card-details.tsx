@@ -42,23 +42,36 @@ const CardDetails: FunctionComponent<VisaType> = ({ image, note, period, price, 
 
   return (
     <Card className="pt-4">
-      <CardHeader className="pt-2 px-4 flex items-center justify-between pb-2">
-        <h4 className="font-bold text-large text-right">{title}</h4>
+      <CardHeader className="pt-2">
+        <div className="flex justify-between w-full">
+          <Chip color="primary">{price}</Chip>
+          <div className="px-4 grid justify-items-end  text-right w-full">
+            <h4 className="font-bold text-large text-right">{title}</h4>
+            <h6 className="text-small text-right text-foreground-700">{sub_title}</h6>
+          </div>
+        </div>
       </CardHeader>
       <CardBody className="overflow-visible py-2 border-t pb-4">
-        <Image
-          alt="Card background"
-          className="object-cover rounded-xl max-h-28"
-          src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`}
-          width={1000}
-          height={500}
-        />
-        <div className="flex justify-end flex-wrap mt-4 gap-x-2 gap-y-4">
-          {requirements?.map((x) => (
-            <Chip color="primary" key={x}>
-              {x}
-            </Chip>
-          ))}
+        <div className="w-full grid justify-items-end">
+          <Image
+            alt="Card background"
+            className="object-cover rounded-xl max-w-[200px]"
+            src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${image}`}
+            width={1000}
+            height={500}
+          />
+          <ul className="mt-4 list-decimal px-4" dir="rtl">
+            {requirements?.map((x) => (
+              <li className="text-right" key={x}>
+                {x}
+              </li>
+            ))}
+          </ul>
+          <div className="bg-secondary p-2 mt-4 rounded-sm">
+            <p className="text-right" dir="rtl">
+              {note}
+            </p>
+          </div>
         </div>
       </CardBody>
       <CardFooter className="pt-2 p-0 border-t">

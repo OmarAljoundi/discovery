@@ -6,11 +6,9 @@ import IconTourProvider from '@/provider/icon-tour-provider'
 import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { MenuItems } from './menu'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/motions'
-import { useStatic } from '@/hooks/use-static'
+import { useTourTypes } from '@/hooks/react-query/use-tour-types'
 const Footer = () => {
-  const types = useStatic((x) => x.types)
+  const { data, isLoading } = useTourTypes()
   return (
     <footer>
       <div className="container px-6 py-12 mx-auto">
@@ -24,15 +22,11 @@ const Footer = () => {
           </div>
 
           <div>
-            <p className="font-semibold text-gray-800 dark:text-white">روابط مهمة</p>
+            <p className="font-semibold text-primary ">روابط مهمة</p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
               {MenuItems.map((item) => (
-                <Link
-                  key={item.title}
-                  href={item.link}
-                  className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
-                >
+                <Link key={item.title} href={item.link} className="text-gray-600 transition-colors duration-300  hover:text-primary hover:underline">
                   {item.title}
                 </Link>
               ))}
@@ -40,14 +34,14 @@ const Footer = () => {
           </div>
 
           <div>
-            <p className="font-semibold text-gray-800 dark:text-white">انوع الرحلات</p>
+            <p className="font-semibold text-primary ">انوع الرحلات</p>
 
             <div className="flex flex-col items-start mt-5 space-y-2">
-              {types.map((item) => (
+              {data?.results?.map((item) => (
                 <Link
                   key={item.id}
                   href={`/tour-listing?type=${item.name}`}
-                  className="text-gray-600 transition-colors duration-300 dark:text-gray-300 dark:hover:text-blue-400 hover:underline hover:text-blue-500"
+                  className="text-gray-600 transition-colors duration-300  hover:underline hover:text-primary"
                 >
                   {item.name}
                 </Link>
@@ -56,39 +50,27 @@ const Footer = () => {
           </div>
         </div>
 
-        <Separator className="my-6 border-gray-200 md:my-8 dark:border-gray-700" />
+        <Separator className="my-6 md:my-8 " />
 
         <div className="flex items-center justify-between">
           <a href="#">
-            <BlurImage src={'/images/discovery_logo.png'} className="max-w-[100px]" alt="Discovery Logo" width={300} height={100} />
+            <BlurImage src={'/images/discovery-footer.png'} className="max-w-[200px]" alt="Discovery Logo" width={300} height={100} />
           </a>
 
           <div className="flex -mx-2">
-            <a
-              href="#"
-              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-              aria-label="Reddit"
-            >
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Reddit">
               <IconTourProvider>
                 <FaFacebookF />
               </IconTourProvider>
             </a>
 
-            <a
-              href="#"
-              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-              aria-label="Facebook"
-            >
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Facebook">
               <IconTourProvider>
                 <FaInstagram />
               </IconTourProvider>
             </a>
 
-            <a
-              href="#"
-              className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-              aria-label="Github"
-            >
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Github">
               <IconTourProvider>
                 <FaWhatsapp />
               </IconTourProvider>

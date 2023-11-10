@@ -62,7 +62,7 @@ const TourRelated: FunctionComponent<TourRelatedProps> = ({ tour }) => {
               slidesPerView: 3,
             },
             1200: {
-              slidesPerView: 3,
+              slidesPerView: 4,
             },
           }}
         >

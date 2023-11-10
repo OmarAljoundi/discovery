@@ -6,7 +6,10 @@ import React from 'react'
 import { Tour } from '@/types/custom'
 import { filterTours } from '@/lib/utils'
 import TourCard from './tour-card'
-
+import { MdSearchOff } from 'react-icons/md'
+import { IconContext } from 'react-icons'
+import { Button, Link } from '@nextui-org/react'
+import { ArrowLeft } from 'lucide-react'
 const TourRendering: FC<{ tours: Tour[] }> = ({ tours }) => {
   const searchParams = useSearchParams()
   const { ref, inView } = useInView()
@@ -43,6 +46,24 @@ const TourRendering: FC<{ tours: Tour[] }> = ({ tours }) => {
     searchParams?.get('sortMemebr'),
     searchParams?.get('sortOrder'),
   ])
+
+  if (currentTours.length == 0) {
+    return (
+      <div className="grid justify-items-center gap-y-10">
+        <div className="p-2 rounded-full  text-primary" style={{ background: '#4e008a26' }}>
+          <IconContext.Provider value={{ size: '100px', className: 'text-primary' }}>
+            <div>
+              <MdSearchOff />
+            </div>
+          </IconContext.Provider>
+        </div>
+        <div className="flex flex-col justify-center items-center justify-items-center gap-y-4">
+          <h1 className="text-xl">لاتوجد نتائج لبحثك</h1>
+          <Link href="/tour-listing">العودة للجميع الرحلات</Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-1 grid grid-cols-1 gap-x-5 gap-y-8 sm:grid-cols-2 xl:grid-cols-3 2xl:gap-y-10 2xl:grid-cols-4">

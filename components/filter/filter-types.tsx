@@ -6,13 +6,14 @@ import { TourType } from '@/types/custom'
 import { useFilterCustomer } from '@/hooks/use-customer-filter'
 import qs from 'query-string'
 import { useSearchParams } from 'next/navigation'
+import { useTourTypes } from '@/hooks/react-query/use-tour-types'
 
 interface FilterTypesProps {}
 
 const FilterTypes: FunctionComponent<FilterTypesProps> = () => {
   const [values, setValues] = React.useState<Selection>(new Set([]))
   const filter = useFilterCustomer()
-  const staticData = useStatic()
+  const { data } = useTourTypes()
   const searchParams = useSearchParams()
   const RemoveKey = (key: string) => {
     const updatedValues = new Set(values)
@@ -37,8 +38,8 @@ const FilterTypes: FunctionComponent<FilterTypesProps> = () => {
     if (typeof query.type == 'string') query.type = [query.type]
     if (query.type && query.type.length > 0) {
       const labelSet = new Set(query.type)
-      const filteredObjects = staticData.types?.filter((obj) => labelSet.has(obj.name!))
-      setValues(new Set(filteredObjects.map((x) => x.name!)))
+      const filteredObjects = data?.results?.filter((obj) => labelSet.has(obj.name!))
+      setValues(new Set(filteredObjects?.map((x) => x.name!)))
     } else {
       setValues(new Set([]))
     }
@@ -53,7 +54,7 @@ const FilterTypes: FunctionComponent<FilterTypesProps> = () => {
         onSelectionChange={setValues}
         isMultiline
         variant="bordered"
-        items={staticData.types}
+        items={data?.results || []}
         placeholder="أخنار نوع الرحلة"
         size="md"
         disabledKeys={values}

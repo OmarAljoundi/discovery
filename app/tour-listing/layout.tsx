@@ -1,5 +1,7 @@
 'use client'
 import { BreadCrumbProps } from '@/components/common/bread-crumb'
+import BreadcrumbItems from '@/components/common/bread-crumb-item'
+import Breadcrumbs from '@/components/common/bread-crumbs'
 import Filter from '@/components/filter'
 import FilterSection from '@/components/filter/filter-section'
 import Sort from '@/components/filter/sort'
@@ -7,19 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useDestination } from '@/hooks/react-query/use-destination'
 import { useFilterCustomer } from '@/hooks/use-customer-filter'
 import { getTotalSearchCount } from '@/lib/utils'
-import {
-  Badge,
-  BreadcrumbItem,
-  Breadcrumbs,
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  Skeleton,
-  useDisclosure,
-} from '@nextui-org/react'
+import { Badge, Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, useDisclosure } from '@nextui-org/react'
 import { FilterIcon, X } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -69,12 +59,14 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
 
   const Breads = () => {
     return (
-      <Breadcrumbs variant={'solid'} color="primary" maxItems={3}>
-        {breads?.items.map((item) => (
-          <BreadcrumbItem href={item.href ?? ''} key={item.name}>
-            {item.name}
-          </BreadcrumbItem>
-        ))}
+      <Breadcrumbs>
+        {
+          breads?.items.map((item) => (
+            <BreadcrumbItems href={item.href ?? ''} key={item.name}>
+              {item.name}
+            </BreadcrumbItems>
+          )) as any
+        }
       </Breadcrumbs>
     )
   }
@@ -87,14 +79,22 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
         <div className="relative  items-center gap-3 capitalize flex md:[&amp;>li]:!text-base">
           {getTotalSearchCount(search.filters) > 0 ? (
             <div className="flex gap-x-2">
-              <Button color="danger" endContent={<X className="w-4 h-4" />} variant="solid" size="sm" onPress={() => search.onDestroy()}>
+              <Button
+                color="danger"
+                endContent={
+                  <Chip color="primary" size="sm">
+                    {getTotalSearchCount(search.filters)}
+                  </Chip>
+                }
+                variant="solid"
+                size="sm"
+                onPress={() => search.onDestroy()}
+              >
                 حذف الفلتر
               </Button>
-              <Badge content={getTotalSearchCount(search.filters)} color="primary">
-                <Button isIconOnly variant="bordered" size="sm" onPress={onOpen} className=" lg:hidden">
-                  <FilterIcon className="w-4 h-4" />
-                </Button>
-              </Badge>
+              <Button isIconOnly variant="bordered" size="sm" onPress={onOpen} className=" lg:hidden">
+                <FilterIcon className="w-4 h-4" />
+              </Button>
             </div>
           ) : (
             <Button isIconOnly variant="bordered" size="sm" onPress={onOpen} className=" lg:hidden">

@@ -1,8 +1,16 @@
 'use server'
-import { Hotel, Location, LocationAttributes, LocationTours, Response, Tour, TourType, User } from '@/types/custom'
+import { Hotel, Location, LocationAttributes, LocationTours, Response, Setting, Tour, TourType, User } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
-import { REVALIDATE_HOTEL_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE, TOUR_IMAGE } from './keys'
+import {
+  CONFIG_PATH,
+  REVALIDATE_HOTEL_LIST,
+  REVALIDATE_LOCATION_LIST,
+  REVALIDATE_TOUR_LIST,
+  REVALIDATE_TOUR_TYPE,
+  SETTING_PATH,
+  TOUR_IMAGE,
+} from './keys'
 import { SearchQuery } from '@/types/search'
 import { useRouter } from 'next/navigation'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
@@ -314,4 +322,18 @@ export async function updateHotel(hotel: Hotel) {
   }
 
   return data
+}
+export const getContentData = async () => {
+  const { data } = await supabaseClient.storage.from('discovery').list(SETTING_PATH)
+  let responseData: Setting | undefined
+  if (data && data.length > 0 && data.find((x) => x.name === CONFIG_PATH)) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_URL}${SETTING_PATH}/${CONFIG_PATH}?v=1`, { next: { revalidate: 0 } })
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status: ${response.status}`)
+    }
+
+    responseData = (await response.json()) as Setting
+  }
+  return responseData
 }

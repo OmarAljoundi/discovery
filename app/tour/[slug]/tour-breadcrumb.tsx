@@ -1,5 +1,6 @@
 'use client'
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
+import BreadcrumbItems from '@/components/common/bread-crumb-item'
+import Breadcrumbs from '@/components/common/bread-crumbs'
 import { FunctionComponent } from 'react'
 
 interface TourBreadcrumbProps {
@@ -9,10 +10,10 @@ interface TourBreadcrumbProps {
 const TourBreadcrumb: FunctionComponent<TourBreadcrumbProps> = ({ tourName }) => {
   return (
     <div className="my-6">
-      <Breadcrumbs variant={'solid'} color="primary">
-        <BreadcrumbItem href="/">الرئيسية</BreadcrumbItem>
-        <BreadcrumbItem href="/tour-listing">الوجهات السياحية</BreadcrumbItem>
-        <BreadcrumbItem href="/">{tourName}</BreadcrumbItem>
+      <Breadcrumbs>
+        <BreadcrumbItems href="/">الرئيسية</BreadcrumbItems>
+        <BreadcrumbItems href="/tour-listing">الوجهات السياحية</BreadcrumbItems>
+        <BreadcrumbItems href="/">{tourName}</BreadcrumbItems>
       </Breadcrumbs>
     </div>
   )

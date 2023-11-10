@@ -53,12 +53,12 @@ const DestinationListing: FunctionComponent<DestinationListingProps> = ({ destin
                   loading="eager"
                   alt=""
                   fill
-                  className="object-cover"
-                  containerClassName="w-full h-full aspect-w-1 aspect-h-1 w-full overflow-hidden  bg-gray-200 xl:aspect-w-7 xl:aspect-h-8"
+                  className="object-cover rounded-none"
+                  containerClassName="w-full h-full aspect-w-1 aspect-h-1 w-full overflow-hidden  bg-gray-200 xl:aspect-w-7 xl:aspect-h-8 rounded-none"
                 />
               </div>
               <div className="citiesCard__content flex flex-col justify-between text-center pt-8 pb-5 px-5">
-                <div className="citiesCard__bg" />
+                <div className="citiesCard__bg " />
                 <div className="citiesCard__top">
                   <div className="text-14 text-white fw-bold" dir="rtl">
                     {getTotalTours(item)} رحلة ضمن هذا البرنامج

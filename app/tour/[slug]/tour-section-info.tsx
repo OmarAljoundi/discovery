@@ -16,8 +16,9 @@ const TourSectionInfo: FunctionComponent<TourSectionInfoProps> = ({ tour }) => {
   tour.airpot_going = 'مطار الملك عبد العزيز الدولي'
   return (
     <div className="shadow-medium rounded-medium p-4">
-      <h4 className="mb-0 text-2xl font-semibold font-primary">معلومات البرنامج</h4>
-      <Separator className="my-4" />
+      <h4 className="mb-0 text-2xl font-semibold font-primary">{tour.name}</h4>
+      <span className="text-sm text-foreground-500">{tour.tour_countries?.join(' ، ')}</span>
+      <Separator className="my-2" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-4 px-2 ">
         <div className="flex gap-x-2 items-center">
           <IconTourProvider>

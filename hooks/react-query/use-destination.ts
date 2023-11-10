@@ -6,5 +6,6 @@ export function useDestination() {
   return useQuery([REVALIDATE_LOCATION_LIST], async () => await getDestination(), {
     refetchInterval: false,
     refetchOnWindowFocus: false,
+    keepPreviousData: true,
   })
 }

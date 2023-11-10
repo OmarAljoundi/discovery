@@ -20,7 +20,7 @@ const MobileMenu = () => {
           <ul className="flex items-center gap-6 text-sm flex-wrap pt-8 justify-center">
             {MenuItems.map((item) => (
               <li key={item.title}>
-                <Link className="text-secondary transition hover:text-gray-500/75 font-primary font-semibold" href={item.link}>
+                <Link className="text-primary transition hover:text-gray-500/75  font-semibold" href={item.link}>
                   {item.title}
                 </Link>
               </li>
@@ -29,26 +29,26 @@ const MobileMenu = () => {
         </nav>
         <Separator className="my-4" />
 
-        <h1 className="font-primary text-center pb-4">تواصل معنا</h1>
+        <h1 className=" text-center pb-4 text-primary">تواصل معنا</h1>
         <div className="container">
           <div className="flex justify-center flex-wrap flex-1">
             <div className="flex justify-center">
               <div className="contact-info flex justify-center gap-4 ">
-                <AiOutlineWhatsApp className="text-secondary text-2xl" />
-                <AiOutlineInstagram className="text-secondary text-2xl" />
-                <HiOutlineMapPin className="text-secondary text-2xl" />
+                <AiOutlineWhatsApp className="text-primary text-2xl" />
+                <AiOutlineInstagram className="text-primary text-2xl" />
+                <HiOutlineMapPin className="text-primary text-2xl" />
               </div>
             </div>
             <Separator className="my-4" />
             <div className="contact-info grid gap-2 justify-items-center ">
               <div className="flex gap-3 items-center">
-                <span className="text-secondary font-bold " dir="ltr">
+                <span className="text-primary font-bold " dir="ltr">
                   +968 95 9292 10
                 </span>
                 <Phone className="text-primary" />
               </div>
               <div className="flex gap-3 items-center">
-                <span className="text-secondary font-bold font-english">sales@mundo-tours.com</span>
+                <span className="text-primary font-bold font-english">sales@discovery.com</span>
                 <AtSign className="text-primary" />
               </div>
             </div>

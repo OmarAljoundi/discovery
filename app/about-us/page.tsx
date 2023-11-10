@@ -1,27 +1,27 @@
 'use client'
 import { Separator } from '@/components/ui/separator'
 import IconTourProvider from '@/provider/icon-tour-provider'
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
 import { FunctionComponent } from 'react'
-import { HiOutlineTicket } from 'react-icons/hi2'
 import CallToAction from '../(components)/(fifth)/call-to-action'
-import { useStatic } from '@/hooks/use-static'
-import Globe from '@/lib/globe'
+import { useTourTypes } from '@/hooks/react-query/use-tour-types'
+import BlurImage from '@/components/common/blur-image'
+import Breadcrumbs from '@/components/common/bread-crumbs'
+import BreadcrumbItems from '@/components/common/bread-crumb-item'
 
 interface AboutUsPageProps {}
 
 const AboutUsPage: FunctionComponent<AboutUsPageProps> = () => {
-  const staticData = useStatic()
+  const { data, isLoading } = useTourTypes()
   return (
     <>
       <div className="container">
-        <Breadcrumbs variant={'solid'} color="primary">
-          <BreadcrumbItem href="/">الرئيسية</BreadcrumbItem>
-          <BreadcrumbItem href="/about-us">عن دسكفري</BreadcrumbItem>
+        <Breadcrumbs>
+          <BreadcrumbItems href="/">الرئيسية</BreadcrumbItems>
+          <BreadcrumbItems href="/about-us">عن دسكفري</BreadcrumbItems>
         </Breadcrumbs>
         <Separator className="my-4" />
-        <div className="grid grid-cols-12 gap-x-8">
-          <div className="col-span-6">
+        <div className="grid grid-cols-12 gap-x-8 gap-y-4">
+          <div className="col-span-12 lg:col-span-6">
             <h1 className="text-primary text-2xl">تعرف على رفيق سفرك الجديد</h1>
             <p className="mt-4">
               شركة إبريل تورز هي وكالة سفريات كاملة الخدمات في مدينة القدس. نحن نفتخر بتوفير خدمات السفر الشاملة لعملائنا في جميع أنحاء العالم. سواء
@@ -35,32 +35,22 @@ const AboutUsPage: FunctionComponent<AboutUsPageProps> = () => {
               أفضل الخدمات الاستشار
             </p>
           </div>
-          <div className="col-span-6">
+          <div className="col-span-12 lg:col-span-6">
             <div className="grid grid-cols-2 gap-3 ">
-              <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium">
-                <IconTourProvider>
-                  <HiOutlineTicket />
-                </IconTourProvider>
-                <h3 className="text-xl font-bold text-center mb-2">حجوزات سريعة</h3>
-              </div>
-              <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium">
-                <IconTourProvider>
-                  <HiOutlineTicket />
-                </IconTourProvider>
-                <h3 className="text-xl font-bold text-center mb-2">حجوزات سريعة</h3>
-              </div>
-              <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium">
-                <IconTourProvider>
-                  <HiOutlineTicket />
-                </IconTourProvider>
-                <h3 className="text-xl font-bold text-center mb-2">حجوزات سريعة</h3>
-              </div>
-              <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium">
-                <IconTourProvider>
-                  <HiOutlineTicket />
-                </IconTourProvider>
-                <h3 className="text-xl font-bold text-center mb-2">حجوزات سريعة</h3>
-              </div>
+              {data?.results?.map((item) => (
+                <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium" key={item.id}>
+                  <IconTourProvider>
+                    <BlurImage
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}
+                      alt={item.name || ''}
+                      width={300}
+                      height={150}
+                      className="max-w-[50px]"
+                    />
+                  </IconTourProvider>
+                  <h3 className="text-xl font-bold text-center mb-2">{item.name}</h3>
+                </div>
+              ))}
             </div>
           </div>
         </div>

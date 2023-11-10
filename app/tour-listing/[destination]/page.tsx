@@ -1,22 +1,39 @@
-import BreadCrumb, { BreadCrumbProps } from '@/components/common/bread-crumb'
-import TourCard from '@/components/common/tour-card'
 import TourRendering from '@/components/common/tour-rendering'
-import Filter from '@/components/filter'
-import MobileSortFilterButtons from '@/components/filter/mobile-sort-filter-buttons'
-import Sort from '@/components/filter/sort'
-import { Separator } from '@/components/ui/separator'
 import { getDestination, getTours } from '@/lib/operations'
-import { redirect } from 'next/navigation'
+import { Metadata } from 'next'
 import { FunctionComponent } from 'react'
 
-const breads: BreadCrumbProps = {
-  items: [
-    {
-      name: 'جميع الرحلات',
-      href: '/tour-listing',
+export async function generateMetadata({ params }: { params: { destination: string } }): Promise<Metadata> {
+  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  if (!response) {
+    return {
+      title: 'No destination found',
+    }
+  }
+
+  const { description, tags, title } = response.seo || { title: '', description: '', tags: '' }
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'website',
+      siteName: 'Discovery',
     },
-  ],
+    keywords: tags,
+  }
 }
+export async function generateStaticParams() {
+  const response = await getDestination()
+  if (response.success && response.results && response.results.length > 0) {
+    return response.results.map((dest) => ({
+      destination: `${dest.slug}`,
+    }))
+  }
+  return []
+}
+
 const TourDestinationListingPage: FunctionComponent<{ params: { destination: string } }> = async ({ params }) => {
   let tours_ids: number[] = []
   const destination = await getDestination()
