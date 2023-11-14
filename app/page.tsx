@@ -3,7 +3,6 @@ import { Suspense } from 'react'
 import HeroLoading from './(components)/(hero)/hero-loading'
 import DestinationLoading from './(components)/(first)/destination-loading'
 import BestToursLoading from './(components)/(second)/best-tours-loading'
-
 const HeroSection = ImportDynamic(() => import('./(components)/(hero)/hero-section').then((mod) => mod.default), {
   ssr: false,
   loading: () => <HeroLoading />,

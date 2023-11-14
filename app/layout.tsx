@@ -15,7 +15,6 @@ import 'swiper/css/effect-cards'
 import ToolBar from '@/layout/customer/top-bar'
 import Menu from '@/layout/customer/menu'
 import Footer from '@/layout/customer/footer'
-import ImportDynamic from 'next/dynamic'
 import { getContentData } from '@/lib/operations'
 
 const cairo = Cairo({
