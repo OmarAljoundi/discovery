@@ -6,9 +6,9 @@ import BestToursList from './best-tours-list'
 
 interface BestToursProps {}
 
-const BestTours: FunctionComponent<BestToursProps> = () => {
+const BestTours: FunctionComponent<BestToursProps> = async () => {
   const query = new QueryClient()
-  query.prefetchQuery({
+  await query.prefetchQuery({
     queryKey: [REVALIDATE_TOUR_LIST],
     queryFn: getTours,
   })
