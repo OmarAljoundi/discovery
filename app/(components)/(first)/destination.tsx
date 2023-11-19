@@ -1,23 +1,23 @@
-'use client'
 import { FunctionComponent } from 'react'
 import DestinationListingMobile from './destination-listing-mobile'
 import DestinationListing from './destination-listing'
 import { getDestination } from '@/lib/operations'
-import { useQuery } from '@tanstack/react-query'
+import { HydrationBoundary, QueryClient, dehydrate, useQuery } from '@tanstack/react-query'
 import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
 
 interface DestinationProps {}
 
-const Destination: FunctionComponent<DestinationProps> = () => {
-  const { data: destination } = useQuery({
+const Destination: FunctionComponent<DestinationProps> = async () => {
+  const query = new QueryClient()
+  await query.prefetchQuery({
     queryKey: [REVALIDATE_LOCATION_LIST],
-    queryFn: async () => await getDestination(),
+    queryFn: getDestination,
   })
   return (
-    <>
-      <DestinationListingMobile destinations={destination?.results || []} />
-      <DestinationListing destinations={destination?.results || []} />
-    </>
+    <HydrationBoundary state={dehydrate(query)}>
+      <DestinationListingMobile />
+      <DestinationListing />
+    </HydrationBoundary>
   )
 }
 

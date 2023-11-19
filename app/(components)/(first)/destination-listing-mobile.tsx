@@ -9,9 +9,9 @@ import { FunctionComponent } from 'react'
 import { FreeMode, Navigation, Scrollbar } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/free-mode'
-interface DestinationListingMobileProps {
-  destinations: Location[]
-}
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { getDestination } from '@/lib/operations'
+import { useQuery } from '@tanstack/react-query'
 
 function getTotalTours(location: Location) {
   var total = 0
@@ -22,7 +22,11 @@ function getTotalTours(location: Location) {
   return total
 }
 
-const DestinationListingMobile: FunctionComponent<DestinationListingMobileProps> = ({ destinations }) => {
+const DestinationListingMobile = () => {
+  const { data: destinations } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
   return (
     <div className="container mt-10 mb-10 md:hidden">
       <div className="flex justify-between items-end">
@@ -75,7 +79,7 @@ const DestinationListingMobile: FunctionComponent<DestinationListingMobileProps>
           },
         }}
       >
-        {destinations?.map((item) => (
+        {destinations?.results?.map((item) => (
           <SwiperSlide key={item.id}>
             <Link href={`/tour-listing/${item.slug}`} className="citiesCard -type-1 d-block  group hover:cursor-pointer" key={item.id}>
               <div

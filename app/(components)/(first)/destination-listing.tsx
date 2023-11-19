@@ -1,17 +1,15 @@
 'use client'
 import BlurImage from '@/components/common/blur-image'
 import { Separator } from '@/components/ui/separator'
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { getDestination } from '@/lib/operations'
 import { cn } from '@/lib/utils'
 import { Location } from '@/types/custom'
 import { Button } from '@nextui-org/react'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
-import { FunctionComponent } from 'react'
 
-interface DestinationListingProps {
-  destinations: Location[]
-}
-
-const DestinationListing: FunctionComponent<DestinationListingProps> = ({ destinations }) => {
+const DestinationListing = () => {
   function getTotalTours(location: Location) {
     var total = 0
 
@@ -20,6 +18,11 @@ const DestinationListing: FunctionComponent<DestinationListingProps> = ({ destin
     })
     return total
   }
+
+  const { data: destinations } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
   return (
     <div className="container mt-10 mb-10 hidden md:block">
       <div className="flex justify-between items-end">
@@ -27,7 +30,7 @@ const DestinationListing: FunctionComponent<DestinationListingProps> = ({ destin
       </div>
       <Separator className="my-4" />
       <div className="grid grid-cols-12 gap-4">
-        {destinations
+        {destinations?.results
           ?.sort((a, b) => (a.image?.order || 0) - (b.image?.order || 0))
           .map((item) => (
             <Link
