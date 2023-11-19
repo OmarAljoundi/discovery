@@ -58,19 +58,19 @@ const Footer = () => {
           </a>
 
           <div className="flex -mx-2">
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Reddit">
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Facebook">
               <IconTourProvider>
                 <FaFacebookF />
               </IconTourProvider>
             </a>
 
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Facebook">
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Instagram">
               <IconTourProvider>
                 <FaInstagram />
               </IconTourProvider>
             </a>
 
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Github">
+            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Whatsapp">
               <IconTourProvider>
                 <FaWhatsapp />
               </IconTourProvider>
