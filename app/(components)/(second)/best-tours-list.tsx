@@ -25,7 +25,9 @@ const BestToursList: FunctionComponent<BestToursListProps> = () => {
   const { data } = useQuery({
     queryKey: [REVALIDATE_TOUR_LIST],
     queryFn: async () => await getTours(),
-    enabled: !!config,
+    select(data) {
+      return data?.filter((x) => config?.best_tours?.tours?.includes(x.id!))
+    },
   })
 
   const swiperRef = useRef<any>(null)
@@ -82,29 +84,27 @@ const BestToursList: FunctionComponent<BestToursListProps> = () => {
         </div>
         <Separator className="my-4" />
         <Swiper {...swiperParams} ref={swiperRef}>
-          {data
-            ?.filter((x) => config?.best_tours?.tours?.includes(x.id!))
-            ?.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={{
-                  hidden: { opacity: 0, translateY: 20 },
-                  visible: {
-                    opacity: 1,
-                    translateY: 0,
-                    transition: {
-                      duration: Math.max(0.5, ((index + 1) * 10) / 100),
-                      staggerChildren: 0.2,
-                    },
+          {data?.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={{
+                hidden: { opacity: 0, translateY: 20 },
+                visible: {
+                  opacity: 1,
+                  translateY: 0,
+                  transition: {
+                    duration: Math.max(0.5, ((index + 1) * 10) / 100),
+                    staggerChildren: 0.2,
                   },
-                }}
-              >
-                <TourCard tour={item} />
-              </motion.div>
-            ))}
+                },
+              }}
+            >
+              <TourCard tour={item} />
+            </motion.div>
+          ))}
         </Swiper>
       </div>
     </div>
