@@ -13,14 +13,23 @@ import { FunctionComponent } from 'react'
 import { motion } from 'framer-motion'
 import { CONTAINER_VAR, ITEMS_VAR } from '@/lib/motions'
 import { Location, TourType } from '@/types/custom'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
+import { getDestination, getTourTypes } from '@/lib/operations'
 
-interface HeroFilterProps {
-  types?: TourType[]
-  destinations?: Location[]
-}
+interface HeroFilterProps {}
 
-const HeroFilter: FunctionComponent<HeroFilterProps> = ({ destinations, types }) => {
+const HeroFilter: FunctionComponent<HeroFilterProps> = () => {
   const { filters } = useFilterCustomer()
+  const { data: types } = useQuery({
+    queryKey: [REVALIDATE_TOUR_TYPE],
+    queryFn: async () => await getTourTypes(),
+  })
+
+  const { data: destinations } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
 
   const getUrl = () => {
     const url = queryString.stringifyUrl(
@@ -50,14 +59,14 @@ const HeroFilter: FunctionComponent<HeroFilterProps> = ({ destinations, types })
       <h1 className="text-xl text-center sm:text-base sm:text-right">أبحث عن رحلتك المفضلة</h1>
 
       <motion.div variants={{ ...ITEMS_VAR }}>
-        <DestinationDropdown locations={destinations ?? []} />
+        <DestinationDropdown locations={destinations?.results ?? []} />
       </motion.div>
 
       <motion.div variants={{ ...ITEMS_VAR }}>
         <CountryDropdown />
       </motion.div>
       <motion.div variants={{ ...ITEMS_VAR }}>
-        <TypeDropdown types={types ?? []} />
+        <TypeDropdown types={types?.results ?? []} />
       </motion.div>
 
       <motion.div variants={{ ...ITEMS_VAR }}>

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import './globals.css'
 import '../public/scss/citiesCard.scss'
 import type { Metadata } from 'next'
@@ -15,7 +16,7 @@ import ToolBar from '@/layout/customer/top-bar'
 import Menu from '@/layout/customer/menu'
 import Footer from '@/layout/customer/footer'
 import { getContentData } from '@/lib/operations'
-import dynamic from 'next/dynamic'
+import dynamics from 'next/dynamic'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -41,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const ReactQueryProvider = dynamic(() => import('@/provider/react-query-provider').then((mod) => mod.default), {
+const ReactQueryProvider = dynamics(() => import('@/provider/react-query-provider').then((mod) => mod.default), {
   ssr: false,
 })
 export default function RootLayout({ children }: { children: React.ReactNode }) {
