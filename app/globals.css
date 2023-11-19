@@ -5,7 +5,9 @@
 .swiper-scrollbar {
   background: #d6d6d6;
 }
-
+.swiper-container {
+  padding: 10px !important;
+}
 .swiper-container-horizontal > .swiper-scrollbar {
   border-radius: 2px;
   height: 5px;

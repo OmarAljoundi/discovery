@@ -17,14 +17,15 @@ import { getContentData, getTours } from '@/lib/operations'
 interface BestToursListProps {}
 
 const BestToursList: FunctionComponent<BestToursListProps> = () => {
-  const { data } = useQuery({
-    queryKey: [REVALIDATE_TOUR_LIST],
-    queryFn: async () => await getTours(),
-  })
-
   const { data: config, isLoading } = useQuery({
     queryKey: [REVALIDATE_CONTENT_LIST],
     queryFn: async () => await getContentData(),
+  })
+
+  const { data } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
+    enabled: !!config,
   })
 
   const swiperRef = useRef<any>(null)

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Navbar from '@/layout/dashboard/navbar'
 import SidebarNav from '@/layout/dashboard/sidebar-nav'
 import SubSidebarNav from '@/layout/dashboard/sub-sidebar-nav'

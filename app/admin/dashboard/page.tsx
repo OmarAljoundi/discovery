@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getCurrentUser } from '@/lib/operations'
 import { redirect } from 'next/navigation'
 import { FunctionComponent } from 'react'
