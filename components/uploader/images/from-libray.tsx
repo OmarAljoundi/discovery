@@ -1,6 +1,6 @@
 import { ListAllImagesInBucket } from '@/lib/storage-operations'
 import { FC, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '../../ui/skeleton'
 import { formatBytes } from '@/lib/helpers'
 import { Check } from 'lucide-react'
@@ -17,16 +17,11 @@ const FromLibrary: FC<{
   setSelectedImages: (select: string[]) => void
   loadingDelete: boolean
 }> = ({ selectedImages, setSelectedImages, loadingDelete }) => {
-  const { data, isLoading } = useQuery(
-    ['images'],
-    async () => {
-      const res = await ListAllImagesInBucket(100, 0)
-      return res
-    },
-    {
-      refetchInterval: false,
-    },
-  )
+  const { data, isLoading } = useQuery({
+    queryKey: ['images'],
+    queryFn: async () => await ListAllImagesInBucket(100, 0),
+    refetchInterval: false,
+  })
 
   useEffect(() => {
     return () => {

@@ -8,6 +8,7 @@ import { Cairo } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/provider/theme-provider'
 import { Metadata } from 'next'
+import { ModalProvider } from '@/provider/modal-provider'
 interface DashboardLayoutProps {
   children: ReactNode
 }
@@ -37,6 +38,8 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = async ({ childr
           >
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <ClientProvider types={response.results || []}>
+                <ModalProvider />
+
                 <SidebarNav />
                 <SubSidebarNav />
                 <main className="flex flex-col flex-1 w-full overflow-x-hidden bg-scale-200">

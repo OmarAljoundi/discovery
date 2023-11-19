@@ -7,7 +7,7 @@ import { ScrollArea } from '@radix-ui/react-scroll-area'
 import { useImageModal } from '@/hooks/use-image-modal'
 import { Button, Card, CardBody } from '@nextui-org/react'
 import { ExternalFile } from '@/types/custom'
-import { useQueries, useQuery } from 'react-query'
+import { useQueries, useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { formatBytes } from '@/lib/helpers'
 
@@ -37,20 +37,15 @@ const UploadNewAttachments: FC<{ selectedAttachments: ExternalFile[]; setselecte
     )
   }
 
-  const { data, isLoading } = useQuery(
-    ['attachmnets_selected', uploadedAttachments],
-    async () => {
-      const res = await ListAllAttachmentsInBucket(100, 0)
-      return res
+  const { data, isLoading } = useQuery({
+    queryKey: ['attachmnets_selected'],
+    queryFn: async () => await ListAllAttachmentsInBucket(100, 0),
+    refetchInterval: false,
+    select(data) {
+      const names = uploadedAttachments.map((x) => x.name)
+      return data?.filter((x) => names.includes(x.name))
     },
-    {
-      refetchInterval: false,
-      select(data) {
-        const names = uploadedAttachments.map((x) => x.name)
-        return data?.filter((x) => names.includes(x.name))
-      },
-    },
-  )
+  })
 
   const convertToExternalFile = (fileObject: any): ExternalFile => {
     const [_, name] = (fileObject.name as string).split('/')

@@ -1,10 +1,21 @@
+'use client'
 import { getDestination, getTourTypes } from '@/lib/operations'
 import HeroFilter from './hero-filter'
 import HeroSlides from './hero-slides'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
 
-export default async function HeroSection() {
-  const destination = await getDestination()
-  const tourTypes = await getTourTypes()
+export default function HeroSection() {
+  const { data: tourTypes } = useQuery({
+    queryKey: [REVALIDATE_TOUR_TYPE],
+    queryFn: async () => await getTourTypes(),
+  })
+
+  const { data: destination } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
+
   return (
     <div className="container">
       <div className="flex flex-col-reverse sm:grid sm:grid-cols-12">

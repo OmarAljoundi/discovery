@@ -6,7 +6,7 @@ import { FunctionComponent } from 'react'
 import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { motion } from 'framer-motion'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { getTours } from '@/lib/operations'
 import TourCard from '@/components/common/tour-card'
@@ -17,7 +17,9 @@ interface TourRelatedProps {
 }
 
 const TourRelated: FunctionComponent<TourRelatedProps> = ({ tour }) => {
-  const { data, isLoading } = useQuery([REVALIDATE_TOUR_LIST], async () => await getTours(), {
+  const { data, isLoading } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
     select: (data) => {
       return data?.filter((x) => x.type_id == tour.type_id).slice(0, 10)
     },

@@ -5,7 +5,7 @@ import { Separator } from '../ui/separator'
 import { ScrollArea } from '../ui/scroll-area'
 import { cn } from '@/lib/utils'
 import { getHotels } from '@/lib/operations'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FormikProps } from 'formik'
 import { Tour } from '@/types/custom'
 
@@ -19,8 +19,10 @@ const HotelForm: FunctionComponent<HotelFormProps> = ({ formik }) => {
   const [open, setOpen] = useState(false)
   const [groupSelected, setGroupSelected] = useState<string[]>([])
 
-  const { data: hotels, isLoading } = useQuery('Hotels', async () => await getHotels(), {
+  const { data: hotels, isLoading } = useQuery({
     refetchInterval: false,
+    queryKey: ['Hotels'],
+    queryFn: async () => await getHotels(),
   })
 
   const handleAddHotels = () => {

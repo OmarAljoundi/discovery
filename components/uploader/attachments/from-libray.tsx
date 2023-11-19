@@ -1,6 +1,6 @@
 import { ListAllAttachmentsInBucket, ListAllImagesInBucket } from '@/lib/storage-operations'
 import { FC, useEffect } from 'react'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { Skeleton } from '../../ui/skeleton'
 import { formatBytes } from '@/lib/helpers'
 import { Check, FileText, MousePointerSquare } from 'lucide-react'
@@ -20,16 +20,14 @@ const FromLibrary: FC<{
   setselectedAttachments: (select: ExternalFile[]) => void
   loadingDelete: boolean
 }> = ({ selectedAttachments, setselectedAttachments, loadingDelete }) => {
-  const { data, isLoading } = useQuery(
-    ['attachmnets'],
-    async () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['attachmnets'],
+    queryFn: async () => {
       const res = await ListAllAttachmentsInBucket(100, 0)
       return res
     },
-    {
-      refetchInterval: false,
-    },
-  )
+    refetchInterval: false,
+  })
 
   useEffect(() => {
     return () => {

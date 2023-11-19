@@ -3,7 +3,6 @@ import '../public/scss/citiesCard.scss'
 import type { Metadata } from 'next'
 import { Cairo } from 'next/font/google'
 import { Toaster } from 'sonner'
-import { ReactQueryProvider } from '@/provider/react-query-provider'
 import { cn } from '@/lib/utils'
 import { ModalProvider } from '@/provider/modal-provider'
 import { headers } from 'next/headers'
@@ -16,6 +15,7 @@ import ToolBar from '@/layout/customer/top-bar'
 import Menu from '@/layout/customer/menu'
 import Footer from '@/layout/customer/footer'
 import { getContentData } from '@/lib/operations'
+import dynamic from 'next/dynamic'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -41,6 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+const ReactQueryProvider = dynamic(() => import('@/provider/react-query-provider').then((mod) => mod.default), {
+  ssr: false,
+})
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const headersList = headers()
 
@@ -48,7 +51,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
       <body className={cn(cairo.className, 'h-full')}>
         <ReactQueryProvider>
-          <ModalProvider />
           <Toaster position="top-right" expand={true} richColors />
           {headersList.get('x-dir') == 'rtl' ? (
             <>

@@ -1,5 +1,7 @@
 import TourRendering from '@/components/common/tour-rendering'
-import { getDestination, getTours } from '@/lib/operations'
+import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
+import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import { Metadata } from 'next'
 import { FunctionComponent } from 'react'
 
@@ -45,13 +47,37 @@ export async function generateStaticParams() {
 }
 const TourDestinationSectionListingPage: FunctionComponent<{ params: { destination: string; section: string } }> = async ({ params }) => {
   const destination = await getDestination()
+
   const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
 
   const attr = currentDest?.location_attributes?.find((x) => x.title == decodeURIComponent(params.section.replaceAll('-', ' ')))
-  let response = await getTours()
-  const tours = response?.filter((m) => attr?.location_tours?.map((x) => x.tour_id!).includes(m.id!))
+  const tourIds = attr?.location_tours?.map((x) => x.tour_id!)
 
-  return <TourRendering tours={tours || []} />
+  const query = new QueryClient()
+  await Promise.allSettled([
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_LOCATION_LIST],
+      queryFn: getDestination,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_LIST],
+      queryFn: getTours,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_TYPE],
+      queryFn: getTourTypes,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_CONTENT_LIST],
+      queryFn: getContentData,
+    }),
+  ])
+
+  return (
+    <HydrationBoundary state={dehydrate(query)}>
+      <TourRendering tourIds={tourIds} />
+    </HydrationBoundary>
+  )
 }
 
 export default TourDestinationSectionListingPage

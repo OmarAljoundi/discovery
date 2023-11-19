@@ -1,18 +1,9 @@
 'use server'
-import { Hotel, Location, LocationAttributes, LocationTours, Response, Setting, Tour, TourType, User } from '@/types/custom'
+import { Hotel, Location, LocationAttributes, Response, Setting, Tour, TourType } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
-import {
-  CONFIG_PATH,
-  REVALIDATE_HOTEL_LIST,
-  REVALIDATE_LOCATION_LIST,
-  REVALIDATE_TOUR_LIST,
-  REVALIDATE_TOUR_TYPE,
-  SETTING_PATH,
-  TOUR_IMAGE,
-} from './keys'
+import { CONFIG_PATH, REVALIDATE_HOTEL_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE, SETTING_PATH } from './keys'
 import { SearchQuery } from '@/types/search'
-import { useRouter } from 'next/navigation'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types/supabase'
 import { cookies } from 'next/headers'

@@ -19,6 +19,7 @@ const onRequest = async <T>(
   }
 
   try {
+    console.log(requestOptions)
     const response = await fetch(`${process.env.NEXT_PUBLIC_URL}${endPoint}`, requestOptions)
 
     if (!response.ok) {

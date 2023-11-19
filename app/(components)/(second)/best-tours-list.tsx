@@ -11,12 +11,22 @@ import { Separator } from '@/components/ui/separator'
 import { motion } from 'framer-motion'
 import { Tour } from '@/types/custom'
 import { useContent } from '@/hooks/react-query/use-content'
-interface BestToursListProps {
-  data: Tour[]
-}
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_CONTENT_LIST, REVALIDATE_TOUR_LIST } from '@/lib/keys'
+import { getContentData, getTours } from '@/lib/operations'
+interface BestToursListProps {}
 
-const BestToursList: FunctionComponent<BestToursListProps> = ({ data }) => {
-  const { data: config, isLoading } = useContent()
+const BestToursList: FunctionComponent<BestToursListProps> = () => {
+  const { data } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
+  })
+
+  const { data: config, isLoading } = useQuery({
+    queryKey: [REVALIDATE_CONTENT_LIST],
+    queryFn: async () => await getContentData(),
+  })
+
   const swiperRef = useRef<any>(null)
   const goNext = () => {
     if (swiperRef.current && swiperRef.current.swiper) {

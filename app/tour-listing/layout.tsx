@@ -8,8 +8,11 @@ import Sort from '@/components/filter/sort'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useDestination } from '@/hooks/react-query/use-destination'
 import { useFilterCustomer } from '@/hooks/use-customer-filter'
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { getDestination } from '@/lib/operations'
 import { getTotalSearchCount } from '@/lib/utils'
 import { Badge, Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, useDisclosure } from '@nextui-org/react'
+import { useQuery } from '@tanstack/react-query'
 import { FilterIcon, X } from 'lucide-react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -19,7 +22,11 @@ interface LayoutListProps {
   children: ReactNode
 }
 const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
-  const { data, isLoading } = useDestination()
+  const { data, isLoading } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
+
   const params = useParams()
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const search = useFilterCustomer()

@@ -1,3 +1,4 @@
+'use client'
 import BlurImage from '@/components/common/blur-image'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'

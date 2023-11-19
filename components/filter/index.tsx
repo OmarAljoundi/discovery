@@ -10,7 +10,7 @@ import qs from 'query-string'
 import { queryString } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import ListingFilterLoading from '../loading/listing-filter-loading'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { getDestination } from '@/lib/operations'
 import FilterSection from './filter-section'
 

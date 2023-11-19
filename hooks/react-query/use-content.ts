@@ -2,7 +2,7 @@ import { CONFIG_PATH, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, SETTING_PA
 import { getContentData, getDestination } from '@/lib/operations'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { Setting } from '@/types/custom'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 
 export function useContent() {
   return useQuery({

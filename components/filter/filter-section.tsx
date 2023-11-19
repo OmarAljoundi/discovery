@@ -3,11 +3,12 @@ import { Button, Skeleton } from '@nextui-org/react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { FunctionComponent } from 'react'
-import { useQuery } from 'react-query'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import FilterHeader from './filter-header'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
 
 interface FilterSectionProps {
   classNames: string
@@ -16,12 +17,14 @@ interface FilterSectionProps {
 const FilterSection: FunctionComponent<FilterSectionProps> = ({ classNames }) => {
   const params = useParams()
 
-  const { data, isLoading } = useQuery([params.destination, params.section], async () => await getDestination(), {
+  const { data, isLoading } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+    enabled: !!params.destination || !!params.section,
     select: (data) => {
       return data.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.location_attributes
     },
-    keepPreviousData: true,
-    enabled: !!params.destination || !!params.section,
+    placeholderData: keepPreviousData,
   })
 
   if (isLoading)

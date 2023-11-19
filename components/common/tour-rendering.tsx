@@ -10,10 +10,21 @@ import { MdSearchOff } from 'react-icons/md'
 import { IconContext } from 'react-icons'
 import { Button, Link } from '@nextui-org/react'
 import { ArrowLeft } from 'lucide-react'
-const TourRendering: FC<{ tours: Tour[] }> = ({ tours }) => {
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
+import { getTours } from '@/lib/operations'
+const TourRendering: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
   const searchParams = useSearchParams()
   const { ref, inView } = useInView()
   const [currentSize, setCurrentSize] = useState(10)
+
+  const { data: tours } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
+    select: (response) => {
+      return tourIds ? response?.filter((m) => tourIds.includes(m.id!)) : response
+    },
+  })
 
   useEffect(() => {
     console.log(inView)
@@ -33,7 +44,7 @@ const TourRendering: FC<{ tours: Tour[] }> = ({ tours }) => {
         minprice: searchParams?.get('minprice') as any,
         sortOrder: searchParams?.get('sortOrder') as any,
       },
-      tours,
+      tours || [],
     )
   }, [
     searchParams?.get('country'),

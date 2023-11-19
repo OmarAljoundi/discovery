@@ -7,7 +7,7 @@ import { getTours } from '@/lib/operations'
 import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { useEffect, useState } from 'react'
 import { cn } from '@/lib/utils'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FunctionComponent } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -70,7 +70,11 @@ const BestToursForm: FunctionComponent<BestToursFormProps> = () => {
     validateOnChange: true,
   })
 
-  const { data: tours } = useQuery([REVALIDATE_TOUR_LIST], async () => await getTours(), { cacheTime: 10000, refetchInterval: false })
+  const { data: tours } = useQuery({
+    queryKey: [REVALIDATE_TOUR_LIST],
+    queryFn: async () => await getTours(),
+    refetchInterval: false,
+  })
 
   return (
     <form onSubmit={formik.handleSubmit}>

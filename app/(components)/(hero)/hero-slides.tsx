@@ -9,23 +9,28 @@ import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import { Navigation, Pagination } from 'swiper/modules'
 import { useContent } from '@/hooks/react-query/use-content'
 import { Skeleton } from '@/components/ui/skeleton'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
+import { getContentData } from '@/lib/operations'
 
 interface HeroSlidesProps {}
 
 const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
-  const { isLoading, data } = useContent()
+  const { data } = useQuery({
+    queryKey: [REVALIDATE_CONTENT_LIST],
+    queryFn: async () => await getContentData(),
+  })
+  //const { isLoading, data } = useContent()
 
-  if (isLoading) {
-    return (
-      <div className="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
-        <div className="relative h-full group overflow-hidden">
-          <Skeleton className="h-full rounded-none px-3" />
-        </div>
-      </div>
-    )
-  }
-
-  console.log('data', data)
+  // if (isLoading) {
+  //   return (
+  //     <div className="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
+  //       <div className="relative h-full group overflow-hidden">
+  //         <Skeleton className="h-full rounded-none px-3" />
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   return (
     <div className="relative col-span-12 h-full sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">

@@ -5,11 +5,17 @@ import { cn } from '@/lib/utils'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useFilterCustomer } from '@/hooks/use-customer-filter'
 import { useDestination } from '@/hooks/react-query/use-destination'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
+import { getDestination } from '@/lib/operations'
 
 interface FilterLocationProps {}
 
 const FilterLocation: FunctionComponent<FilterLocationProps> = () => {
-  const { data, isLoading } = useDestination()
+  const { data, isLoading } = useQuery({
+    queryKey: [REVALIDATE_LOCATION_LIST],
+    queryFn: async () => await getDestination(),
+  })
   const { destination } = useParams()
   const filter = useFilterCustomer()
   const route = useRouter()

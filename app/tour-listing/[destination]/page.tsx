@@ -1,5 +1,7 @@
 import TourRendering from '@/components/common/tour-rendering'
-import { getDestination, getTours } from '@/lib/operations'
+import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
+import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import { Metadata } from 'next'
 import { FunctionComponent } from 'react'
 
@@ -43,11 +45,31 @@ const TourDestinationListingPage: FunctionComponent<{ params: { destination: str
     tours_ids = [...tours_ids, ...(x.location_tours?.map((g) => g.tour_id) ?? [])]
   })
 
-  let response = await getTours()
+  const query = new QueryClient()
+  await Promise.allSettled([
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_LOCATION_LIST],
+      queryFn: getDestination,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_LIST],
+      queryFn: getTours,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_TOUR_TYPE],
+      queryFn: getTourTypes,
+    }),
+    query.prefetchQuery({
+      queryKey: [REVALIDATE_CONTENT_LIST],
+      queryFn: getContentData,
+    }),
+  ])
 
-  const tours = response?.filter((m) => tours_ids.includes(m.id!))
-
-  return <TourRendering tours={tours || []} />
+  return (
+    <HydrationBoundary state={dehydrate(query)}>
+      <TourRendering tourIds={tours_ids} />
+    </HydrationBoundary>
+  )
 }
 
 export default TourDestinationListingPage
