@@ -1,3 +1,6 @@
+import { BreadCrumbProps } from '@/components/common/bread-crumb'
+import BreadcrumbItems from '@/components/common/bread-crumb-item'
+import Breadcrumbs from '@/components/common/bread-crumbs'
 import TourRendering from '@/components/common/tour-rendering'
 import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
 import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
@@ -23,6 +26,18 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: tags,
   }
 }
+let BreadCrumbs: BreadCrumbProps = {
+  items: [
+    {
+      name: 'الرئيسية',
+      href: '/',
+    },
+    {
+      name: 'جميع الرحلات',
+      href: '/tour-listing',
+    },
+  ],
+}
 const TourListingPage: FunctionComponent<TourListingPageProps> = async () => {
   const query = new QueryClient()
   await Promise.allSettled([
@@ -45,6 +60,15 @@ const TourListingPage: FunctionComponent<TourListingPageProps> = async () => {
   ])
   return (
     <HydrationBoundary state={dehydrate(query)}>
+      <Breadcrumbs>
+        {
+          BreadCrumbs?.items.map((item, index) => (
+            <BreadcrumbItems href={item.href ?? ''} key={index}>
+              {item.name}
+            </BreadcrumbItems>
+          )) as any
+        }
+      </Breadcrumbs>
       <TourRendering />
     </HydrationBoundary>
   )
