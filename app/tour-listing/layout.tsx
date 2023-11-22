@@ -1,7 +1,5 @@
 'use client'
 import { BreadCrumbProps } from '@/components/common/bread-crumb'
-import BreadcrumbItems from '@/components/common/bread-crumb-item'
-import Breadcrumbs from '@/components/common/bread-crumbs'
 import Filter from '@/components/filter'
 import FilterSection from '@/components/filter/filter-section'
 import Sort from '@/components/filter/sort'
@@ -11,7 +9,20 @@ import { useFilterCustomer } from '@/hooks/use-customer-filter'
 import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
 import { getDestination } from '@/lib/operations'
 import { getTotalSearchCount } from '@/lib/utils'
-import { Badge, Button, Chip, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Skeleton, useDisclosure } from '@nextui-org/react'
+import {
+  Badge,
+  BreadcrumbItem,
+  Breadcrumbs,
+  Button,
+  Chip,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  Skeleton,
+  useDisclosure,
+} from '@nextui-org/react'
 import { useQuery } from '@tanstack/react-query'
 import { FilterIcon, X } from 'lucide-react'
 import Link from 'next/link'
@@ -70,9 +81,9 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
       <Breadcrumbs>
         {
           BreadCrumbs?.items.map((item, index) => (
-            <BreadcrumbItems href={item.href ?? ''} key={index}>
+            <BreadcrumbItem href={item.href ?? ''} key={index}>
               {item.name}
-            </BreadcrumbItems>
+            </BreadcrumbItem>
           )) as any
         }
       </Breadcrumbs>

@@ -17,6 +17,7 @@ import Menu from '@/layout/customer/menu'
 import Footer from '@/layout/customer/footer'
 import { getContentData } from '@/lib/operations'
 import dynamics from 'next/dynamic'
+import NextUIProvider from '@/provider/next-ui-provider'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -52,17 +53,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
       <body className={cn(cairo.className, 'h-full')}>
         <ReactQueryProvider>
-          <Toaster position="top-right" expand={true} richColors />
-          {headersList.get('x-dir') == 'rtl' ? (
-            <>
-              <ToolBar />
-              <Menu />
-              {children}
-              <Footer />
-            </>
-          ) : (
-            <> {children}</>
-          )}
+          <NextUIProvider>
+            <Toaster position="top-right" expand={true} richColors />
+            {headersList.get('x-dir') == 'rtl' ? (
+              <>
+                <ToolBar />
+                <Menu />
+                {children}
+                <Footer />
+              </>
+            ) : (
+              <> {children}</>
+            )}
+          </NextUIProvider>
         </ReactQueryProvider>
       </body>
     </html>
