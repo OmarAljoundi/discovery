@@ -13,10 +13,7 @@ const ToolBar = () => {
               <a href="https://api.whatsapp.com/send/?phone=%2B96895929251&text&type=phone_number&app_absent=0" target="_blank">
                 <AiOutlineWhatsApp className="text-white text-2xl" />
               </a>
-              <a
-                href="https://maps.app.goo.gl/iY9WwncyNi7rJXvu7"
-                target="_blank"
-              >
+              <a href="https://maps.app.goo.gl/iY9WwncyNi7rJXvu7" target="_blank">
                 <HiOutlineMapPin className="text-white text-2xl" />
               </a>
               <a href="https://www.instagram.com/Discovery.oman/" target="_blank">
@@ -26,14 +23,16 @@ const ToolBar = () => {
           </div>
           <div className="contact-info flex gap-8 ">
             <div className="flex gap-3 items-center">
-              <span className="text-white font-bold " dir="ltr">
+              <a className="text-white font-bold " href="tel:+96899801355" dir="ltr">
                 +968-99801355
-              </span>
-              <Phone className="text-primary" />
+              </a>
+              <Phone className="text-[#18c2dc]" />
             </div>
             <div className="flex gap-3 items-center">
-              <span className="text-white font-bold font-english">info@discovery-om.com</span>
-              <AtSign className="text-primary" />
+              <a className="text-white font-bold font-english" href="mailto:info@discovery-om.com">
+                info@discovery-om.com
+              </a>
+              <AtSign className="text-[#18c2dc]" />
             </div>
           </div>
         </div>

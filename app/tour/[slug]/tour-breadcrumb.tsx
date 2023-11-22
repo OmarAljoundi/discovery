@@ -12,7 +12,7 @@ const TourBreadcrumb: FunctionComponent<TourBreadcrumbProps> = ({ tourName }) =>
     <div className="my-6">
       <Breadcrumbs>
         <BreadcrumbItems href="/">الرئيسية</BreadcrumbItems>
-        <BreadcrumbItems href="/tour-listing">الوجهات السياحية</BreadcrumbItems>
+        <BreadcrumbItems href="/tour-listing">الأقسام</BreadcrumbItems>
         <BreadcrumbItems href="/">{tourName}</BreadcrumbItems>
       </Breadcrumbs>
     </div>

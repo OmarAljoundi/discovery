@@ -32,7 +32,7 @@ const Menu = () => {
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
         <Link className="block text-teal-600" href="/" scroll={false}>
           <span className="sr-only">Home</span>
-          <BlurImage src={'/images/discovery-01.png'} width={1080} height={1080} className="max-w-[65px]" alt="دسكفري لوجو" />
+          <BlurImage src={'/images/discovery-footer.png'} width={1080} height={1080} className="max-w-[120px]" alt="دسكفري لوجو" />
         </Link>
 
         <div className="flex flex-1 items-center justify-end md:justify-between">

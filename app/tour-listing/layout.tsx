@@ -68,8 +68,8 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
     return (
       <Breadcrumbs>
         {
-          breads?.items.map((item) => (
-            <BreadcrumbItems href={item.href ?? ''} key={item.name}>
+          breads?.items.map((item, index) => (
+            <BreadcrumbItems href={item.href ?? ''} key={index}>
               {item.name}
             </BreadcrumbItems>
           )) as any

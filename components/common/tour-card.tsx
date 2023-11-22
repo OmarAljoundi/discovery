@@ -36,7 +36,7 @@ const TourCard: FunctionComponent<TourCardProps> = ({ tour }) => {
             <span className="text-ellipsis overflow-hidden line-clamp-1">{tour.tour_countries?.join(' ، ')}</span>
           </div>
         </div>
-        <h1 className="text-base md:text-lg lg:text-xl mb-2 text-ellipsis overflow-hidden line-clamp-1" title={tour.name}>
+        <h1 className="text-base md:text-lg lg:text-xl mb-2 text-ellipsis overflow-hidden line-clamp-1 text-primary" title={tour.name}>
           {tour.name}
         </h1>
         <div className="flex justify-start gap-x-2 items-center h-6">

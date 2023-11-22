@@ -41,7 +41,7 @@ const DestinationLoading: FunctionComponent<DestinationLoadingProps> = () => {
   return (
     <div className="container mt-10 mb-10 hidden md:block">
       <div className="flex justify-between items-end">
-        <h1 className="text-xl">الوجهات السياحية</h1>
+        <h1 className="text-xl">الأقسام</h1>
       </div>
       <Separator className="my-4" />
       <div className="lg:grid grid-cols-12 gap-4 hidden">

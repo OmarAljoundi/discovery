@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useQuery } from '@tanstack/react-query'
 import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
 import { getContentData } from '@/lib/operations'
+import HeroFilter from './hero-filter'
 
 interface HeroSlidesProps {}
 
@@ -20,33 +21,39 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
     queryKey: [REVALIDATE_CONTENT_LIST],
     queryFn: async () => await getContentData(),
   })
-  //const { isLoading, data } = useContent()
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="col-span-12 h-36 sm:h-64 lg:h-96 md:h-72 sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
-  //       <div className="relative h-full group overflow-hidden">
-  //         <Skeleton className="h-full rounded-none px-3" />
-  //       </div>
-  //     </div>
-  //   )
-  // }
 
   return (
-    <div className="relative col-span-12 h-full sm:col-span-8 md:col-span-8 lg:col-span-8 overflow-hidden">
+    <div className="relative ">
+      <div className="absolute z-50 left-5  bottom-0 top-[50%] ">
+        <button
+          className="disabled:opacity-50   -prev flex justify-center items-center button -blue-1  
+               shadow-1 w-10 h-10 rounded-full sm:d-none btn-prev-slide bg-white"
+        >
+          <IconTourProvider>
+            <BsArrowLeftShort />
+          </IconTourProvider>
+        </button>
+      </div>
+
+      <div className="absolute z-50 right-5 bottom-0  top-[50%]">
+        <button
+          className="disabled:opacity-50  z-10 -next flex justify-center items-center button -blue-1 btn-next-slide
+              shadow-1 w-10 h-10 rounded-full sm:d-none js-hero-next bg-white "
+        >
+          <IconTourProvider>
+            <BsArrowRightShort />
+          </IconTourProvider>
+        </button>
+      </div>
       <Swiper
-        spaceBetween={30}
-        className="swiper_zero_padding"
-        initialSlide={4}
-        modules={[Navigation, Pagination]}
+        loop={true}
+        slidesPerView="auto"
         navigation={{
-          nextEl: '.js-hero-next',
-          prevEl: '.js-hero-prev',
+          nextEl: '.btn-next-slide',
+          prevEl: '.btn-prev-slide',
         }}
-        pagination={{
-          el: '.js-tour-hero-pag',
-          clickable: true,
-        }}
+        modules={[Navigation, Pagination]}
+        className="swiper !p-0"
       >
         {data?.home?.sliders?.map((item, index) => (
           <SwiperSlide key={item.uuid}>
@@ -66,60 +73,41 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
                 },
               }}
             >
-              <div className="relative h-96 group overflow-hidden ">
-                <div
-                  className="absolute top-0 left-0 flex flex-col justify-between h-full w-full before:w-full  
-                   before:absolute before:h-full before:bottom-0 before:left-0 before:bg-gradient-to-t 
-                 before:from-black/50 before:z-10  
-                 before:to-black/50"
-                >
-                  <BlurImage
-                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}
-                    alt="Hero Image"
-                    quality={80}
-                    fetchPriority={index == 0 ? 'high' : 'auto'}
-                    loading={index == 0 ? 'eager' : 'lazy'}
-                    fill
-                    className="bg-gray-300 mx-auto max-w-full rounded-none object-cover"
-                  />
-                  <figcaption
-                    className="absolute z-20 justify-center items-center -translate-y-10  p-3 bottom-0 left-0 right-0 top-0 mx-auto max-w-[300px] rounded-none  flex  text-white   sm:rounded-xl  
-                    sm:py-4 sm:px-6"
-                  >
-                    <div className="text-center">
-                      <h1 className="text-3xl text-white ">{item.title}</h1>
-                      <p className="text-lg mt-2 text-white ">{item.sub_title}</p>
+              <div className="relative h-full group overflow-hidden ">
+                <BlurImage
+                  src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}
+                  alt="Hero Image"
+                  quality={100}
+                  fill
+                  sizes="100vw"
+                  style={{
+                    objectFit: 'cover',
+                  }}
+                  fetchPriority={index == 0 ? 'high' : 'auto'}
+                  loading={index == 0 ? 'eager' : 'lazy'}
+                  className="bg-gray-400 mx-auto max-w-full object-cover object-right-top md:object-center rounded-none"
+                />
+                <section className="relative bg-[var(--bg-1)] border-t lg:border-t-0">
+                  <div className="pt-[70px] sm:pt-[100px] md:pt-[150px] xl:pt-[180px] pb-16  px-3 bg-no-repeat bg-cover bg-black/10 relative h-[500px]">
+                    <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed bg-black/60 ">
+                      <div className="container grid items-center h-full">
+                        <div className="text-center relative z-30">
+                          <h1 className="text-6xl lg:text-7xl  font-secondary text-white">{item.title}</h1>
+                          <p className=" mx-auto px-2 font-primary text-xl lg:text-3xl text-white mt-4 md:mt-7 mb-6 ">{item.sub_title}</p>
+                        </div>
+                      </div>
                     </div>
-                  </figcaption>
-                </div>
+                  </div>
+                </section>
               </div>
             </motion.div>
           </SwiperSlide>
         ))}
       </Swiper>
-      <div className="w-auto absolute bottom-6 sm:right-6 sm:left-auto sm:mx-0 left-0 mx-auto right-0 z-50">
-        <div className="flex gap-x-4 items-center justify-center mt-5">
-          <button
-            className="disabled:opacity-50  z-10 -next flex justify-center items-center button -blue-1
-              shadow-1 w-10 h-10 rounded-full sm:d-none js-hero-next bg-white "
-          >
-            <IconTourProvider>
-              <BsArrowRightShort />
-            </IconTourProvider>
-          </button>
-          <div className="w-auto">
-            <div className="flex w-full -dots text-border js-tour-hero-pag" />
-          </div>
-          <button
-            className="disabled:opacity-50   -prev flex justify-center items-center button -blue-1  
-               shadow-1 w-10 h-10 rounded-full sm:d-none js-hero-prev bg-white"
-          >
-            <IconTourProvider>
-              <BsArrowLeftShort />
-            </IconTourProvider>
-          </button>
-        </div>
-      </div>
+
+      <section className="mt-8 absolute bottom-10 z-10 w-full max-w-7xl mx-auto right-0 left-0">
+        <HeroFilter />
+      </section>
     </div>
   )
 }

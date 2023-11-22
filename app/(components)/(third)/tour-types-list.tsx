@@ -106,7 +106,7 @@ const TourTypesList: FunctionComponent<TourTypesListProps> = () => {
                     endContent={<ArrowLeft className="w-4 h-4 group-hover:scale-110 duration-200 transition-all" />}
                     href={`/tour-listing?type=${i.name}`}
                   >
-                    التفاصيل
+                    عرض الرحلات
                   </Button>
                 </div>
               </motion.div>

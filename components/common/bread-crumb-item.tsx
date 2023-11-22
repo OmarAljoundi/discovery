@@ -8,7 +8,7 @@ interface BreadcrumbItemsProps {
 
 const BreadcrumbItems: FunctionComponent<BreadcrumbItemsProps> = ({ href, children }) => {
   return (
-    <Link className="flex items-center text-gray-500 hover:text-primary text-xs md:text-base" href={href}>
+    <Link className="flex items-center text-gray-500 hover:text-primary text-xs md:text-base" href={href} aria-label={`breadcrumb-${href}`}>
       {children}
     </Link>
   )

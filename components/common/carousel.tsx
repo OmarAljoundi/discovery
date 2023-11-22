@@ -60,7 +60,7 @@ export default function Carousel({ images, classNames, uniqueKey, includeArrows 
                 src={slide}
                 width={1000}
                 height={600}
-                quality={50}
+                quality={100}
                 alt="Carousal-Image"
                 fetchPriority="auto"
                 loading={'lazy'}

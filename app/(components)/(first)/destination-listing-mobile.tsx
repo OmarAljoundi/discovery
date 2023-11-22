@@ -30,7 +30,7 @@ const DestinationListingMobile = () => {
   return (
     <div className="container mt-10 mb-10 md:hidden">
       <div className="flex justify-between items-end">
-        <h1 className="text-xl">الوجهات السياحية</h1>
+        <h1 className="text-xl">الأقسام</h1>
 
         <div className="flex justify-end">
           <Button isIconOnly size="sm" className="group hover:text-primary duration-500 transition-all js-destination-next" variant="light">
