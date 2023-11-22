@@ -6,12 +6,12 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs: FunctionComponent<BreadcrumbsProps> = ({ children }) => {
   return (
-    <ol
+    <div
       className="flex items-center whitespace-nowrap min-w-0 bg-secondary gap-1 md:gap-2 w-fit py-1 px-2 md:px-3 rounded-medium"
       aria-label="Breadcrumb"
     >
       {children.map((item, index) => (
-        <>
+        <div key={`bc-${index}`} className="flex items-center gap-x-2">
           {item}
           {index != children.length - 1 && (
             <svg
@@ -30,9 +30,9 @@ const Breadcrumbs: FunctionComponent<BreadcrumbsProps> = ({ children }) => {
               />
             </svg>
           )}
-        </>
+        </div>
       ))}
-    </ol>
+    </div>
   )
 }
 
