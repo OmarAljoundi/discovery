@@ -60,15 +60,6 @@ const TourListingPage: FunctionComponent<TourListingPageProps> = async () => {
   ])
   return (
     <HydrationBoundary state={dehydrate(query)}>
-      <Breadcrumbs>
-        {
-          BreadCrumbs?.items.map((item, index) => (
-            <BreadcrumbItems href={item.href ?? ''} key={index}>
-              {item.name}
-            </BreadcrumbItems>
-          )) as any
-        }
-      </Breadcrumbs>
       <TourRendering />
     </HydrationBoundary>
   )

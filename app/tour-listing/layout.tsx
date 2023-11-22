@@ -32,19 +32,6 @@ import { FunctionComponent, ReactNode, useMemo } from 'react'
 interface LayoutListProps {
   children: ReactNode
 }
-
-let BreadCrumbs: BreadCrumbProps = {
-  items: [
-    {
-      name: 'الرئيسية',
-      href: '/',
-    },
-    {
-      name: 'جميع الرحلات',
-      href: '/tour-listing',
-    },
-  ],
-}
 const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
   const { data, isLoading } = useQuery({
     queryKey: [REVALIDATE_LOCATION_LIST],
@@ -55,33 +42,45 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure()
   const search = useFilterCustomer()
 
-  // const breads = useMemo(() => {
-  //   if (!isLoading) {
+  const breads = useMemo(() => {
+    if (!isLoading) {
+      let BreadCrumbs: BreadCrumbProps = {
+        items: [
+          {
+            name: 'الرئيسية',
+            href: '/',
+          },
+          {
+            name: 'جميع الرحلات',
+            href: '/tour-listing',
+          },
+        ],
+      }
 
-  //     if (params?.destination && params?.section) {
-  //       BreadCrumbs.items.push({
-  //         name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
-  //         href: `/tour-listing/${params?.destination}`,
-  //       })
-  //       BreadCrumbs.items.push({
-  //         name: decodeURIComponent(params.section as string).replaceAll('-', ' '),
-  //       })
-  //     } else if (params?.destination) {
-  //       BreadCrumbs.items.push({
-  //         name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
-  //       })
-  //     }
-  //     return BreadCrumbs
-  //   }
-  //   return
-  // }, [params?.destination, params?.section, isLoading])
+      if (params?.destination && params?.section) {
+        BreadCrumbs.items.push({
+          name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
+          href: `/tour-listing/${params?.destination}`,
+        })
+        BreadCrumbs.items.push({
+          name: decodeURIComponent(params.section as string).replaceAll('-', ' '),
+        })
+      } else if (params?.destination) {
+        BreadCrumbs.items.push({
+          name: data?.results?.find((x) => x.slug == decodeURIComponent(params.destination as string))?.name || '',
+        })
+      }
+      return BreadCrumbs
+    }
+    return
+  }, [params?.destination, params?.section, isLoading])
 
   const Breads = () => {
     return (
-      <Breadcrumbs>
+      <Breadcrumbs variant="solid">
         {
-          BreadCrumbs?.items.map((item, index) => (
-            <BreadcrumbItem href={item.href ?? ''} key={index}>
+          breads?.items.map((item) => (
+            <BreadcrumbItem href={item.href ?? ''} key={item.name}>
               {item.name}
             </BreadcrumbItem>
           )) as any

@@ -2,11 +2,10 @@
 import { FunctionComponent } from 'react'
 import CallToAction from '../(components)/(fifth)/call-to-action'
 import { Separator } from '@/components/ui/separator'
-import Breadcrumbs from '@/components/common/bread-crumbs'
-import BreadcrumbItems from '@/components/common/bread-crumb-item'
 import { useContent } from '@/hooks/react-query/use-content'
 import VisaCard from './visa-card'
 import VisaCardLoading from './visa-card-loading'
+import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
 
 interface VisaPageProps {}
 
@@ -15,9 +14,9 @@ const VisaPage: FunctionComponent<VisaPageProps> = () => {
   return (
     <>
       <div className="container mb-10">
-        <Breadcrumbs>
-          <BreadcrumbItems href="/">الرئيسية</BreadcrumbItems>
-          <BreadcrumbItems href="/visa">التأشيرات</BreadcrumbItems>
+        <Breadcrumbs variant="solid">
+          <BreadcrumbItem href="/">الرئيسية</BreadcrumbItem>
+          <BreadcrumbItem href="/visa">التأشيرات</BreadcrumbItem>
         </Breadcrumbs>
         <Separator className="my-4" />
         {isLoading && (

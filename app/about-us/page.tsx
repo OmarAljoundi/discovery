@@ -5,8 +5,7 @@ import { FunctionComponent } from 'react'
 import CallToAction from '../(components)/(fifth)/call-to-action'
 import { useTourTypes } from '@/hooks/react-query/use-tour-types'
 import BlurImage from '@/components/common/blur-image'
-import Breadcrumbs from '@/components/common/bread-crumbs'
-import BreadcrumbItems from '@/components/common/bread-crumb-item'
+import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
 
 interface AboutUsPageProps {}
 
@@ -15,9 +14,9 @@ const AboutUsPage: FunctionComponent<AboutUsPageProps> = () => {
   return (
     <>
       <div className="container">
-        <Breadcrumbs>
-          <BreadcrumbItems href="/">الرئيسية</BreadcrumbItems>
-          <BreadcrumbItems href="/about-us">عن دسكفري</BreadcrumbItems>
+        <Breadcrumbs variant="solid">
+          <BreadcrumbItem href="/">الرئيسية</BreadcrumbItem>
+          <BreadcrumbItem href="/about-us">عن دسكفري</BreadcrumbItem>
         </Breadcrumbs>
         <Separator className="my-4" />
         <div className="grid grid-cols-12 gap-x-8 gap-y-4">
