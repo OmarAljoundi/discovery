@@ -75,25 +75,18 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
     return
   }, [params?.destination, params?.section, isLoading])
 
-  const Breads = () => {
-    return (
-      <Breadcrumbs variant="solid">
-        {
-          breads?.items.map((item) => (
-            <BreadcrumbItem href={item.href ?? ''} key={item.name}>
-              {item.name}
-            </BreadcrumbItem>
-          )) as any
-        }
-      </Breadcrumbs>
-    )
-  }
-
   return (
     <div className="container mb-12 pt-6 lg:mb-16 px-3 lg:px-0">
       <div className="mb-4 flex flex-col items-start gap-y-2 sm:flex-row sm:items-center justify-between">
-        {isLoading ? <Skeleton className="w-44 h-4 rounded-lg" /> : <Breads />}
-
+        <Breadcrumbs variant="solid">
+          {
+            breads?.items.map((item) => (
+              <BreadcrumbItem href={item.href ?? ''} key={item.name}>
+                {item.name}
+              </BreadcrumbItem>
+            )) as any
+          }
+        </Breadcrumbs>
         <div className="relative  items-center gap-3 capitalize flex md:[&amp;>li]:!text-base">
           {getTotalSearchCount(search.filters) > 0 ? (
             <div className="flex gap-x-2">

@@ -26,11 +26,6 @@ const HeroFilter: FunctionComponent<HeroFilterProps> = () => {
     queryFn: async () => await getTourTypes(),
   })
 
-  const { data: destinations } = useQuery({
-    queryKey: [REVALIDATE_LOCATION_LIST],
-    queryFn: async () => await getDestination(),
-  })
-
   const getUrl = () => {
     const url = queryString.stringifyUrl(
       {

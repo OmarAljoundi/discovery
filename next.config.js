@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    webVitalsAttribution: ['CLS', 'FCP', 'TTFB', 'LCP'],
+  },
   swcMinify: true,
   images: {
     remotePatterns: [
