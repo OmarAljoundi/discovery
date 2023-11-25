@@ -1,11 +1,11 @@
 import localFont from 'next/font/local'
 
 export const fontSpecialAr = localFont({
-  src: './font/FREESCPT.ttf',
+  src: './font/Fanan.ttf',
   variable: '--font-special-arabic',
 })
 
 export const fontSpecialEn = localFont({
-  src: './font/FreeScpt.ttf',
+  src: './font/FREESCPT.ttf',
   variable: '--font-special-english',
 })
