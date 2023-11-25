@@ -7,13 +7,14 @@ import { FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa'
 import { MenuItems } from './menu'
 import Link from 'next/link'
 import { useTourTypes } from '@/hooks/react-query/use-tour-types'
+import IconSocialProvider from '@/provider/icon-social-provider'
 const Footer = () => {
   const { data, isLoading } = useTourTypes()
   return (
-    <footer>
+    <footer className="bg-gray-200">
       <div className="container px-6 py-12 mx-auto">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
-          <div className="sm:col-span-2">
+        <div className="grid  gap-6 grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
+          <div className="col-span-2">
             <h1 className="text-primary text-xl mb-4">دسكفري للسياحة والسفر</h1>
             <p className="pl-14">
               دسكفري للسياحة هي واحدة من أكبر الشركات المتخصصة بالسفر و السياحية فى سلطنة عمان التي تعمل تحت شعار (انت اختار ) نقدم مئات البرامج
@@ -52,28 +53,28 @@ const Footer = () => {
 
         <Separator className="my-6 md:my-8 " />
 
-        <div className="flex items-center justify-between">
+        <div className="flex-col sm:flex-row flex items-center justify-between">
           <a href="#">
             <BlurImage src={'/images/discovery-footer.png'} className="max-w-[200px]" alt="Discovery Logo" width={300} height={100} />
           </a>
 
           <div className="flex -mx-2">
             <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Facebook">
-              <IconTourProvider>
+              <IconSocialProvider>
                 <FaFacebookF />
-              </IconTourProvider>
+              </IconSocialProvider>
             </a>
 
             <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Instagram">
-              <IconTourProvider>
+              <IconSocialProvider>
                 <FaInstagram />
-              </IconTourProvider>
+              </IconSocialProvider>
             </a>
 
             <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Whatsapp">
-              <IconTourProvider>
+              <IconSocialProvider>
                 <FaWhatsapp />
-              </IconTourProvider>
+              </IconSocialProvider>
             </a>
           </div>
         </div>

@@ -1,7 +1,9 @@
-import Image from 'next/image'
+'use client'
 import Link from 'next/link'
 import MobileMenu from './mobile-menu'
 import BlurImage from '@/components/common/blur-image'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 export const MenuItems = [
   {
@@ -18,15 +20,20 @@ export const MenuItems = [
   },
   {
     title: 'آراء العملاء',
-    link: 'https://www.instagram.com/p/B2Gr4omDs0y/',
+    link: '/customers-review',
   },
   {
     title: 'عن دسكفري',
     link: '/about-us',
   },
+  {
+    title: 'الأسئلة الشائعة',
+    link: '/faq',
+  },
 ]
 
 const Menu = () => {
+  const pathname = usePathname()
   return (
     <header className="bg-white shadow-card">
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
@@ -40,7 +47,14 @@ const Menu = () => {
             <ul className="flex items-center gap-6 text-sm">
               {MenuItems.map((item) => (
                 <li key={item.title}>
-                  <Link scroll={false} className="text-black transition hover:text-gray-500/75 font-primary font-semibold" href={item.link}>
+                  <Link
+                    scroll={false}
+                    className={cn(
+                      'transition hover:text-gray-500/75 font-primary font-semibold',
+                      pathname == item.link ? 'text-primary font-bold' : 'text-black',
+                    )}
+                    href={item.link}
+                  >
                     {item.title}
                   </Link>
                 </li>

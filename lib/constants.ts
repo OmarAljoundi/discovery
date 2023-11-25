@@ -1,39 +1,38 @@
-import { Brush, Contact2, MapPin, Plane, Settings } from 'lucide-react'
+import { Brush, BusFront, Contact, Contact2, Hotel, MapPin, Plane, Settings } from 'lucide-react'
 
-export const MenuItems = [
+type MenuItemsProps = {
+  label: string
+  icon: React.ComponentType<any>
+  href: string
+  subMenu?: MenuButtonProps[]
+}
+
+export type MenuButtonProps = {
+  label: string
+  href: string
+  button?: {
+    label: string
+    type: 'link' | 'trigger'
+    action?: any
+    href?: string
+  }
+}
+
+export const MenuItems: MenuItemsProps[] = [
   {
     label: 'Tours',
     icon: Plane,
     href: '/admin/dashboard/tour',
-    subMenu: [
-      {
-        label: 'Tours List',
-        href: '/admin/dashboard/tour',
-        button: {
-          label: 'Create new',
-          type: 'link',
-          href: '/admin/dashboard/tour/create-new',
-        },
-      },
-      {
-        label: 'Tour Types',
-        href: '/admin/dashboard/tour/types',
-        button: {
-          label: 'Create new',
-          type: 'trigger',
-          href: 'onOpenTourType',
-        },
-      },
-      {
-        label: 'Tour Hotels',
-        href: '/admin/dashboard/tour/hotels',
-        button: {
-          label: 'Create new',
-          type: 'trigger',
-          href: 'onHotelCreate',
-        },
-      },
-    ],
+  },
+  {
+    label: 'Tour Types',
+    icon: BusFront,
+    href: '/admin/dashboard/tour/types',
+  },
+  {
+    label: 'Tour Hotels',
+    icon: Hotel,
+    href: '/admin/dashboard/tour/hotels',
   },
   {
     label: 'Destination',
@@ -46,42 +45,14 @@ export const MenuItems = [
     href: '/admin/dashboard/customer',
   },
   {
+    label: 'Newsletter',
+    icon: Contact,
+    href: '/admin/dashboard/newsletter',
+  },
+  {
     label: 'Settings',
     icon: Settings,
     href: '/admin/dashboard/setting',
-    subMenu: [
-      {
-        label: 'Home Setting',
-        href: '/admin/dashboard/setting',
-        button: {
-          label: 'Create new',
-          type: 'link',
-          href: '/admin/dashboard/setting/create-new',
-        },
-      },
-      {
-        label: 'Visa Setting',
-        href: '/admin/dashboard/setting/visa',
-        button: {
-          label: 'Create new',
-          type: 'link',
-          href: '/admin/dashboard/setting/visa/create-new',
-        },
-      },
-      {
-        label: 'FAQ Setting',
-        href: '/admin/dashboard/setting/faq',
-        button: {
-          label: 'Create new',
-          type: 'link',
-          href: '/admin/dashboard/setting/faq/create-new',
-        },
-      },
-      {
-        label: 'Best Tours Settings',
-        href: '/admin/dashboard/setting/best-tours',
-      },
-    ],
   },
 ]
 

@@ -15,6 +15,7 @@ import { REVALIDATE_HOTEL_LIST } from '@/lib/keys'
 import { createHotel, updateHotel } from '@/lib/operations'
 import { HotalSchema } from '@/types/validations'
 import { cn } from '@/lib/utils'
+import SingleImageForm from '../common/single-image-form'
 interface HotelModalProps {}
 
 const HotelModal: FunctionComponent<HotelModalProps> = () => {
@@ -38,7 +39,7 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
       })
     } else {
       toast.promise(createHotel(formData), {
-        loading: 'Loading, Creating your destination...',
+        loading: 'Loading, Creating your hotel...',
         error(error) {
           return error
         },
@@ -47,7 +48,6 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
           router.refresh()
           resetForm()
           onClose()
-          router.push(`/admin/dashboard/tour/hotels`)
           return 'Hotel created successfully'
         },
       })
@@ -79,7 +79,7 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
       isOpen={modal.isOpenHotel}
       onClose={modal.onClose}
       dialogClass="px-2"
-      size="4xl"
+      size="5xl"
       title={`${modal.data ? 'Update Hotal' : 'Create new hotal'}`}
       renderFooter={() => {
         return (
@@ -94,48 +94,105 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
       <form className="grid space-y-4 mt-4 gap-x-4 mb-4">
         <div className="space-y-4">
           <div className="grid gap-y-4">
-            <MultipleImageForm formik={formik} field="images" maxNumber={10}>
-              <div className={cn(values.images && values.images.length > 0 ? 'flex flex-wrap gap-6 px-2 pb-4' : '')}>
-                {values.images?.map((image, index) => (
-                  <div className="image-item border rounded-xl relative dark:bg-white w-28 mt-5" key={index}>
-                    <Image src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}${image}`} alt="" className="rounded-xl w-28 h-16" />
-                    <ShcdnButton
-                      type="button"
-                      size={'icon'}
-                      variant={'ghost'}
-                      className="absolute -top-2 -right-2 bg-white w-6 h-6 rounded-full border border-red-600 z-50"
-                      onClick={() => onImageRemove(index)}
-                    >
-                      <X className="w-4 h-4 text-red-600" />
-                    </ShcdnButton>
+            <div className="grid grid-cols-12 gap-x-2">
+              <div className="col-span-8">
+                <h1 className="text-xl text-center mb-2">Hotel Images</h1>
+                <MultipleImageForm formik={formik} field="images" maxNumber={10}>
+                  <div className={cn(values.images && values.images.length > 0 ? 'flex flex-wrap gap-6 px-2 pb-4' : '')}>
+                    {values.images?.map((image, index) => (
+                      <div className="image-item border rounded-xl relative dark:bg-white w-28 mt-5" key={index}>
+                        <Image src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}${image}`} alt="" className="rounded-xl w-28 h-16" />
+                        <ShcdnButton
+                          type="button"
+                          size={'icon'}
+                          variant={'ghost'}
+                          className="absolute -top-2 -right-2 bg-white w-6 h-6 rounded-full border border-red-600 z-50"
+                          onClick={() => onImageRemove(index)}
+                        >
+                          <X className="w-4 h-4 text-red-600" />
+                        </ShcdnButton>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                </MultipleImageForm>
               </div>
-            </MultipleImageForm>
-            <Input
-              label="Hotal Name"
-              labelPlacement="outside"
-              placeholder="Enter hotal name"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              onClear={() => setFieldValue('name', '')}
-              value={values.name || ''}
-              name="name"
-              isInvalid={touched.name && !!errors.name}
-              errorMessage={errors.name}
-            />
-            <Input
-              type="number"
-              label="Hotal Rating"
-              labelPlacement="outside"
-              placeholder="Enter hotal rating"
-              name="rating"
-              value={values.rating?.toString() ?? ''}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              isInvalid={touched.rating && !!errors.rating}
-              errorMessage={errors.rating}
-            />
+              <div className="col-span-4">
+                <h1 className="text-xl text-center mb-2">Hotel Logo Image</h1>
+
+                <SingleImageForm formik={formik} field="hotel_logo" maxNumber={1}>
+                  {values.hotel_logo && (
+                    <div className="px-2 pb-4">
+                      <div className="image-item border rounded-xl relative dark:bg-white w-28 mt-5">
+                        <Image src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}${values.hotel_logo}`} alt="" className="rounded-xl w-28 h-16" />
+                        <ShcdnButton
+                          type="button"
+                          size={'icon'}
+                          variant={'ghost'}
+                          className="absolute -top-2 -right-2 bg-white w-6 h-6 rounded-full border border-red-600 z-50"
+                          onClick={() => setFieldValue('hotel_logo', null)}
+                        >
+                          <X className="w-4 h-4 text-red-600" />
+                        </ShcdnButton>
+                      </div>
+                    </div>
+                  )}
+                </SingleImageForm>
+              </div>
+            </div>
+            <div className="mt-4 space-y-4">
+              <div className="flex gap-x-4">
+                <Input
+                  label="Hotal Name"
+                  labelPlacement="outside"
+                  placeholder="Enter hotal name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onClear={() => setFieldValue('name', '')}
+                  value={values.name || ''}
+                  name="name"
+                  isInvalid={touched.name && !!errors.name}
+                  errorMessage={errors.name}
+                />
+                <Input
+                  type="number"
+                  label="Hotal Rating"
+                  labelPlacement="outside"
+                  placeholder="Enter hotal rating"
+                  name="rating"
+                  value={values.rating?.toString() ?? ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={touched.rating && !!errors.rating}
+                  errorMessage={errors.rating}
+                />
+              </div>
+              <div className="flex gap-x-4">
+                <Input
+                  label="Period"
+                  labelPlacement="outside"
+                  placeholder="Enter staying period"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  onClear={() => setFieldValue('period', '')}
+                  value={values.period?.toString()}
+                  name="period"
+                  type="number"
+                  isInvalid={touched.period && !!errors.period}
+                  errorMessage={errors.period}
+                />
+                <Input
+                  label="Hotal Place"
+                  labelPlacement="outside"
+                  placeholder="Enter hotal place"
+                  name="place"
+                  value={values.place?.toString() ?? ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  isInvalid={touched.place && !!errors.place}
+                  errorMessage={errors.place}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </form>

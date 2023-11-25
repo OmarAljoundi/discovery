@@ -17,8 +17,8 @@ import { motion } from 'framer-motion'
  */ export default function Globe() {
   const props = {
     background: '',
-    baseColor: '#7b40a7',
-    glowColor: '#7b40a7',
+    baseColor: '#ffffff',
+    glowColor: '#ffffff',
     markerColor: '#7b40a7',
     isDraggable: true,
     dragOptions: { stiffness: 200, damping: 40, mass: 1 },
@@ -30,7 +30,11 @@ import { motion } from 'framer-motion'
     mapBrightness: 20,
     maxSamples: 2e4,
     markerSize: 0.1,
-    markerArray: [{ latitude: 52.3676, longitude: 4.9041 }],
+    markerArray: [
+      { latitude: 52.3676, longitude: 4.9041 },
+      { latitude: -40.3676, longitude: 2.9041 },
+      { latitude: 30.3676, longitude: 50.9041 },
+    ],
     scale: 1,
     alignment: 'center',
     maxWidth: 400,
@@ -70,7 +74,7 @@ import { motion } from 'framer-motion'
     restDelta: 1e-4,
     restSpeed: 1e-4,
   })
-  const fadeMask = 'radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 70%)'
+  const fadeMask = 'radial-gradient(circle at 50% 50%, rgba(255,255,255,1) 60%, rgba(255,255,255,0) 70%)'
   useEffect(() => {
     let phiValue = phi
     let width = 0
@@ -199,8 +203,8 @@ import { motion } from 'framer-motion'
   )
 }
 /* Default properties */ Globe.defaultProps = {
-  background: '#000000',
-  baseColor: '#333333',
+  background: '#ffffff',
+  baseColor: '#ffffff',
   glowColor: '#ffffff',
   markerColor: '#ffffff',
   isDraggable: true,

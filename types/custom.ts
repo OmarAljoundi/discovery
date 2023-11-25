@@ -49,10 +49,19 @@ export type Hotel = {
   created_at?: string
   id?: number
   images?: string[] | null
+  period?: number
+  place?: string
+  hotel_logo?: string
   name?: string | null
   rating?: number | null
 }
 
+export type Newsletter = {
+  created_at?: string
+  id?: number
+  email?: string | null
+  phone_number?: string | null
+}
 export type TourHotels = {
   id?: number
   created_at?: string
@@ -116,7 +125,9 @@ export type User = {
 export type Customer = {
   closed_notes?: string | null
   created_at?: string
-  expected_travel_date?: string | null
+  tour_id?: number
+  expected_travel_date?: Date | null
+  contact_method?: string | null
   id?: number
   name?: string
   notes?: string | null
@@ -124,6 +135,7 @@ export type Customer = {
   number_of_kids?: number | null
   phone_number?: string
   status?: string
+  tour?: Tour
 }
 export type Response<T> = {
   message: string
@@ -134,12 +146,16 @@ export type Response<T> = {
 
 export type Setting = {
   home?: Home
-  about?: Seo
   visa?: Visa
   faq?: Faq[]
+  about_us?: FaqSeo
+  faq_seo?: FaqSeo
+  customers_review?: CustomerReview
   best_tours?: BestTours
 }
-
+export type FaqSeo = {
+  seo: Seo
+}
 export type BestTours = {
   tours?: number[]
   seo: Seo
@@ -163,6 +179,17 @@ export type Faq = {
   description?: string
 }
 
+export type CustomerReview = {
+  review?: Review[]
+  seo?: Seo
+}
+
+export type Review = {
+  uuid: string
+  title: string
+  description: string
+}
+
 export type VisaType = {
   title?: string
   sub_title?: string
@@ -181,4 +208,16 @@ export type Slider = {
   sub_title: string
   call_to_action: string
   call_to_action_link: string
+}
+
+export enum eCustomerStatus {
+  All = 0,
+  Pending = 1,
+  Completed = 2,
+  No_Answer = 3,
+}
+
+export enum eContactMethod {
+  WhatsApp = 1,
+  Call = 2,
 }

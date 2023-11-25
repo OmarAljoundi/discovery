@@ -3,6 +3,7 @@ import { ImageListType, ImageType } from 'react-images-uploading'
 import { supabaseClient } from './supabaseClient'
 import { ATTACHMENT_PATH, CONFIG_PATH, SETTING_PATH } from './keys'
 import { v4 } from 'uuid'
+import { getContentData } from './operations'
 
 export const UploadProductImages = async (
   files: ImageListType,
@@ -33,7 +34,7 @@ export const ListAllImagesInBucket = async (limit: number = 10, offest: number =
   var _SO: any = {
     limit: limit,
     offset: offest,
-    sortBy: { column: 'name', order: 'asc' },
+    sortBy: { column: 'created_at', order: 'desc' },
   }
   if (search) {
     _SO['search'] = search
@@ -125,4 +126,83 @@ function containsArabicText(word: string): string {
   const words = word.split('.')
   const arabicRegex = /[\u0600-\u06FF]/
   return arabicRegex.test(words[0]) ? `${v4()}.${words[1]}` : word
+}
+
+function extractLastPart(url: string): string {
+  const lastSlashIndex = url.lastIndexOf('/')
+  const lastPart = url.substring(lastSlashIndex + 1)
+
+  return `tour_images/${lastPart}`
+}
+export async function getImagePlacecs(_imagePrefix: string) {
+  let total = 0
+  var results = new Map()
+  var imagePrefix = extractLastPart(_imagePrefix)
+
+  const tour_result = supabaseClient
+    .from('tour')
+    .select('*')
+    .containedBy('images', [`${imagePrefix}`])
+
+  const hotel_result = supabaseClient.from('hotel').select('*').or(`hotel_logo.eq.${imagePrefix}, images.cs.{${imagePrefix}}`)
+
+  const location_result = supabaseClient.from('location').select('id,name,image').eq('image ->> url', imagePrefix)
+
+  const types_result = supabaseClient.from('tour_type').select('*').eq('image', imagePrefix)
+
+  const content = getContentData()
+
+  const [a1, a2, a3, a4, a5] = await Promise.all([tour_result, location_result, types_result, content, hotel_result])
+
+  const sliders_result = a4?.home?.sliders?.filter((x) => x.image == imagePrefix)
+  const visaes_result = a4?.visa?.visa_types?.filter((x) => x.image == imagePrefix)
+
+  if (a1.data && a1.data.length > 0) {
+    total += a1.data.length
+    results.set('Tours', a1.data)
+  }
+
+  if (a2.data && a2.data.length > 0) {
+    total += a2.data?.length
+    results.set('Destinations', a2.data)
+  }
+
+  if (a3.data && a3.data.length > 0) {
+    total += a3.data?.length
+    results.set('Tour Types', a3.data)
+  }
+
+  if (sliders_result && sliders_result?.length > 0) {
+    total += sliders_result.length
+    results.set(
+      'Home Sliders',
+      sliders_result.map((s) => {
+        return {
+          name: s.title,
+        }
+      }),
+    )
+  }
+
+  if (visaes_result && visaes_result.length > 0) {
+    total += visaes_result.length
+    results.set(
+      'Visa',
+      visaes_result.map((v) => {
+        return {
+          name: v.title,
+        }
+      }),
+    )
+  }
+
+  if (a5.data && a5.data.length > 0) {
+    total += a5.data.length
+    results.set('Hotels', a5.data)
+  }
+
+  return {
+    results,
+    total,
+  }
 }

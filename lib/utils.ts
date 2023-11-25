@@ -7,6 +7,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export type FunctionKeys<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
+}[keyof T];
 
 export const DAYSFILTER = [
   { label: "من 5 إلى 9 أيام", value: "t1",period:[5,6,7,8,9] },

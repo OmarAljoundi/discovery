@@ -34,21 +34,27 @@ const MobileMenu = () => {
           <div className="flex justify-center flex-wrap flex-1">
             <div className="flex justify-center">
               <div className="contact-info flex justify-center gap-4 ">
-                <AiOutlineWhatsApp className="text-primary text-2xl" />
-                <AiOutlineInstagram className="text-primary text-2xl" />
-                <HiOutlineMapPin className="text-primary text-2xl" />
+                <a href="https://api.whatsapp.com/send/?phone=%2B96895929251&text&type=phone_number&app_absent=0" target="_blank">
+                  <AiOutlineWhatsApp className="text-primary text-2xl" />
+                </a>
+                <a href="https://maps.app.goo.gl/iY9WwncyNi7rJXvu7" target="_blank">
+                  <HiOutlineMapPin className="text-primary text-2xl" />
+                </a>
+                <a href="https://www.instagram.com/Discovery.oman/" target="_blank">
+                  <AiOutlineInstagram className="text-primary text-2xl" />
+                </a>
               </div>
             </div>
             <Separator className="my-4" />
             <div className="contact-info grid gap-2 justify-items-center ">
               <div className="flex gap-3 items-center">
                 <span className="text-primary font-bold " dir="ltr">
-                  +968 95 9292 10
+                  +968-99801355
                 </span>
                 <Phone className="text-primary" />
               </div>
               <div className="flex gap-3 items-center">
-                <span className="text-primary font-bold font-english">sales@discovery.com</span>
+                <span className="text-primary font-bold font-english">info@discovery-om.com</span>
                 <AtSign className="text-primary" />
               </div>
             </div>

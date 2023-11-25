@@ -9,6 +9,7 @@ import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/op
 import HeroSection from './(components)/(hero)/hero-section'
 import TourTypesList from './(components)/(third)/tour-types-list'
 import TourTypeLoading from './(components)/(third)/tour-type-loading'
+import { Metadata } from 'next'
 
 const Destination = ImportDynamic(() => import('./(components)/(first)/destination').then((mod) => mod.default), {
   ssr: false,
@@ -22,12 +23,27 @@ const BestTours = ImportDynamic(() => import('./(components)/(second)/best-tours
 const TourTypes = ImportDynamic(() => import('./(components)/(third)/tour-type').then((mod) => mod.default), {
   ssr: false,
 })
-const FaqList = ImportDynamic(() => import('./(components)/(fourth)/faq-list').then((mod) => mod.default), {
-  ssr: false,
-})
+
 const CallToAction = ImportDynamic(() => import('./(components)/(fifth)/call-to-action').then((mod) => mod.default), {
   ssr: false,
 })
+
+export async function generateMetadata(): Promise<Metadata> {
+  const response = await getContentData()
+
+  const { description, tags, title } = response?.home?.seo || { title: '', description: '', tags: '' }
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'website',
+      siteName: 'Discovery',
+    },
+    keywords: tags,
+  }
+}
 export default async function Home() {
   const query = new QueryClient()
   await query.prefetchQuery({

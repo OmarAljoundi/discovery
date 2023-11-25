@@ -35,6 +35,14 @@ export function DataTableSearchInput<TData, TValue>({ column, title, placeholder
       <Input
         placeholder={placeholder}
         value={value}
+        size="sm"
+        classNames={{
+          base: 'min-h-fit p-0 h-unit-8 ',
+          mainWrapper: 'min-h-fit p-0 h-unit-8',
+          inputWrapper: 'min-h-fit h-unit-8',
+          innerWrapper: 'min-h-fit h-unit-8',
+          input: 'min-h-fit h-unit-8',
+        }}
         onChange={(event) => setValue(event.target.value)}
         className=" w-[calc(100%-10px)]  border-dashed"
         startContent={<SearchIcon className="text-black/50 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />}

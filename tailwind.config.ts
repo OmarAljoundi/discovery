@@ -23,6 +23,10 @@ const config: Config = {
       boxShadow: {
         card: 'var(--card-shadow)',
       },
+      fontFamily: {
+        specialAr: ['var(--font-special-arabic)'],
+        specialEn: ['var(--font-special-english)'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

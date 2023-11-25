@@ -20,7 +20,7 @@ const ImageForm: FunctionComponent<ImageFormProps> = ({ formik }) => {
   return (
     <div className="col-span-3  xl:col-span-2">
       <CommonImageForm formik={formik} field="images" maxNumber={5}>
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
           {formik.values.images?.map((image, index) => (
             <div key={index} className="image-item  border rounded-xl relative dark:bg-white">
               <img src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}${image}`} alt="" className="w-full rounded-xl " />

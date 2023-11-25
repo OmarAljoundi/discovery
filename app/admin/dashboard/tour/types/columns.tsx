@@ -9,6 +9,8 @@ import { Filters } from '@/hooks/use-filter-modal'
 import { TourType } from '@/types/custom'
 import { Avatar } from '@nextui-org/react'
 import { REVALIDATE_TOUR_TYPE } from '@/lib/keys'
+import { SelectOptionsProps } from '@/hooks/use-select-options-modal'
+import { Edit, Trash } from 'lucide-react'
 
 export const columns: ColumnDef<TourType>[] = [
   {
@@ -68,12 +70,14 @@ export const columns: ColumnDef<TourType>[] = [
             label: 'Edit',
             action: 'onOpenTourType',
             type: 'Trigger',
+            icon: Edit,
           },
           {
             label: 'Delete',
             type: 'Promise',
+            icon: Trash,
             action: async () => {
-              const { data, error } = await supabaseClient.from('tour').delete().eq('id', row.original.id!)
+              const { data, error } = await supabaseClient.from('tour_type').delete().eq('id', row.original.id!)
               if (error) {
                 console.log('error', error)
                 return {
@@ -95,3 +99,11 @@ export const columns: ColumnDef<TourType>[] = [
 ]
 
 export const filterOptions: Filters[] = []
+
+export const selectOptions: SelectOptionsProps[] = [
+  {
+    requireSelections: false,
+    title: 'Create New Tour Type',
+    action: 'onOpenTourType',
+  },
+]

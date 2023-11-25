@@ -223,7 +223,7 @@ const DestinationModal = () => {
                 value={values.seo?.description || ''}
                 name="seo.description"
                 isInvalid={touched.seo && !!errors.seo}
-                description={`Seo description should not be higher than 150 character (${values.seo?.description.length ?? 0} / 150)`}
+                description={`Seo description should not be higher than 150 character (${values.seo?.description?.length ?? 0} / 150)`}
               />
             </div>
           </Tab>

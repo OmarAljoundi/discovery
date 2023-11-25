@@ -1,16 +1,62 @@
 'use client'
-import IconTourProvider from '@/provider/icon-tour-provider'
-import { Button } from '@nextui-org/react'
-import { FunctionComponent, useRef } from 'react'
-import { PiShootingStarThin } from 'react-icons/pi'
+import { Button, Input } from '@nextui-org/react'
+import { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Globe from '@/lib/globe'
+import { joinNewLetter } from '@/lib/operations'
+import { CiCircleCheck } from 'react-icons/ci'
+import IconTourProvider from '@/provider/icon-tour-provider'
+import { IoCloseCircleOutline } from 'react-icons/io5'
+
 interface CallToActionProps {}
 
 const CallToAction: FunctionComponent<CallToActionProps> = () => {
+  const emailOrPhone = useRef<HTMLInputElement | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState<{ message?: string; success: boolean }>()
+
+  const handleSubmit = async () => {
+    setLoading(true)
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    var request: any = {}
+
+    if (emailRegex.test(emailOrPhone.current!.value)) {
+      request.email = emailOrPhone.current!.value
+    } else {
+      request.phone_number = emailOrPhone.current!.value
+    }
+
+    var result = await joinNewLetter(request)
+
+    if (result.success) {
+      emailOrPhone.current!.value = ''
+    }
+    setResponse(result)
+
+    setLoading(false)
+  }
+
+  const isValidInput = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const phoneRegex = /^\d{10}$/
+
+    if (emailRegex.test(emailOrPhone.current?.value ?? '')) {
+      return true
+    } else if (phoneRegex.test(emailOrPhone.current?.value ?? '')) {
+      return true
+    } else {
+      setResponse({
+        success: false,
+        message: 'الرجاء ادخال رقم صحيح او ايميل صحيح',
+      })
+      return false
+    }
+  }
+
   return (
-    <div className="pt-20 pb-36 bg-primary/25 z-[1] relative block overflow-hidden">
-      <div className="call-to-action bg-[50%]   opacity-5 -z-[1] bg-cover bg-no-repeat absolute top-0 right-0 left-0 bottom-0 "></div>
+    <div className="pt-10 lg:pt-20 pb-36 bg-primary z-[1] relative block overflow-hidden">
+      <div className="call-to-action bg-[50%]  opacity-5 -z-[1] bg-cover bg-no-repeat absolute top-0 right-0 left-0 bottom-0"></div>
 
       <Globe />
 
@@ -31,23 +77,64 @@ const CallToAction: FunctionComponent<CallToActionProps> = () => {
           },
         }}
       >
-        <div className="flex-col md:flex-row flex justify-between space-y-4 items-center">
+        <div className="flex-col md:flex-row flex justify-between space-y-9 items-center">
           <div className="justify-items-center md:justify-items-start grid text-black space-y-2">
-            <h3 className="text-xl lg:text-2xl">خطط لرحلتك المسقبلية اليوم</h3>
-            <h1 className="text-2xl text-center md:text-right lg:text-4xl ">من الشرق الى غرب ، سافر اليوم معنا وعش تجربة لاتنسى</h1>
+            <h3 className="text-4xl text-white ">لكل رحلة .. حكاية</h3>
+            <h1 className="text-2xl text-center  font-specialEn md:text-right  lg:text-4xl text-white direc">Every Journey .. Has a story</h1>
           </div>
-          <Button
-            variant="solid"
-            className="w-72 h-16 bg-black text-white"
-            size="lg"
-            endContent={
-              <IconTourProvider background="white">
-                <PiShootingStarThin />
-              </IconTourProvider>
-            }
-          >
-            سافر الآن
-          </Button>
+
+          <div className="grid gap-y-2 justify-items-center lg:justify-items-start max-w-sm w-full">
+            <Input
+              label="البريد الإلكتروني او رقم الهاتف"
+              classNames={{
+                label: 'text-white lg:text-right right-0 text-base lg:text-xl mx-auto left-0 text-center',
+                inputWrapper: 'rounded-sm',
+                input: 'placeholder:text-right',
+              }}
+              ref={emailOrPhone}
+              dir="ltr"
+              labelPlacement="outside"
+              placeholder="الرجاء إدخال رقم الهاتف او البريد الإلكتروني"
+              isInvalid={response?.success == false}
+              isClearable
+            />
+            {response?.success != true && (
+              <Button
+                variant="solid"
+                className="h-12 bg-black text-white font-bold w-fit px-10"
+                size="sm"
+                isLoading={loading}
+                onPress={() => {
+                  if (isValidInput()) {
+                    handleSubmit()
+                  }
+                }}
+              >
+                سجل لتصلك أخر العروض
+              </Button>
+            )}
+            {response?.success == true && (
+              <div className="bg-white shadow-medium p-4 rounded-medium relative z-50">
+                <div className="flex justify-start items-center gap-x-2">
+                  <IconTourProvider>
+                    <CiCircleCheck />
+                  </IconTourProvider>
+                  <h1>شكراً لك .. تم اضافتك للقائمة بنجاح</h1>
+                </div>
+              </div>
+            )}
+
+            {response?.success == false && (
+              <div className="bg-danger-50 shadow-medium p-4 rounded-medium relative z-50">
+                <div className="flex justify-start items-center gap-x-2">
+                  <IconTourProvider>
+                    <IoCloseCircleOutline />
+                  </IconTourProvider>
+                  <h1>{response.message}</h1>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

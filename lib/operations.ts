@@ -1,12 +1,22 @@
 'use server'
-import { Hotel, Location, LocationAttributes, Response, Setting, Tour, TourType } from '@/types/custom'
+import { Customer, Hotel, Location, LocationAttributes, Newsletter, Response, Setting, Tour, TourType } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
-import { CONFIG_PATH, REVALIDATE_HOTEL_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE, SETTING_PATH } from './keys'
+import {
+  CONFIG_PATH,
+  REVALIDATE_CUSTOMER_LIST,
+  REVALIDATE_HOTEL_LIST,
+  REVALIDATE_LOCATION_LIST,
+  REVALIDATE_NEWSLETTER_LIST,
+  REVALIDATE_TOUR_LIST,
+  REVALIDATE_TOUR_TYPE,
+  SETTING_PATH,
+} from './keys'
 import { SearchQuery } from '@/types/search'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types/supabase'
 import { cookies } from 'next/headers'
+import { format } from 'date-fns'
 
 export async function updateTourStatus(status: boolean, id: number): Promise<Response<any>> {
   const { error } = await supabaseClient.from('tour').update({ is_active: status }).eq('id', id)
@@ -34,7 +44,6 @@ export async function getTourTypes(): Promise<Response<TourType>> {
   const response = await http<Response<TourType>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_TYPE] }).post(_SQ)
   return response
 }
-
 export async function createTour(tour: Tour) {
   const _tour = { ...tour }
   delete _tour.tour_hotels
@@ -68,7 +77,6 @@ export async function createTour(tour: Tour) {
 
   return data
 }
-
 export async function updateTour(tour: Tour) {
   const _tour = { ...tour }
   delete _tour.tour_hotels
@@ -113,7 +121,6 @@ export async function updateTour(tour: Tour) {
 
   return data
 }
-
 export async function createTourType(type: TourType) {
   const { data, error } = await supabaseClient
     .from('tour_type')
@@ -128,7 +135,6 @@ export async function createTourType(type: TourType) {
 
   return data
 }
-
 export async function updateTourType(type: TourType) {
   const { data, error } = await supabaseClient
     .from('tour_type')
@@ -144,7 +150,6 @@ export async function updateTourType(type: TourType) {
 
   return data
 }
-
 export async function createDestination(dest: Location) {
   const { data, error } = await supabaseClient
     .from('location')
@@ -159,7 +164,6 @@ export async function createDestination(dest: Location) {
 
   return data
 }
-
 export async function updateDestination(dest: Location) {
   const { data, error } = await supabaseClient
     .from('location')
@@ -187,7 +191,6 @@ export async function getTours() {
   const response = await http<Response<Tour>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST] }).post(_SQ)
   return response.results
 }
-
 export async function getDestination() {
   var _SQ: SearchQuery = {
     FilterByOptions: [],
@@ -212,51 +215,32 @@ export async function getHotels() {
   const data = await http<Response<Hotel>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_HOTEL_LIST] }).post(_SQ)
   return data.results
 }
+export async function deleteLocationAttr(location_id: number) {
+  const { data, error } = await supabaseClient.from('location_attributes').delete().eq('location_id', location_id)
+
+  if (error) {
+    throw new Error(`An error occured in operation deleteLocationAttr ${error.message}`)
+  }
+}
 export async function createDestinationAttr(destinationAttr: LocationAttributes) {
   let id: number = 0
 
-  if (destinationAttr.id) {
-    const { error } = await supabaseClient.from('location_tours').delete().eq('location_attr_id', destinationAttr.id)
-    if (error) {
-      console.log('error', error)
-      throw new Error('Error happend while delete destination tours')
-    }
+  const locationAtrrResponse = await supabaseClient
+    .from('location_attributes')
+    .insert({
+      order: Number(destinationAttr.order),
+      seo: destinationAttr.seo,
+      title: destinationAttr.title,
+      location_id: destinationAttr.location_id,
+    })
+    .select('*')
+    .single()
 
-    const locationAtrrResponse = await supabaseClient
-      .from('location_attributes')
-      .update({
-        order: Number(destinationAttr.order),
-        seo: destinationAttr.seo,
-        title: destinationAttr.title,
-        location_id: destinationAttr.location_id,
-      })
-      .eq('id', destinationAttr.id!)
-      .select('*')
-      .single()
-
-    if (locationAtrrResponse.error) {
-      throw new Error('Error happend while updating destination tours ' + locationAtrrResponse.error.message)
-    }
-
-    id = locationAtrrResponse.data.id
-  } else {
-    const locationAtrrResponse = await supabaseClient
-      .from('location_attributes')
-      .insert({
-        order: Number(destinationAttr.order),
-        seo: destinationAttr.seo,
-        title: destinationAttr.title,
-        location_id: destinationAttr.location_id,
-      })
-      .select('*')
-      .single()
-
-    if (locationAtrrResponse.error) {
-      throw new Error('Error happend while creating destination tours ' + locationAtrrResponse.error.message)
-    }
-
-    id = locationAtrrResponse.data.id
+  if (locationAtrrResponse.error) {
+    throw new Error('Error happend while creating destination tours ' + locationAtrrResponse.error.message)
   }
+
+  id = locationAtrrResponse.data.id
 
   if (destinationAttr.location_tours && destinationAttr.location_tours.length > 0) {
     const locationToursResponse = await supabaseClient.from('location_tours').insert(
@@ -274,6 +258,7 @@ export async function createDestinationAttr(destinationAttr: LocationAttributes)
     }
   }
 }
+
 export const getCurrentUser = async (): Promise<boolean | undefined> => {
   const supabase = createRouteHandlerClient<Database>({ cookies })
   const { data: session_response, error: session_error } = await supabase.auth.getUser()
@@ -327,4 +312,57 @@ export const getContentData = async () => {
     responseData = (await response.json()) as Setting
   }
   return responseData
+}
+export const joinNewLetter = async (req: Newsletter) => {
+  const { error } = await supabaseClient.from('newsletter').insert(req)
+  if (error && error.code !== '23505') {
+    return {
+      success: false,
+      message: 'حدث خطأ ما .. اذا تكرر الأمر الرجاء تواصل معنا',
+    }
+  } else if (error && error.code == '23505') {
+    return {
+      success: false,
+      message: 'انت بالفعل مسجل لدينا!',
+    }
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_NEWSLETTER_LIST}`, { revalidate: 0 }).get()
+
+  return {
+    success: true,
+  }
+}
+
+export async function submitForm(formData: Customer) {
+  const { data, error } = await supabaseClient
+    .from('customer')
+    .insert(formData as any)
+    .select('*,tour(name)')
+    .single()
+
+  if (error) {
+    console.log('error', error)
+    return {
+      error: error.details,
+      success: false,
+    }
+  }
+
+  // var currentDate = format(new Date(data.created_at), "dd/MM/yyyy");
+  // await http<Response<any>>("/api/mail", { revalidate: 0 }).post({
+  //   note: data.notes,
+  //   tour_name: data.tour?.name,
+  //   created_at: currentDate,
+  //   customer_name: data.name,
+  //   contact_option:data.contact_method,
+  //   customer_number: data.phone_number,
+  // });
+
+  await http<Response<any>>(`/api/revalidate?tag=${REVALIDATE_CUSTOMER_LIST}`, {
+    revalidate: 0,
+  }).get()
+  return {
+    success: true,
+  }
 }

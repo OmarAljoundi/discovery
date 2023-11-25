@@ -12,8 +12,6 @@ interface TourSectionInfoProps {
 }
 
 const TourSectionInfo: FunctionComponent<TourSectionInfoProps> = ({ tour }) => {
-  tour.airpot_coming = 'مطار دبي الدولي'
-  tour.airpot_going = 'مطار الملك عبد العزيز الدولي'
   return (
     <div className="shadow-medium rounded-medium p-4">
       <h4 className="mb-0 text-2xl font-semibold font-primary">{tour.name}</h4>

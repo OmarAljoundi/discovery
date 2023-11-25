@@ -29,7 +29,6 @@ const BestToursForm: FunctionComponent<BestToursFormProps> = () => {
     setGroupSelected([...groupSelected.filter((x) => x !== String(id))])
   }
 
-  console.log('config.setting?', config.setting)
   useEffect(() => {
     setGroupSelected(config.setting?.best_tours?.tours?.map((x) => x.toString()) ?? [])
   }, [config.setting?.best_tours])

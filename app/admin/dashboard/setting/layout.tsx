@@ -1,30 +1,24 @@
-export const revalidate = 0
-
-import { CONFIG_PATH, SETTING_PATH } from '@/lib/keys'
-import { supabaseClient } from '@/lib/supabaseClient'
+import { Separator } from '@/components/ui/separator'
+import { getContentData } from '@/lib/operations'
 import SettingLayoutProvider from '@/provider/setting-layout-provider'
-import { Setting } from '@/types/custom'
 import { FunctionComponent, ReactNode } from 'react'
-interface SettingLayoutProps {
-  children: ReactNode
+import { SidebarNav } from './sidebar-nav'
+
+export default async function SettingLayout({ children }: { children: ReactNode }) {
+  const responseData = await getContentData()
+
+  return (
+    <SettingLayoutProvider settingData={responseData}>
+      <div className="hidden space-y-6 p-10 pb-16 md:block">
+        <div className="space-y-0.5">
+          <p className="text-muted-foreground">Manage your settings </p>
+        </div>
+        <Separator className="my-6" />
+        <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
+          <SidebarNav />
+          <div className="flex-1 ">{children}</div>
+        </div>
+      </div>
+    </SettingLayoutProvider>
+  )
 }
-
-const SettingLayout: FunctionComponent<SettingLayoutProps> = async ({ children }) => {
-  const { data, error } = await supabaseClient.storage.from('discovery').list(SETTING_PATH)
-
-  let responseData: Setting | undefined
-
-  if (data && data.length > 0 && data.find((x) => x.name === CONFIG_PATH)) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_IMAGE_URL}${SETTING_PATH}/${CONFIG_PATH}`, { next: { revalidate: 0 } })
-
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`)
-    }
-
-    responseData = (await response.json()) as Setting
-  }
-
-  return <SettingLayoutProvider settingData={responseData}>{children}</SettingLayoutProvider>
-}
-
-export default SettingLayout

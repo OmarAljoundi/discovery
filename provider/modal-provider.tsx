@@ -1,6 +1,7 @@
 'use client'
 
 import AttachmentModal from '@/components/modals/attachment-modal'
+import { CustomerReviewModal } from '@/components/modals/customer-review-modal'
 import DestinationModal from '@/components/modals/destination-modal'
 import DestinationToursModal from '@/components/modals/destination-tours-modal'
 import { FaqModal } from '@/components/modals/faq-modal'
@@ -35,6 +36,7 @@ export const ModalProvider = () => {
       <FaqModal />
       <SlideModal />
       <HotelModal />
+      <CustomerReviewModal />
     </>
   )
 }

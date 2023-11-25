@@ -15,7 +15,7 @@ const SettingInfo: FunctionComponent<SettingInfoProps> = ({ formik }) => {
 
   const { dirty, errors, values, handleBlur, handleChange, isValid, touched, setFieldValue, handleReset } = formik
   return (
-    <div className="grid grid-cols-4 gap-x-4 gap-y-6 items-start">
+    <div className="grid grid-cols-4 gap-x-4 gap-y-6 items-end">
       <div className="col-span-2 xl:col-span-1">
         <CustomSelect
           selectionMode="single"

@@ -1,27 +1,76 @@
-import CardAdd from '@/components/common/card-add'
+'use client'
 import { Separator } from '@/components/ui/separator'
-import { SETTING_PATH } from '@/lib/keys'
-import { GetJsonFile } from '@/lib/storage-operations'
-import { Visa } from '@/types/custom'
-import { notFound } from 'next/navigation'
-import { FunctionComponent } from 'react'
-import CardDetails from './card-details'
-import { supabaseClient } from '@/lib/supabaseClient'
+import { FunctionComponent, useState } from 'react'
 import CardList from './card-list'
+import { useSetting } from '@/hooks/use-setting'
+import { Visa } from '@/types/custom'
+import { toast } from 'sonner'
+import { PushJsonFile } from '@/lib/storage-operations'
+import { useFormik } from 'formik'
+import SeoForm from '@/components/common/seo-form'
+import { Button } from '@nextui-org/react'
+import { Save } from 'lucide-react'
 
 interface VisaPageProps {}
 
-const VisaPage: FunctionComponent<VisaPageProps> = async () => {
+const VisaPage: FunctionComponent<VisaPageProps> = () => {
+  const [loading, setLoading] = useState(false)
+  const config = useSetting()
+  const SaveChanges = (formData: Visa) => {
+    setLoading(true)
+    let newObject = { ...config.setting }
+    newObject = {
+      ...newObject,
+      visa: {
+        ...newObject.visa,
+        seo: formData.seo,
+      },
+    }
+
+    config.onCreate(newObject)
+    const jsonData = JSON.stringify(newObject)
+    const blob = new Blob([jsonData], { type: 'application/json' })
+    toast.promise(PushJsonFile(blob), {
+      loading: 'Saving your changes..',
+      error(error) {
+        return error
+      },
+      success() {
+        return 'Saved successfully'
+      },
+      finally() {
+        setLoading(false)
+      },
+    })
+  }
+  const formik = useFormik({
+    initialValues: config?.setting?.visa ?? { seo: { description: '', tags: '', title: '' } },
+    onSubmit: SaveChanges,
+    enableReinitialize: true,
+    validateOnBlur: true,
+    validateOnChange: true,
+  })
   return (
     <div className=" lg:px-4 ">
       <div className=" h-full flex-1 flex-col space-y-8 p-8 flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
+            <p className="text-xl">Visa List!</p>
             <p className="text-muted-foreground">Here&apos;s a list of your visaes!</p>
           </div>
         </div>
         <CardList />
         <Separator />
+        <div>
+          <p className="text-xl">Visa Seo!</p>
+          <p className="text-muted-foreground">Add Seo to your page to boots customers search!</p>
+        </div>
+        <form onSubmit={formik.handleSubmit} className="p-4 shadow-medium rounded-medium">
+          <SeoForm formik={formik} />
+          <Button color="primary" endContent={<Save />} type="submit" className="mt-8" isLoading={loading}>
+            Save Changes
+          </Button>
+        </form>
       </div>
     </div>
   )

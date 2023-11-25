@@ -18,7 +18,7 @@ export function DataTableDateFilter<TData, TValue>({ column, title }: DataTableD
     <div className={cn('grid xl:gap-2 w-1/2 lg:w-1/4 xl:w-1/6')}>
       <Popover>
         <PopoverTrigger asChild>
-          <Button id="date" variant={'flat'} className={cn('w-[calc(100%-10px)]  justify-start text-left font-normal')}>
+          <Button id="date" size="sm" variant={'flat'} className={cn('w-[calc(100%-10px)]  justify-start text-left font-normal')}>
             <CalendarIcon className="mr-2 h-4 w-4" />
             {(column?.getFilterValue() as DateRange)?.from ? (
               (column?.getFilterValue() as DateRange)?.to ? (

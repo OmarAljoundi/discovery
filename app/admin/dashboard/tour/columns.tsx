@@ -19,6 +19,7 @@ import { DataTableDateFilter } from '@/components/table/data-table-date-filter'
 import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter'
 import { DAYS } from '@/lib/constants'
 import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
+import { Edit, Trash } from 'lucide-react'
 
 export const columns: ColumnDef<Tour>[] = [
   {
@@ -171,10 +172,12 @@ export const columns: ColumnDef<Tour>[] = [
             label: 'Edit',
             link: `/admin/dashboard/tour/edit/${row.original.id}`,
             type: 'Link',
+            icon: Edit,
           },
           {
             label: 'Delete',
             type: 'Promise',
+            icon: Trash,
             action: async () => {
               const { data, error } = await supabaseClient.from('tour').delete().eq('id', row.original.id!)
               if (error) {
@@ -225,9 +228,8 @@ export const filterOptions: Filters[] = [
 
 export const selectOptions: SelectOptionsProps[] = [
   {
-    title: 'Assigne to locations',
-  },
-  {
-    title: 'Delete selected',
+    requireSelections: false,
+    title: 'Create New Tour',
+    link: '/admin/dashboard/tour/create-new',
   },
 ]

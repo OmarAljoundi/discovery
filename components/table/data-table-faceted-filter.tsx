@@ -26,7 +26,7 @@ export function DataTableFacetedFilter<TData, TValue>({ column, title, customOpt
     <div className={cn('grid xl:gap-2 w-1/2 lg:w-1/4 xl:w-1/6')}>
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="flat" className="w-[calc(100%-10px)]">
+          <Button variant="flat" className="w-[calc(100%-10px)]" size="sm">
             <PlusCircledIcon className="mr-2 h-4 w-4" />
             {title}
             {selectedValues?.size > 0 && (

@@ -21,7 +21,11 @@ const TourRelated: FunctionComponent<TourRelatedProps> = ({ tour }) => {
     queryKey: [REVALIDATE_TOUR_LIST],
     queryFn: async () => await getTours(),
     select: (data) => {
-      return data?.filter((x) => x.type_id == tour.type_id).slice(0, 10)
+      return data
+        ?.filter((data_tour) => {
+          return tour.tour_countries?.some((country) => data_tour.tour_countries?.includes(country.trim()))
+        })
+        .splice(0, 10)
     },
   })
 
@@ -36,7 +40,7 @@ const TourRelated: FunctionComponent<TourRelatedProps> = ({ tour }) => {
       <div className="p-4">
         <Swiper
           spaceBetween={30}
-          className="p-3"
+          className="lg:p-3"
           initialSlide={4}
           modules={[Navigation, Pagination]}
           navigation={{
@@ -69,7 +73,7 @@ const TourRelated: FunctionComponent<TourRelatedProps> = ({ tour }) => {
           }}
         >
           {data?.map((i, index) => (
-            <SwiperSlide key={index}>
+            <SwiperSlide key={index} className="!mr-0">
               <TourCard tour={i} />
             </SwiperSlide>
           ))}

@@ -1,15 +1,18 @@
 import { ListAllImagesInBucket } from '@/lib/storage-operations'
-import { FC, useEffect } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { FC, useEffect, useState } from 'react'
 import { Skeleton } from '../../ui/skeleton'
 import { formatBytes } from '@/lib/helpers'
 import { Check } from 'lucide-react'
 import { ScrollArea } from '../../ui/scroll-area'
 import { FormikProps } from 'formik'
 import { cn } from '@/lib/utils'
-import { Button, Card, CardBody, CardHeader, Image } from '@nextui-org/react'
+import { Button, Card, CardBody, CardHeader, Chip, Image } from '@nextui-org/react'
 import { TOUR_IMAGE } from '@/lib/keys'
-import NextImage from 'next/image'
+import { CiCircleCheck } from 'react-icons/ci'
+import { IoIosRemoveCircleOutline } from 'react-icons/io'
+import ImageRef from './image-ref'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+
 const FromLibrary: FC<{
   formik: FormikProps<any>
   closeModal: () => void
@@ -17,10 +20,25 @@ const FromLibrary: FC<{
   setSelectedImages: (select: string[]) => void
   loadingDelete: boolean
 }> = ({ selectedImages, setSelectedImages, loadingDelete }) => {
+  const [pageSize, setPageSize] = useState(100)
+  const [total, setTotal] = useState(0)
+
+  const [end, setEnd] = useState(false)
+
   const { data, isLoading } = useQuery({
-    queryKey: ['images'],
-    queryFn: async () => await ListAllImagesInBucket(100, 0),
+    queryFn: async () => {
+      const res = (await ListAllImagesInBucket(pageSize, 0)) || []
+      if (res.length == total) {
+        setEnd(true)
+      } else {
+        setTotal(res.length)
+      }
+      return res
+    },
+    queryKey: [`IMAGES_LIST-${pageSize}`],
     refetchInterval: false,
+    refetchOnWindowFocus: false,
+    placeholderData: keepPreviousData,
   })
 
   useEffect(() => {
@@ -28,6 +46,8 @@ const FromLibrary: FC<{
       setSelectedImages([])
     }
   }, [])
+
+  const getImageLink = (imagePath: string) => `${process.env.NEXT_PUBLIC_IMAGE_URL!}/${imagePath}`
 
   return (
     <ScrollArea className="h-[550px] rounded-md border p-4">
@@ -41,7 +61,7 @@ const FromLibrary: FC<{
         {data?.map((image, index) => (
           <Card
             key={index}
-            className={cn(loadingDelete && selectedImages.includes(`${TOUR_IMAGE}/${image.name}`) ? 'opacity-40' : 'opacity-100')}
+            className={cn(loadingDelete && selectedImages.includes(getImageLink(`${TOUR_IMAGE}/${image.name}`)) ? 'opacity-40' : 'opacity-100')}
             shadow="sm"
           >
             <CardHeader className="p-0">
@@ -49,25 +69,26 @@ const FromLibrary: FC<{
                 loading="lazy"
                 isBlurred
                 isZoomed
-                src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}${TOUR_IMAGE}/${image.name}`}
+                src={getImageLink(`${TOUR_IMAGE}/${image.name}`)}
                 alt=""
                 classNames={{
                   zoomedWrapper: 'rounded-b-none',
                 }}
-                className="w-full rounded-none max-h-52"
+                className="w-52 rounded-none h-52 object-contain"
               />
             </CardHeader>
             <CardBody className="justify-end">
               <span className="max-w-[75%] truncate mt-3">{image.name}</span>
               <span className="text-xs">{formatBytes(image?.metadata?.size ?? 0, 2)}</span>
-              {selectedImages?.includes(`${TOUR_IMAGE}/${image.name}`) ? (
+              {selectedImages?.includes(getImageLink(`${TOUR_IMAGE}/${image.name}`)) ? (
                 <Button
                   size={'sm'}
                   className="my-2"
                   variant={'bordered'}
                   color="danger"
+                  startContent={<IoIosRemoveCircleOutline />}
                   onClick={() => {
-                    setSelectedImages([...selectedImages.filter((x) => x !== `${TOUR_IMAGE}/${image.name}`)])
+                    setSelectedImages([...selectedImages.filter((x) => x !== getImageLink(`${TOUR_IMAGE}/${image.name}`))])
                   }}
                 >
                   Unselect Image
@@ -78,15 +99,18 @@ const FromLibrary: FC<{
                   className="my-2"
                   variant={'bordered'}
                   color="primary"
+                  startContent={<CiCircleCheck />}
                   onClick={() => {
-                    setSelectedImages([...selectedImages, `${TOUR_IMAGE}/${image.name}`])
+                    setSelectedImages([...selectedImages, getImageLink(`${TOUR_IMAGE}/${image.name}`)])
                   }}
                 >
                   Select Image
                 </Button>
               )}
 
-              {selectedImages?.includes(`${TOUR_IMAGE}/${image.name}`) && (
+              <ImageRef selectedImage={getImageLink(`${TOUR_IMAGE}/${image.name}`)} />
+
+              {selectedImages?.includes(getImageLink(`${TOUR_IMAGE}/${image.name}`)) && (
                 <Button type="button" isIconOnly className="absolute top-2 right-2 bg-green-600  rounded-full  " size="sm">
                   <Check className="w-4 h-4 text-white" />
                 </Button>
@@ -94,6 +118,22 @@ const FromLibrary: FC<{
             </CardBody>
           </Card>
         ))}
+        <div className="col-span-5">
+          {end ? (
+            <div className="flex justify-center">
+              <Chip color="primary">
+                <div className="flex justify-start gap-x-2">
+                  <h1 dir="ltr">You reached the end.</h1>
+                  <Check />
+                </div>
+              </Chip>
+            </div>
+          ) : (
+            <Button onPress={() => setPageSize(pageSize + 100)} className="w-full" color="primary" isLoading={isLoading}>
+              Load More..
+            </Button>
+          )}
+        </div>
       </div>
     </ScrollArea>
   )

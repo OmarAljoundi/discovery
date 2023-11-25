@@ -14,7 +14,7 @@ const CustomerPage: FunctionComponent<CustomerPageProps> = async () => {
     OrderByOptions: [],
     PageIndex: 0,
     PageSize: 1000,
-    Select: '*',
+    Select: '*,tour(id,name)',
     Table: 'customer',
   }
   const data = await http<Response<Customer>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_CUSTOMER_LIST] }).post(_SQ)

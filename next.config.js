@@ -5,6 +5,8 @@ const nextConfig = {
   },
   swcMinify: true,
   images: {
+    minimumCacheTTL: 86400,
+    deviceSizes: [640, 1080, 1200],
     remotePatterns: [
       {
         hostname: 'nyjwscuqqrgvxpajhreu.supabase.co',

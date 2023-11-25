@@ -4,12 +4,13 @@ import ReactImageUploading, { ImageListType } from 'react-images-uploading'
 import { Skeleton } from '../../ui/skeleton'
 import { Check, X } from 'lucide-react'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
-import { Separator } from '../../ui/separator'
-import { useImageModal } from '@/hooks/use-image-modal'
 import { TOUR_IMAGE } from '@/lib/keys'
 import { Button, Card, CardBody, CardHeader, Image } from '@nextui-org/react'
 
-const UploadNewImages: FC<{ selectedImages: string[]; setSelectedImages: (select: string[]) => void }> = ({ selectedImages, setSelectedImages }) => {
+const UploadNewImages: FC<{
+  selectedImages: string[]
+  setSelectedImages: (select: string[]) => void
+}> = ({ selectedImages, setSelectedImages }) => {
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(0)
   const [uploadedImages, setUploadedImages] = useState<string[]>([])
@@ -27,6 +28,8 @@ const UploadNewImages: FC<{ selectedImages: string[]; setSelectedImages: (select
       setSelectedImages([])
     }
   }, [])
+
+  const getImageLink = (imagePath: string) => `${process.env.NEXT_PUBLIC_IMAGE_URL!}/${imagePath}`
 
   return (
     <div className=" w-full">
@@ -64,7 +67,7 @@ const UploadNewImages: FC<{ selectedImages: string[]; setSelectedImages: (select
                       loading="lazy"
                       isBlurred
                       isZoomed
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL!}/${image}`}
+                      src={getImageLink(image)}
                       alt=""
                       classNames={{
                         zoomedWrapper: 'rounded-b-none',
@@ -73,7 +76,7 @@ const UploadNewImages: FC<{ selectedImages: string[]; setSelectedImages: (select
                     />
                   </CardHeader>
                   <CardBody>
-                    {selectedImages?.includes(image) ? (
+                    {selectedImages?.includes(getImageLink(image)) ? (
                       <Button
                         size={'sm'}
                         className="my-2"
@@ -92,13 +95,13 @@ const UploadNewImages: FC<{ selectedImages: string[]; setSelectedImages: (select
                         variant={'bordered'}
                         color="primary"
                         onClick={() => {
-                          setSelectedImages([...selectedImages, image])
+                          setSelectedImages([...selectedImages, getImageLink(image)])
                         }}
                       >
                         Select Image
                       </Button>
                     )}
-                    {selectedImages?.includes(image) && (
+                    {selectedImages?.includes(getImageLink(image)) && (
                       <Button type="button" isIconOnly className="absolute top-2 right-2 bg-green-600  rounded-full  " size="sm">
                         <Check className="w-4 h-4 text-white" />
                       </Button>

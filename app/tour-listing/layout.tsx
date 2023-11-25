@@ -1,5 +1,4 @@
 'use client'
-import { BreadCrumbProps } from '@/components/common/bread-crumb'
 import Filter from '@/components/filter'
 import FilterSection from '@/components/filter/filter-section'
 import Sort from '@/components/filter/sort'
@@ -44,7 +43,7 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
 
   const breads = useMemo(() => {
     if (!isLoading) {
-      let BreadCrumbs: BreadCrumbProps = {
+      let BreadCrumbs: any = {
         items: [
           {
             name: 'الرئيسية',
@@ -80,7 +79,7 @@ const LayoutList: FunctionComponent<LayoutListProps> = ({ children }) => {
       <div className="mb-4 flex flex-col items-start gap-y-2 sm:flex-row sm:items-center justify-between">
         <Breadcrumbs variant="solid">
           {
-            breads?.items.map((item) => (
+            breads?.items.map((item: any) => (
               <BreadcrumbItem href={item.href ?? ''} key={item.name}>
                 {item.name}
               </BreadcrumbItem>

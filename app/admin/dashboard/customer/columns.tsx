@@ -6,19 +6,32 @@ import { DataTableAction } from '@/components/table/data-table-actions'
 import { supabaseClient } from '@/lib/supabaseClient'
 import { Filters } from '@/hooks/use-filter-modal'
 import { Customer, Tour } from '@/types/custom'
-import { Chip, Tooltip } from '@nextui-org/react'
+import { Chip, Popover, PopoverContent, PopoverTrigger, Tooltip } from '@nextui-org/react'
 import { SelectOptionsProps } from '@/hooks/use-select-options-modal'
 import { DataTableSearchInput } from '@/components/table/data-table-search-input'
 import { DataTableDateFilter } from '@/components/table/data-table-date-filter'
 import { DataTableFacetedFilter } from '@/components/table/data-table-faceted-filter'
 import { CUSTOMER_STATUS } from '@/lib/constants'
 import { REVALIDATE_CUSTOMER_LIST } from '@/lib/keys'
+import { Check, Cross, Trash } from 'lucide-react'
+import BlurImage from '@/components/common/blur-image'
+import Link from 'next/link'
 
 export const columns: ColumnDef<Customer>[] = [
   {
-    accessorKey: 'id',
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Customer Id" />,
-    cell: ({ row }) => <div className="w-[80px]">#{row.getValue('id')}</div>,
+    accessorKey: 'tour',
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Tour" />,
+    cell: ({ row }) => {
+      return (
+        <Link href={`/admin/dashboard/tour/edit/${row.original.tour?.id}`} target="_blank">
+          <Tooltip content={'Click to view info'} showArrow placement="bottom" classNames={{ base: 'cursor-pointer' }}>
+            <Chip variant="bordered" className="w-32 flex items-center justify-between truncate cursor-pointer">
+              <span className="text-ellipsis overflow-hidden">{row.original.tour?.name}</span>
+            </Chip>
+          </Tooltip>
+        </Link>
+      )
+    },
     enableSorting: true,
     enableHiding: true,
   },
@@ -60,6 +73,18 @@ export const columns: ColumnDef<Customer>[] = [
           {row.getValue('expected_travel_date') ? format(new Date(row.getValue('expected_travel_date')), 'yyyy-MM-dd') : 'Not specified'}
         </div>
       )
+    },
+    filterFn: (row, id, value) => {
+      var from = true
+      var to = true
+      if (value?.from) {
+        from = new Date(value.from as string) <= new Date(row.original.created_at!)
+      }
+      if (value?.to) {
+        to = new Date(value.to as string) >= new Date(row.original.created_at!)
+      }
+
+      return from && to
     },
   },
   {
@@ -161,12 +186,14 @@ export const columns: ColumnDef<Customer>[] = [
       const markAsResponded = {
         label: 'Mark As Responsed',
         type: 'Promise' as any,
+        icon: Check,
         action: async () => await updateStatus('Responded'),
       }
 
       const markAsNoResponded = {
         label: 'Mark As No Response',
         type: 'Promise' as any,
+        icon: Cross,
         action: async () => await updateStatus('No response'),
       }
 
@@ -185,6 +212,7 @@ export const columns: ColumnDef<Customer>[] = [
             {
               label: 'Delete',
               type: 'Promise',
+              icon: Trash,
               action: async () => {
                 const { data, error } = await supabaseClient.from('customer').delete().eq('id', row.original.id!)
                 if (error) {
@@ -237,11 +265,4 @@ export const filterOptions: Filters[] = [
   },
 ]
 
-export const selectOptions: SelectOptionsProps[] = [
-  {
-    title: 'Assigne to locations',
-  },
-  {
-    title: 'Delete selected',
-  },
-]
+export const selectOptions: SelectOptionsProps[] = []

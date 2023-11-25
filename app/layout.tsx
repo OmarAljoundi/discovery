@@ -18,6 +18,8 @@ import Footer from '@/layout/customer/footer'
 import { getContentData } from '@/lib/operations'
 import dynamics from 'next/dynamic'
 import NextUIProvider from '@/provider/next-ui-provider'
+import { fontSpecialAr, fontSpecialEn } from './fonts'
+import CustomerFormModal from '@/components/modals/customer-form-modal'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -51,12 +53,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
-      <body className={cn(cairo.className, 'h-full')}>
+      <body className={cn(cairo.className, fontSpecialAr.variable, fontSpecialEn.variable, 'h-full')}>
+        <Toaster position="top-right" expand={true} richColors />
         <ReactQueryProvider>
           <NextUIProvider>
-            <Toaster position="top-right" expand={true} richColors />
             {headersList.get('x-dir') == 'rtl' ? (
               <>
+                <CustomerFormModal />
                 <ToolBar />
                 <Menu />
                 {children}

@@ -2,11 +2,12 @@
 import { Button, Card, CardBody } from '@nextui-org/react'
 import { Plus } from 'lucide-react'
 import { FunctionComponent } from 'react'
-import { useModal } from '@/hooks/use-modal'
+import { useModal, useModalProp } from '@/hooks/use-modal'
 import Link from 'next/link'
+import { FunctionKeys } from '@/lib/utils'
 
 interface CardAddProps {
-  trigger?: string
+  trigger?: FunctionKeys<useModalProp>
   href?: string
   title: string
 }
@@ -18,7 +19,6 @@ const CardAdd: FunctionComponent<CardAddProps> = ({ trigger, href, title }) => {
       {trigger && (
         <CardBody
           className="px-3 py-0 text-small text-default-400 flex items-center group cursor-pointer hover:bg-gray-500 justify-center min-h-[160px] h-40 transition-all duration-1000"
-          //@ts-ignore
           onClick={() => modal[trigger]()}
         >
           <Button
@@ -27,7 +27,6 @@ const CardAdd: FunctionComponent<CardAddProps> = ({ trigger, href, title }) => {
             className="text-default-900/60 data-[hover]:bg-foreground/10 border transition-all group-hover:scale-150 group-hover:border-2 duration-1000"
             radius="full"
             variant="light"
-            //@ts-ignore
             onPress={() => modal[trigger]()}
           >
             <Plus className="group-hover:text-white" />

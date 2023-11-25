@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/table/data-table'
 import { FunctionComponent } from 'react'
-import { columns, filterOptions } from './columns'
+import { columns, filterOptions, selectOptions } from './columns'
 import { http } from '@/service/httpService'
 import { Response, TourType } from '@/types/custom'
 import { SearchQuery } from '@/types/search'
@@ -24,10 +24,11 @@ const TourTypePage: FunctionComponent<TourTypePageProps> = async () => {
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
         <div className="flex items-center justify-between space-y-2">
           <div>
+            <p className="text-xl">Tour Types</p>
             <p className="text-muted-foreground">Here&apos;s a list of your tour types!</p>
           </div>
         </div>
-        <DataTable data={data.results ?? []} columns={columns} filters={filterOptions} trigger="onOpenTourType" selects={[]} />
+        <DataTable data={data.results ?? []} columns={columns} filters={filterOptions} selects={selectOptions} />
       </div>
     </div>
   )

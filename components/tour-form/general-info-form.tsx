@@ -8,6 +8,7 @@ import PriceInfo from './price-info-form'
 import SettingInfo from './setting-info-form'
 import ImageForm from './image-form'
 import ExternalInfoForm from './external-info-form'
+import AirportForm from './airpot-form'
 
 interface GenralInfoFormProps {
   formik: FormikProps<Tour>
@@ -136,6 +137,7 @@ const GenralInfoForm: FunctionComponent<GenralInfoFormProps> = ({ formik }) => {
           </div>
         </div>
         <PriceInfo formik={formik} />
+        <AirportForm formik={formik} />
         <SettingInfo formik={formik} />
         <ExternalInfoForm formik={formik} />
       </div>

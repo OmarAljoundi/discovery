@@ -15,26 +15,21 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-
 import { DataTablePagination } from './data-table-pagination'
 import { DataTableToolbar } from './data-table-toolbar'
 import { Filters, useFilterModal } from '@/hooks/use-filter-modal'
-import { useModal } from '@/hooks/use-modal'
 import { SelectOptionsProps, useSelectOptionsModal } from '@/hooks/use-select-options-modal'
 import { cn } from '@/lib/utils'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  create_link?: string
   filters: Filters[]
   selects: SelectOptionsProps[]
-  trigger?: string
 }
 
-export function DataTable<TData, TValue>({ columns, data, create_link, filters, trigger, selects }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, filters, selects }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])

@@ -10,17 +10,18 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
     <div className="shadow-medium rounded-medium p-4">
       <h4 className="mb-0 text-2xl font-semibold font-primary">مميزات البرنامج</h4>
       <Separator className="my-4" />
-      <h6 className="mb-4 font-semibold font-primary"> ما يشمله البرنامج </h6>
-      <ul className="flex flex-col gap-4 mb-10">
+      <div className="flex gap-x-2 justify-start items-center">
+        <IconTourProvider>
+          <BsCheckLg />
+        </IconTourProvider>
+        <h6 className="font-semibold font-primary"> ما يشمله البرنامج </h6>
+      </div>
+      <ul className="flex flex-col gap-4 mb-10 mt-5">
         {tour?.tour_includes?.map((i) => (
           <li key={i.uuid}>
             <div className="flex items-start gap-4">
-              <IconTourProvider>
-                <BsCheckLg />
-              </IconTourProvider>
-
               <div className="grid items-start">
-                <span className="font-bold font-primary">{i.title}</span>
+                <span className="font-bold font-primary text-sm">{i.title}</span>
                 <span className="inline-block font-primary ">
                   <div className="grid items-center flex-wrap">
                     {i.description.split(',').map((i) => (
@@ -38,16 +39,24 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
           </li>
         ))}
       </ul>
-      <h6 className="mb-4 font-semibold font-primary"> البرنامج لا يشمل التالي </h6>
-      <ul className="flex flex-col gap-4 mb-10">
+      <div className="flex gap-x-2 justify-start items-center">
+        <IconTourProvider>
+          <RxCross2 />
+        </IconTourProvider>
+        <h6 className="font-semibold font-primary"> البرنامج لا يشمل التالي </h6>
+      </div>
+      <ul className="flex flex-col gap-4 mb-10  mt-5">
         {tour?.tour_excludes?.map(({ uuid, description, title }) => (
           <li key={uuid}>
-            <div className="flex items-center gap-2">
-              <IconTourProvider>
-                <RxCross2 />
-              </IconTourProvider>
-
-              <span className="inline-block font-primary">{description}</span>
+            <div className="grid items-center flex-wrap">
+              {description.split(',').map((i) => (
+                <div className="flex items-center" key={i}>
+                  <div>
+                    <Dot className="text-red-600 w-6 h-6" />
+                  </div>
+                  <div>{i}</div>
+                </div>
+              ))}
             </div>
           </li>
         ))}

@@ -14,13 +14,6 @@ import { ModalProvider } from '@/provider/modal-provider'
 interface DashboardLayoutProps {
   children: ReactNode
 }
-const cairo = Cairo({
-  subsets: ['arabic', 'latin'],
-  display: 'swap',
-  preload: true,
-  style: 'normal',
-  weight: ['1000', '200', '300', '400', '500', '600', '700', '800', '900'],
-})
 
 export const metadata: Metadata = {
   title: 'Discovery | Dashboard',
@@ -29,24 +22,17 @@ const DashboardLayout: FunctionComponent<DashboardLayoutProps> = async ({ childr
   const response = await getTourTypes()
 
   return (
-    <div id="__next" className={cn(cairo.className)}>
-      <div className="min-h-full flex flex-col">
+    <div id="__next">
+      <div className="min-h-full block h-full">
         <div>
-          <div
-            style={{
-              height: 'calc((100vh - 0px) - 0px)',
-              maxHeight: 'calc((100vh - 0px) - 0px)',
-            }}
-          >
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="h-full">
+            <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+              <ModalProvider />
               <ClientProvider types={response.results || []}>
-                <ModalProvider />
-
-                <SidebarNav />
                 <SubSidebarNav />
-                <main className="flex flex-col flex-1 w-full overflow-x-hidden bg-scale-200">
+                <main className="flex flex-col flex-1 w-full  bg-scale-200 overflow-visible ml-[200px]">
                   <Navbar />
-                  {children}
+                  <div className="pt-6">{children}</div>
                 </main>
               </ClientProvider>
             </ThemeProvider>

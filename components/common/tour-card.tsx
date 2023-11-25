@@ -4,8 +4,7 @@ import { FunctionComponent } from 'react'
 import Carousel from './carousel'
 import { ArrowLeft, CalendarDays, CircleDollarSign, Clock, MapPin } from 'lucide-react'
 import { Separator } from '../ui/separator'
-import { Badge, Button } from '@nextui-org/react'
-import Image from 'next/image'
+import { Button } from '@nextui-org/react'
 import Link from 'next/link'
 
 interface TourCardProps {
@@ -45,7 +44,7 @@ const TourCard: FunctionComponent<TourCardProps> = ({ tour }) => {
         </div>
         <div className="flex justify-start gap-x-2 items-center h-6">
           <CircleDollarSign className="w-4 h-4 text-muted-foreground" />
-          <h4 className="text-sm text-muted-foreground">يبدأ السعر من {tour.price}</h4>
+          <h4 className="text-sm text-muted-foreground">يبدأ السعر من {tour.price} ر.ع</h4>
         </div>
         <Separator className="my-4" />
         <div className="flex  justify-between">

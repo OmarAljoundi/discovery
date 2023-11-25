@@ -1,4 +1,3 @@
-import BreadCrumb, { BreadCrumbProps } from '@/components/common/bread-crumb'
 import { getTours } from '@/lib/operations'
 import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
@@ -51,13 +50,13 @@ const TourPage: FunctionComponent<{ params: { slug: string } }> = async ({ param
   return (
     <div className="container mb-10">
       <div className="space-y-4">
-        <TourBreadcrumb tourName={tour.name || ''} />
+        <TourBreadcrumb tourName={tour.name || ''} file={tour.external_file} tourId={tour.id!} />
         <TourImages tour={tour} />
         <TourInitailInfo tour={tour} />
         <TourSectionInfo tour={tour} />
         <TourPlan tour={tour} />
         <TourBenfits tour={tour} />
-        <TourHotels tour={tour} />
+        {tour?.tour_hotels && tour?.tour_hotels.length > 0 && <TourHotels tour={tour} />}
         <TourRelated tour={tour} />
       </div>
     </div>

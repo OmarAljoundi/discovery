@@ -1,5 +1,6 @@
 'use client'
 import { useImageModal } from '@/hooks/use-image-modal'
+import { cn } from '@/lib/utils'
 import { FormikProps } from 'formik'
 import { FunctionComponent, ReactNode } from 'react'
 
@@ -14,9 +15,12 @@ const SingleImageForm: FunctionComponent<ImageFormProps> = ({ formik, field, max
   const imageModal = useImageModal()
 
   return (
-    <div className="upload__image-wrapper">
+    <div className="upload__image-wrapper border rounded-xl ">
       <div
-        className="relative w-full py-2   bg-gray-100 rounded-lg shadow-inner hover:opacity-70 duration-500 transition-opacity"
+        className={cn(
+          'relative w-full py-2  h-32 bg-gray-100 rounded-lg shadow-inner hover:opacity-70 duration-500 transition-opacity',
+          formik.values[field] ? 'rounded-b-none' : '',
+        )}
         onClick={() => imageModal.onOpen(formik, field, maxNumber)}
       >
         <label htmlFor="file-upload" className="z-20 flex flex-col-reverse items-center justify-center w-full h-full cursor-pointer">

@@ -42,14 +42,15 @@ const ExternalInfoForm: FunctionComponent<ExternalInfoFormProps> = ({ formik }) 
           readOnly
           disableAnimation
           classNames={{
-            inputWrapper: 'pr-0',
+            inputWrapper: 'pr-0 group',
           }}
           endContent={
-            <div>
-              <Button className="px-4 w-32" onClick={() => attachmentModal.onOpen(formik, 'external_file', 1)}>
-                Upload
-              </Button>
-            </div>
+            <Button
+              className="px-4 w-32 rounded-l-none group-hover:bg-primary group-hover:text-white"
+              onClick={() => attachmentModal.onOpen(formik, 'external_file', 1)}
+            >
+              Upload
+            </Button>
           }
         />
       </div>

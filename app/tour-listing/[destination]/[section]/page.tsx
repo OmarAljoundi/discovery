@@ -3,6 +3,7 @@ import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST
 import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 
 export async function generateMetadata({ params }: { params: { destination: string; section: string } }): Promise<Metadata> {
@@ -51,6 +52,7 @@ const TourDestinationSectionListingPage: FunctionComponent<{ params: { destinati
   const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
 
   const attr = currentDest?.location_attributes?.find((x) => x.title == decodeURIComponent(params.section.replaceAll('-', ' ')))
+  if (!attr) return notFound()
   const tourIds = attr?.location_tours?.map((x) => x.tour_id!)
 
   const query = new QueryClient()

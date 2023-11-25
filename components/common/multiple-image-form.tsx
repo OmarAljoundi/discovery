@@ -19,7 +19,7 @@ const MultipleImageForm: FunctionComponent<ImageFormProps> = ({ formik, field, m
       <div className="upload__image-wrapper">
         <div className=" text-center"></div>
         <div
-          className="relative w-full h-32   bg-gray-100 rounded-lg shadow-inner hover:opacity-70 duration-500 transition-opacity"
+          className="relative w-full h-32   rounded-b-none bg-gray-100 rounded-lg shadow-inner hover:opacity-70 duration-500 transition-opacity"
           onClick={() => imageModal.onOpen(formik, field, maxNumber)}
         >
           <label htmlFor="file-upload" className="z-20 flex flex-col items-center justify-center w-full h-full cursor-pointer">

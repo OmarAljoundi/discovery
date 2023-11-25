@@ -11,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { Separator } from '../ui/separator'
-import { createDestinationAttr, getTours } from '@/lib/operations'
+import { createDestinationAttr, deleteLocationAttr, getTours } from '@/lib/operations'
 import { toast } from 'sonner'
 import { ScrollArea } from '../ui/scroll-area'
 import { http } from '@/service/httpService'
@@ -34,22 +34,26 @@ const DestinationToursModal = () => {
   const { onClose, isOpenDestinationTours, data } = modal
 
   const handleSubmitForm = async (formData: LocationAttributes[]) => {
-    const promises = formData.map((element) => {
-      return createDestinationAttr(element)
-    })
-
-    toast.promise(Promise.all(promises), {
-      loading: `Loading destination tours...`,
-      async success(data) {
-        await http(`/api/revalidate?tag=${REVALIDATE_LOCATION_LIST}`).get()
-        router.refresh()
-        onClose()
-        return `Destination tours has been saved successfully`
-      },
-      error(error) {
-        return `Error whlie saving destination tours : ` + error
-      },
-    })
+    try {
+      await deleteLocationAttr(modal?.data?.id)
+      const promises = formData.map((element) => {
+        return createDestinationAttr(element)
+      })
+      toast.promise(Promise.all(promises), {
+        loading: `Loading destination tours...`,
+        async success(data) {
+          await http(`/api/revalidate?tag=${REVALIDATE_LOCATION_LIST}`).get()
+          router.refresh()
+          onClose()
+          return `Destination tours has been saved successfully`
+        },
+        error(error) {
+          return `Error whlie saving destination tours : ` + error
+        },
+      })
+    } catch (ex) {
+      toast.error('Error: ', ex as any)
+    }
   }
 
   const formik = useFormik<LocationAttributes[]>({
@@ -157,7 +161,7 @@ const DestinationToursModal = () => {
               as={'div'}
             >
               <div className="grid gap-4 ">
-                <div className="flex gap-x-4">
+                <div className="flex gap-x-4 items-start">
                   <Input
                     label="Title"
                     labelPlacement="outside"
@@ -298,11 +302,11 @@ const DestinationToursModal = () => {
                       label="Seo Description"
                       labelPlacement="outside"
                       placeholder="Enter seo description name"
+                      className="relative"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={item.seo?.description || ''}
                       name={`${[index]}.seo.description`}
-                      description={`Seo description should not be higher than 150 character (${item.seo?.description?.length ?? 0} / 150)`}
                     />
                   </div>
                 </div>

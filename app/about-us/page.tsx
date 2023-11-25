@@ -1,59 +1,100 @@
-'use client'
 import { Separator } from '@/components/ui/separator'
-import IconTourProvider from '@/provider/icon-tour-provider'
 import { FunctionComponent } from 'react'
 import CallToAction from '../(components)/(fifth)/call-to-action'
-import { useTourTypes } from '@/hooks/react-query/use-tour-types'
 import BlurImage from '@/components/common/blur-image'
-import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react'
+import { Metadata } from 'next'
+import { getContentData } from '@/lib/operations'
+import AboutUsBreadCrumb from './about-us-breadcrumb'
 
 interface AboutUsPageProps {}
 
+const data_solution = [
+  {
+    label: 'العائلات',
+    image: '/images/discovery_logo.png',
+  },
+  {
+    label: 'شهر العسل',
+    image: '/images/discovery_logo.png',
+  },
+  {
+    label: 'المجموعات',
+    image: '/images/discovery_logo.png',
+  },
+  {
+    label: 'الأفراد',
+    image: '/images/discovery_logo.png',
+  },
+  {
+    label: 'المؤسسات',
+    image: '/images/discovery_logo.png',
+  },
+]
+
+export async function generateMetadata(): Promise<Metadata> {
+  const response = await getContentData()
+
+  const { description, tags, title } = response?.about_us?.seo || { title: '', description: '', tags: '' }
+  return {
+    title: title,
+    description: description,
+    openGraph: {
+      title: title,
+      description: description,
+      type: 'website',
+      siteName: 'Discovery',
+    },
+    keywords: tags,
+  }
+}
+
 const AboutUsPage: FunctionComponent<AboutUsPageProps> = () => {
-  const { data, isLoading } = useTourTypes()
   return (
     <>
-      <div className="container">
-        <Breadcrumbs variant="solid">
-          <BreadcrumbItem href="/">الرئيسية</BreadcrumbItem>
-          <BreadcrumbItem href="/about-us">عن دسكفري</BreadcrumbItem>
-        </Breadcrumbs>
+      <div className="container mb-10">
+        <AboutUsBreadCrumb />
         <Separator className="my-4" />
-        <div className="grid grid-cols-12 gap-x-8 gap-y-4">
-          <div className="col-span-12 lg:col-span-6">
-            <h1 className="text-primary text-2xl">تعرف على رفيق سفرك الجديد</h1>
-            <p className="mt-4">
-              شركة إبريل تورز هي وكالة سفريات كاملة الخدمات في مدينة القدس. نحن نفتخر بتوفير خدمات السفر الشاملة لعملائنا في جميع أنحاء العالم. سواء
-              كنت تبحث عن تنظيم رحلة عائلية، رحلة تجارية، رحلة مغامرة أو رحلة استجمام فاخرة، فإبريل تورز هي الخيار الأمثل لك. تتميز إبريل تورز بفريق
-              متخصص من خبراء السفر المحترفين الذين يعملون بجد لتلبية احتياجاتك وتفضيلاتك الفردية. نحن نقدم باقات سفر مخصصة وفقًا لمتطلباتك، بغض النظر
-              عن وجهتك المفضلة. مع إبريل تورز، يمكنك استكشاف وجهات سياحية متنوعة في جميع أنحاء العالم. سواء كنت تحلم بزيارة الأماكن التاريخية الشهيرة
-              مثل أهرامات الجيزة في مصر أو مدينة البندقية الرومانسية في إيطاليا، أو رحلة إلى جمال الطبيعة في جزر المالديف أو جبال الألب السويسرية،
-              فإبريل تورز ستوفر لك تجربة لا تنسى. نحن نضمن لكم تجربة سفر مريحة وممتعة من خلال توفير خدمات فاخرة وجودة عالية. نحن نعمل مع شركاء موثوق
-              بهم في صناعة السفر لضمان حصولك على أفضل خدمة ممكنة. بغض النظر عما إذا كنت بحاجة إلى حجز تذاكر طيران، حجز فنادق، ترتيبات للنقل، أو تنظيم
-              رحلات يومية وجولات سياحية، فإبريل تورز ستكون معك خطوة بخطوة. نحن نهتم بتفاصيل رحلتك بشكل كامل، من التخطيط وحتى عودتك بسلام. نحن نوفر
-              أفضل الخدمات الاستشار
+        <div className=" grid space-y-4 md:space-y-8">
+          <div className="shadow-medium rounded-medium py-4 md:px-20">
+            <h1 className="text-primary text-2xl lg:text-4xl  text-center">من نحن</h1>
+            <p className="mt-4 text-center text-base lg:text-xl">
+              ديسكفري هي شركة رائدة في صناعة العطلات السياحية العائلية على مستوى دول الخليج العربي، حيث تقدم تجارب سفر استثنائية وفريدة لعملائها بجودة
+              عالية، يوجد لدى ديسكفري فروع في سلطنة عمان والبحرين وقريباً في الإمارات والسعودية.
+            </p>
+            <h1 className="font-bold text-3xl text-center mt-4">لكل رحلة .. حكاية</h1>
+          </div>
+
+          <div className="shadow-medium rounded-medium py-4 md:px-20">
+            <h1 className="text-primary text-2xl lg:text-4xl  text-center">رؤيتنا</h1>
+            <p className="mt-4 text-center  text-base lg:text-xl">
+              تعزيز مكانتنا كشركة عطلات سياحية رائدة في المنطقة توفر خدمات إبداعية عالية الجودة وتنافسية في نفس الوقت لنكون الخيار الأول دائماً.
             </p>
           </div>
-          <div className="col-span-12 lg:col-span-6">
-            <div className="grid grid-cols-2 gap-3 ">
-              {data?.results?.map((item) => (
-                <div className="shadow-medium grid gap-y-2 justify-items-center p-4 rounded-medium" key={item.id}>
-                  <IconTourProvider>
-                    <BlurImage
-                      src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${item.image}`}
-                      alt={item.name || ''}
-                      width={300}
-                      height={150}
-                      className="max-w-[50px]"
-                    />
-                  </IconTourProvider>
-                  <h3 className="text-xl font-bold text-center mb-2">{item.name}</h3>
+
+          <div className="shadow-medium rounded-medium py-4 md:px-20">
+            <h1 className="text-primary text-2xl lg:text-4xl  text-center">نقدم حلول سفر تناسب الجميع</h1>
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-4">
+              {data_solution.map((i, index) => (
+                <div className="grid bg-secondary shadow-medium rounded-medium p-4 justify-items-center" key={index}>
+                  <BlurImage src={i.image} alt="" width={150} height={150} quality={100} loading="eager" className="max-w-[75px]" />
+                  <h1 className="font-bold text-base lg:text-xl">{i.label}</h1>
                 </div>
               ))}
             </div>
           </div>
+
+          <div className="shadow-medium rounded-medium py-4 md:px-20">
+            <h1 className="text-primary text-2xl lg:text-4xl  text-center">لدنيا المزيد</h1>
+            <ul className="mt-4 text-right list-disc list-inside text-base lg:text-xl space-y-4 lg:space-y-2 " dir="rtl">
+              <li className="text-right">استئجار رحلات جوية بنظام (الجارتر) إلى بعض الوجهات السياحية المهمة خلال مواسم السفر.</li>
+              <li className="text-right">
+                العمل على دراسات للوجهات السياحية غير الرائجة ووضع الخطط التسويقية والترويجية لها لإستهداف الجمهور وشركات السفر في دول مجلس التعاون
+                لتنشيط الحركة السياحية إلى هذه الوجهات في أسواق دول مجلس التعاون.
+              </li>
+              <li className="text-right">العمل على إدارة الحملات الترويجية للوجهات السياحية.</li>
+            </ul>
+          </div>
         </div>
-        <Separator className="my-4" />
       </div>
       <CallToAction />
     </>

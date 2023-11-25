@@ -22,17 +22,11 @@ export const Modal: React.FC<ModalProps & NextModalProps> = ({
   dialogClass = '',
   ...restProps
 }) => {
-  const onChange = (open: boolean) => {
-    if (!open) {
-      onClose()
-    }
-  }
-
   return (
     <NextModal
       {...restProps}
       isOpen={isOpen}
-      onOpenChange={onChange}
+      onOpenChange={() => onClose()}
       backdrop="blur"
       classNames={{
         header: 'border-b-[1px] border-white',
