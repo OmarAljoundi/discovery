@@ -49,7 +49,6 @@ export type Hotel = {
   created_at?: string
   id?: number
   images?: string[] | null
-  period?: number
   place?: string
   hotel_logo?: string
   name?: string | null
@@ -166,6 +165,11 @@ export type Home = {
   seo?: Seo
   best_sellers?: number[]
   best_seller_title?: ''
+  footer?: FooterSettings
+}
+
+export type FooterSettings = {
+  phone_number?: string
 }
 
 export type Visa = {

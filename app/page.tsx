@@ -1,15 +1,13 @@
 import ImportDynamic from 'next/dynamic'
 import { Suspense } from 'react'
-import HeroLoading from './(components)/(hero)/hero-loading'
 import DestinationLoading from './(components)/(first)/destination-loading'
 import BestToursLoading from './(components)/(second)/best-tours-loading'
 import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
-import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
-import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
-import HeroSection from './(components)/(hero)/hero-section'
-import TourTypesList from './(components)/(third)/tour-types-list'
+import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
+import { getContentData } from '@/lib/operations'
 import TourTypeLoading from './(components)/(third)/tour-type-loading'
 import { Metadata } from 'next'
+import HeroSlides from './(components)/(hero)/hero-slides'
 
 const Destination = ImportDynamic(() => import('./(components)/(first)/destination').then((mod) => mod.default), {
   ssr: false,
@@ -54,7 +52,7 @@ export default async function Home() {
   return (
     <div>
       <HydrationBoundary state={dehydrate(query)}>
-        <HeroSection />
+        <HeroSlides />
       </HydrationBoundary>
 
       <Suspense fallback={<DestinationLoading />}>

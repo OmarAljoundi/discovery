@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 
 export async function generateMetadata({ params }: { params: { destination: string } }): Promise<Metadata> {
-  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
   if (!response) {
     return {
       title: 'No destination found',
@@ -30,9 +30,11 @@ export async function generateMetadata({ params }: { params: { destination: stri
 export async function generateStaticParams() {
   const response = await getDestination()
   if (response.success && response.results && response.results.length > 0) {
-    return response.results.map((dest) => ({
-      destination: `${dest.slug}`,
-    }))
+    return response.results
+      .filter((x) => x.is_active)
+      .map((dest) => ({
+        destination: `${dest.slug}`,
+      }))
   }
   return []
 }
@@ -40,7 +42,7 @@ export async function generateStaticParams() {
 const TourDestinationListingPage: FunctionComponent<{ params: { destination: string } }> = async ({ params }) => {
   let tours_ids: number[] = []
   const destination = await getDestination()
-  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
 
   if (!currentDest) return notFound()
   currentDest?.location_attributes?.map((x) => {

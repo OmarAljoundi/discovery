@@ -22,7 +22,7 @@ const TourRendering: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
     queryKey: [REVALIDATE_TOUR_LIST],
     queryFn: async () => await getTours(),
     select: (response) => {
-      return tourIds ? response?.filter((m) => tourIds.includes(m.id!)) : response
+      return tourIds ? response?.filter((m) => tourIds.includes(m.id!) && m.is_active) : response?.filter((x) => x.is_active)
     },
   })
 

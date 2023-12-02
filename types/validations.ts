@@ -26,5 +26,5 @@ export const TourSchema = yup.object().shape<SchemaObject<Tour>>({
 export const HotalSchema = yup.object().shape<SchemaObject<Hotel>>({
   images: yup.array().min(1, 'You need to add at least one image').max(5, 'For better performance max images are 5').required('Images are required'),
   name: yup.string().required('Please enter the hotel name'),
-  rating: yup.number().min(1, 'Rating must be greater than 1').max(5, 'Rating must be less than 5').required('Rating is required'),
+  rating: yup.number().min(0, 'Rating must be greater than 1').max(5, 'Rating must be less than 5').required('Rating is required'),
 })

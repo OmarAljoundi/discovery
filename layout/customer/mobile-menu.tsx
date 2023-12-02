@@ -6,7 +6,15 @@ import { HiOutlineMapPin } from 'react-icons/hi2'
 import { AtSign, Phone } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { MenuItems } from './menu'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
+import { getContentData } from '@/lib/operations'
 const MobileMenu = () => {
+  const { data: setting } = useQuery({
+    queryKey: [REVALIDATE_CONTENT_LIST],
+    queryFn: async () => await getContentData(),
+  })
+
   return (
     <Sheet>
       <SheetTrigger className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden">
@@ -34,7 +42,12 @@ const MobileMenu = () => {
           <div className="flex justify-center flex-wrap flex-1">
             <div className="flex justify-center">
               <div className="contact-info flex justify-center gap-4 ">
-                <a href="https://api.whatsapp.com/send/?phone=%2B96895929251&text&type=phone_number&app_absent=0" target="_blank">
+                <a
+                  href={`https://api.whatsapp.com/send/?phone=${setting?.home?.footer?.phone_number
+                    ?.replaceAll('-', '')
+                    .replaceAll('+', '')}&text&type=phone_number&app_absent=0`}
+                  target="_blank"
+                >
                   <AiOutlineWhatsApp className="text-primary text-2xl" />
                 </a>
                 <a href="https://maps.app.goo.gl/iY9WwncyNi7rJXvu7" target="_blank">
@@ -49,7 +62,7 @@ const MobileMenu = () => {
             <div className="contact-info grid gap-2 justify-items-center ">
               <div className="flex gap-3 items-center">
                 <span className="text-primary font-bold " dir="ltr">
-                  +968-99801355
+                  {setting?.home?.footer?.phone_number}
                 </span>
                 <Phone className="text-primary" />
               </div>

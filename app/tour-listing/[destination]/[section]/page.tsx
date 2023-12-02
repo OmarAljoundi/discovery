@@ -7,7 +7,7 @@ import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 
 export async function generateMetadata({ params }: { params: { destination: string; section: string } }): Promise<Metadata> {
-  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  const response = (await getDestination())?.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
   const attr = response?.location_attributes?.find((x) => x.title == decodeURIComponent(params.section.replaceAll('-', ' ')))
   if (!attr) {
     return {
@@ -33,23 +33,26 @@ export async function generateStaticParams() {
   const response = await getDestination()
   var results: { destination: string; section: string }[] = []
 
-  response?.results?.map((dest) => {
-    if (dest.location_attributes && dest.location_attributes.length > 1) {
-      dest.location_attributes?.map((attr) => {
-        results.push({
-          destination: dest.slug!,
-          section: attr.title!.replaceAll(' ', '-'),
+  response?.results
+    ?.filter((x) => x.is_active)
+    .map((dest) => {
+      if (dest.location_attributes && dest.location_attributes.length > 1) {
+        dest.location_attributes?.map((attr) => {
+          results.push({
+            destination: dest.slug!,
+            section: attr.title!.replaceAll(' ', '-'),
+          })
         })
-      })
-    }
-  })
+      }
+    })
 
   return results
 }
+
 const TourDestinationSectionListingPage: FunctionComponent<{ params: { destination: string; section: string } }> = async ({ params }) => {
   const destination = await getDestination()
 
-  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination))
+  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
 
   const attr = currentDest?.location_attributes?.find((x) => x.title == decodeURIComponent(params.section.replaceAll('-', ' ')))
   if (!attr) return notFound()

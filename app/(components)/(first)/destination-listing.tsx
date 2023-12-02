@@ -25,7 +25,7 @@ const DestinationListing = () => {
     queryFn: async () => await getDestination(),
   })
   return (
-    <div className="container mt-24 mb-10 hidden md:block">
+    <div className="container mt-24 mb-10 ">
       <div className="flex justify-between items-end">
         <h1 className="text-xl">الأقسام</h1>
       </div>

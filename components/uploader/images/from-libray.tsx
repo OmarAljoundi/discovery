@@ -22,7 +22,6 @@ const FromLibrary: FC<{
 }> = ({ selectedImages, setSelectedImages, loadingDelete }) => {
   const [pageSize, setPageSize] = useState(100)
   const [total, setTotal] = useState(0)
-
   const [end, setEnd] = useState(false)
 
   const { data, isLoading } = useQuery({

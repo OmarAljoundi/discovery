@@ -154,7 +154,7 @@ export type QueryString = {
   days?:any[]
   maxprice?:any
   minprice?:any
-  location?:number | null 
+  location?:string | null 
   tab?:string | null
   type?:string[]
   sortMemebr?:string
@@ -296,12 +296,45 @@ export function filterTours(prop:TourSearch, tours:Tour[]) {
 export function getTotalSearchCount(search?:QueryString){
   if(!search)
   return 0
+
 var total = 0;
-total += search.country?.length || 0;
-total += search.days?.length || 0;
+
 total += search.maxprice ? 1 : 0;
 total += search.minprice ? 1: 0;
-total += search.type?.length || 0;
+
+
+
+if(Array.isArray(search.days)){
+  total += search.days?.length || 0;
+}
+else if(search.days){
+  total += 1;
+}
+
+
+if(Array.isArray(search.country)){
+  total += search.country?.length || 0;
+}
+else if(search.country){
+  total += 1;
+}
+
+
+if(Array.isArray(search.days)){
+  total += search.days?.length || 0;
+}
+else if(search.days){
+  total += 1;
+}
+
+
+
+if(Array.isArray(search.type)){
+  total += search.type?.length || 0;
+}
+else if(search.type){
+  total += 1;
+}
 
 return total
 }

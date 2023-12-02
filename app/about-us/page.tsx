@@ -61,7 +61,7 @@ const AboutUsPage: FunctionComponent<AboutUsPageProps> = () => {
               ديسكفري هي شركة رائدة في صناعة العطلات السياحية العائلية على مستوى دول الخليج العربي، حيث تقدم تجارب سفر استثنائية وفريدة لعملائها بجودة
               عالية، يوجد لدى ديسكفري فروع في سلطنة عمان والبحرين وقريباً في الإمارات والسعودية.
             </p>
-            <h1 className="font-bold text-3xl text-center mt-4">لكل رحلة .. حكاية</h1>
+            <h1 className="font-bold text-6xl text-center mt-4 font-specialAr">لكل رحلة .. حكاية</h1>
           </div>
 
           <div className="shadow-medium rounded-medium py-4 md:px-20">

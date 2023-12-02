@@ -2,15 +2,17 @@
 import { FunctionComponent, ReactNode } from 'react'
 import { IconContext, IconType } from 'react-icons'
 import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 interface IconTourProviderProps {
   children: ReactNode
   background?: string
+  iconColorClass?: string
 }
 
-const IconTourProvider: FunctionComponent<IconTourProviderProps> = ({ children, background }) => {
+const IconTourProvider: FunctionComponent<IconTourProviderProps> = ({ children, iconColorClass, background }) => {
   return (
-    <div className="p-2 rounded-full  text-primary" style={{ background: background ?? '#4e008a26' }}>
-      <IconContext.Provider value={{ size: '15px', className: 'text-primary' }}>
+    <div className={cn('p-2 rounded-full', iconColorClass ?? 'text-primary')} style={{ background: background ?? '#4e008a26' }}>
+      <IconContext.Provider value={{ size: '15px', className: iconColorClass }}>
         <motion.div
           initial="hidden"
           whileInView="visible"

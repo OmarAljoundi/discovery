@@ -15,7 +15,6 @@ const Destination: FunctionComponent<DestinationProps> = async () => {
   })
   return (
     <HydrationBoundary state={dehydrate(query)}>
-      <DestinationListingMobile />
       <DestinationListing />
     </HydrationBoundary>
   )

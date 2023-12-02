@@ -2,13 +2,8 @@
 import Carousel from '@/components/common/carousel'
 import { Separator } from '@/components/ui/separator'
 import { Tour } from '@/types/custom'
-import { Card, CardBody, CardHeader } from '@nextui-org/react'
 import { FC } from 'react'
-import { Navigation, Pagination, Scrollbar } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { motion } from 'framer-motion'
-import IconTourProvider from '@/provider/icon-tour-provider'
-import { BsArrowLeftShort, BsArrowRightShort } from 'react-icons/bs'
 import Stars from '@/components/common/stars'
 import { CalendarDays, MapPin } from 'lucide-react'
 import BlurImage from '@/components/common/blur-image'
@@ -37,7 +32,7 @@ const TourHotels: FC<{ tour: Tour }> = ({ tour }) => {
               },
             }}
           >
-            <div className="pt-2 flex items-start justify-between pb-2 relative" key={i.id}>
+            <div className="pt-2 flex items-start justify-between pb-2 relative h-20 " key={i.id}>
               <div className="space-y-2">
                 <div>
                   <h4 className="font-bold text-large text-right ">{i.hotel?.name}</h4>
@@ -50,13 +45,6 @@ const TourHotels: FC<{ tour: Tour }> = ({ tour }) => {
                     </div>
                     <span className="text-ellipsis  text-muted-foreground   text-xs overflow-hidden line-clamp-1">{i.hotel?.place}</span>
                   </div>
-                  <div className="flex justify-start ">
-                    <div className="w-5 h-5">
-                      <CalendarDays className="w-4 h-4 text-muted-foreground" />
-                    </div>
-
-                    <span className="text-ellipsis  text-muted-foreground text-xs overflow-hidden line-clamp-1">{i.hotel?.period} ليالي</span>
-                  </div>
                 </div>
               </div>
               <BlurImage
@@ -66,8 +54,8 @@ const TourHotels: FC<{ tour: Tour }> = ({ tour }) => {
                 alt="hotel logo"
                 loading="eager"
                 quality={100}
-                className="max-w-[100px]"
-                containerClassName="absolute left-2 top-2"
+                className="max-w-[75px]"
+                containerClassName="absolute left-0 top-0"
               />
             </div>
             <div className="overflow-visible py-2 border-t pb-4">

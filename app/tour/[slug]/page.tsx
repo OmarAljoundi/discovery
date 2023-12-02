@@ -12,7 +12,7 @@ import TourRelated from './tour-related'
 import { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const response = (await getTours())?.find((x) => x.slug == decodeURIComponent(params.slug))
+  const response = (await getTours())?.find((x) => x.slug == decodeURIComponent(params.slug) && x.is_active)
   if (!response) {
     return {
       title: 'No tour found',
@@ -35,15 +35,17 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export async function generateStaticParams() {
   const response = await getTours()
   if (response && response.length > 0) {
-    return response.map((tour) => ({
-      slug: `${tour.slug}`,
-    }))
+    return response
+      .filter((x) => x.is_active)
+      .map((tour) => ({
+        slug: `${tour.slug}`,
+      }))
   }
   return []
 }
 
 const TourPage: FunctionComponent<{ params: { slug: string } }> = async ({ params }) => {
-  const tour = (await getTours())?.find((x) => x.slug == decodeURIComponent(params.slug))
+  const tour = (await getTours())?.find((x) => x.slug == decodeURIComponent(params.slug) && x.is_active)
 
   if (!tour) return notFound()
 

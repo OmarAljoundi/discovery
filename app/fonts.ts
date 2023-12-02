@@ -1,7 +1,7 @@
 import localFont from 'next/font/local'
 
 export const fontSpecialAr = localFont({
-  src: './font/Fanan.ttf',
+  src: './font/shekari.ttf',
   variable: '--font-special-arabic',
 })
 

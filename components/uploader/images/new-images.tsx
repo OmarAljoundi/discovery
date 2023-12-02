@@ -32,9 +32,9 @@ const UploadNewImages: FC<{
   const getImageLink = (imagePath: string) => `${process.env.NEXT_PUBLIC_IMAGE_URL!}/${imagePath}`
 
   return (
-    <div className=" w-full">
+    <div className="w-full">
       <ReactImageUploading multiple value={images} onChange={onChange}>
-        {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+        {({ onImageUpload, isDragging, dragProps }) => (
           <div className="upload__image-wrapper">
             <div
               className="relative w-full h-32  mb-5  bg-gray-100 rounded-lg shadow-inner"

@@ -8,17 +8,25 @@ import { MenuItems } from './menu'
 import Link from 'next/link'
 import { useTourTypes } from '@/hooks/react-query/use-tour-types'
 import IconSocialProvider from '@/provider/icon-social-provider'
+import { HiOutlineMapPin } from 'react-icons/hi2'
+import { useQuery } from '@tanstack/react-query'
+import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
+import { getContentData } from '@/lib/operations'
 const Footer = () => {
   const { data, isLoading } = useTourTypes()
+  const { data: setting } = useQuery({
+    queryKey: [REVALIDATE_CONTENT_LIST],
+    queryFn: async () => await getContentData(),
+  })
   return (
     <footer className="bg-gray-200">
       <div className="container px-6 py-12 mx-auto">
         <div className="grid  gap-6 grid-cols-2 sm:gap-y-10 lg:grid-cols-4">
           <div className="col-span-2">
-            <h1 className="text-primary text-xl mb-4">دسكفري للسياحة والسفر</h1>
+            <h1 className="text-primary text-xl mb-4">ديسكفري للسياحة والسفر</h1>
             <p className="pl-14">
-              دسكفري للسياحة هي واحدة من أكبر الشركات المتخصصة بالسفر و السياحية فى سلطنة عمان التي تعمل تحت شعار (انت اختار ) نقدم مئات البرامج
-              أسبوعيا و يوميا لاكثر من 50 دولة حول العالم مع تقديم خيار الاختيار للمسافر لمدة و تاريخ و طريقة الرحلة.
+              هي شركة رائدة في صناعة العطلات السياحية العائلية على مستوى دول الخليج العربي، حيث تقدم تجارب سفر استثنائية وفريدة لعملائها بجودة عالية،
+              يوجد لدى ديسكفري فروع في سلطنة عمان والبحرين وقريباً في الإمارات والسعودية.
             </p>
           </div>
 
@@ -59,21 +67,37 @@ const Footer = () => {
           </a>
 
           <div className="flex -mx-2">
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Facebook">
-              <IconSocialProvider>
-                <FaFacebookF />
-              </IconSocialProvider>
-            </a>
-
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Instagram">
+            <a
+              href="https://www.instagram.com/Discovery.oman/"
+              className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400"
+              aria-label="Instagram"
+              target="_blank"
+            >
               <IconSocialProvider>
                 <FaInstagram />
               </IconSocialProvider>
             </a>
 
-            <a href="#" className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400" aria-label="Whatsapp">
+            <a
+              href={`https://api.whatsapp.com/send/?phone=${setting?.home?.footer?.phone_number
+                ?.replaceAll('-', '')
+                .replaceAll('+', '')}&text&type=phone_number&app_absent=0`}
+              className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400"
+              aria-label="Whatsapp"
+              target="_blank"
+            >
               <IconSocialProvider>
                 <FaWhatsapp />
+              </IconSocialProvider>
+            </a>
+
+            <a
+              href="https://maps.app.goo.gl/iY9WwncyNi7rJXvu7"
+              target="_blank"
+              className="mx-2 text-gray-600 transition-colors duration-300  hover:text-primary hover:text-blue-400"
+            >
+              <IconSocialProvider>
+                <HiOutlineMapPin />
               </IconSocialProvider>
             </a>
           </div>

@@ -5,12 +5,16 @@ import { Button, ModalFooter, Tab, Tabs } from '@nextui-org/react'
 import UploadNewAttachments from '../uploader/attachments/new-attachments'
 import FromLibrary from '../uploader/attachments/from-libray'
 import { ExternalFile } from '@/types/custom'
+import { DeleteImageFromTour } from '@/lib/storage-operations'
+import { ATTACHMENT_PATH } from '@/lib/keys'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface AttachmentModalProps {}
 
 const AttachmentModal: FunctionComponent<AttachmentModalProps> = () => {
   const attachemntModal = useAttachmentModal()
   const [selectedAttachments, setSelectedAttachment] = useState<ExternalFile[]>([])
+  const queryClient = useQueryClient()
   const [loadingDelete, setLoadingDelete] = useState(false)
 
   const UploadAttachment = () => {
@@ -24,10 +28,17 @@ const AttachmentModal: FunctionComponent<AttachmentModalProps> = () => {
 
   const DeleteAttachment = async () => {
     setLoadingDelete(true)
-    // const { success, error } = await DeleteImageFromTour(selectedAttachments)
-    // if (!success) {
-    //   return
-    // }
+
+    const { success, error } = await DeleteImageFromTour(
+      selectedAttachments.map((i) => {
+        return `${ATTACHMENT_PATH}/${i.name}`
+      }),
+    )
+    debugger
+    await queryClient.invalidateQueries()
+    if (!success) {
+      console.log('error', error)
+    }
     setLoadingDelete(false)
     setSelectedAttachment([])
   }

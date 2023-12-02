@@ -11,10 +11,10 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
       <h4 className="mb-0 text-2xl font-semibold font-primary">مميزات البرنامج</h4>
       <Separator className="my-4" />
       <div className="flex gap-x-2 justify-start items-center">
-        <IconTourProvider>
+        <IconTourProvider background="green" iconColorClass="text-white">
           <BsCheckLg />
         </IconTourProvider>
-        <h6 className="font-semibold font-primary"> ما يشمله البرنامج </h6>
+        <h6 className="font-semibold font-primary"> البرنامج يشمل </h6>
       </div>
       <ul className="flex flex-col gap-4 mb-10 mt-5">
         {tour?.tour_includes?.map((i) => (
@@ -39,11 +39,11 @@ const TourBenfits: FC<{ tour: Tour }> = ({ tour }) => {
           </li>
         ))}
       </ul>
-      <div className="flex gap-x-2 justify-start items-center">
-        <IconTourProvider>
+      <div className="flex gap-x-2 justify-start items-center ">
+        <IconTourProvider background="red" iconColorClass="text-white">
           <RxCross2 />
         </IconTourProvider>
-        <h6 className="font-semibold font-primary"> البرنامج لا يشمل التالي </h6>
+        <h6 className="font-semibold font-primary"> البرنامج لايشمل</h6>
       </div>
       <ul className="flex flex-col gap-4 mb-10  mt-5">
         {tour?.tour_excludes?.map(({ uuid, description, title }) => (

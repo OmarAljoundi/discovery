@@ -38,7 +38,7 @@ const UploadNewAttachments: FC<{ selectedAttachments: ExternalFile[]; setselecte
   }
 
   const { data, isLoading } = useQuery({
-    queryKey: ['attachmnets_selected'],
+    queryKey: uploadedAttachments.map((x) => x.name),
     queryFn: async () => await ListAllAttachmentsInBucket(100, 0),
     refetchInterval: false,
     select(data) {
@@ -46,14 +46,6 @@ const UploadNewAttachments: FC<{ selectedAttachments: ExternalFile[]; setselecte
       return data?.filter((x) => names.includes(x.name))
     },
   })
-
-  const convertToExternalFile = (fileObject: any): ExternalFile => {
-    const [_, name] = (fileObject.name as string).split('/')
-    return {
-      name,
-      path: fileObject.name,
-    }
-  }
 
   return (
     <div className=" w-full">
@@ -74,8 +66,8 @@ const UploadNewAttachments: FC<{ selectedAttachments: ExternalFile[]; setselecte
                 </svg>
               </label>
             </div>
-            <ScrollArea className="h-[400px] ">
-              <div className="rounded-md border  grid grid-cols-6 gap-4 p-4">
+            <ScrollArea className="h-[420px] rounded-md border">
+              <div className="grid grid-cols-6 gap-4 p-4">
                 {(isLoading || loading > 0) &&
                   Array.from(new Array(loading)).map((i) => (
                     <div key={i} className="image-item border border-dashed rounded-xl relative">

@@ -11,7 +11,6 @@ export const UploadProductImages = async (
 ): Promise<{ image?: string; file?: ImageType; error: { message?: string; image?: string } }[]> => {
   return await Promise.all(
     files.map(async (element) => {
-      debugger
       const { data, error } = await supabaseClient.storage
         .from('discovery')
         .upload(`${path}/${containsArabicText(element.file!.name)}`, element.file!, {
@@ -51,7 +50,7 @@ export const ListAllAttachmentsInBucket = async (limit: number = 10, offest: num
   var _SO: any = {
     limit: limit,
     offset: offest,
-    sortBy: { column: 'name', order: 'asc' },
+    sortBy: { column: 'created_at', order: 'desc' },
   }
   if (search) {
     _SO['search'] = search
@@ -76,21 +75,23 @@ export const DeleteImageFromTour = async (images: string[]) => {
     success: true,
   }
 }
+
 export const PushAttachments = async (
   files: File[],
 ): Promise<{ path?: string; file?: File; name: string; error: { message?: string; fileName?: string } }[]> => {
   return await Promise.all(
     files.map(async (element) => {
-      const { data, error } = await supabaseClient.storage.from('discovery').upload(`${ATTACHMENT_PATH}/${element.name}`, element!, {
+      const name = containsArabicText(element.name)
+      const { data, error } = await supabaseClient.storage.from('discovery').upload(`${ATTACHMENT_PATH}/${name}`, element!, {
         cacheControl: '86400',
         upsert: true,
       })
       return {
         path: data?.path,
-        name: element.name,
+        name: name,
         file: !error ? element : undefined,
         error: {
-          fileName: element.name,
+          fileName: name,
           message: error?.message,
         },
       }

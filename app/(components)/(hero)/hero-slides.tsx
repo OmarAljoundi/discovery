@@ -1,5 +1,5 @@
 'use client'
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useEffect } from 'react'
 import { useSetting } from '@/hooks/use-setting'
 import { motion } from 'framer-motion'
 import BlurImage from '@/components/common/blur-image'
@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
 import { getContentData } from '@/lib/operations'
 import HeroFilter from './hero-filter'
+import { useFilterCustomer } from '@/hooks/use-customer-filter'
 
 interface HeroSlidesProps {}
 
@@ -21,6 +22,12 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
     queryKey: [REVALIDATE_CONTENT_LIST],
     queryFn: async () => await getContentData(),
   })
+
+  const { onDestroy } = useFilterCustomer()
+
+  useEffect(() => {
+    onDestroy()
+  }, [])
 
   return (
     <div className="relative ">
@@ -92,7 +99,7 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
                     <div className="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed bg-black/60 ">
                       <div className="container grid items-center h-full">
                         <div className="text-center relative z-30">
-                          <h1 className="text-6xl lg:text-7xl  font-secondary text-white">{item.title}</h1>
+                          <h1 className="text-4xl sm:text-6xl lg:text-7xl  font-secondary text-white">{item.title}</h1>
                           <p className=" mx-auto px-2 font-primary text-xl lg:text-3xl text-white mt-4 md:mt-7 mb-6 ">{item.sub_title}</p>
                         </div>
                       </div>
@@ -105,7 +112,7 @@ const HeroSlides: FunctionComponent<HeroSlidesProps> = () => {
         ))}
       </Swiper>
 
-      <section className="mt-8 absolute bottom-10 z-10 w-full max-w-7xl mx-auto right-0 left-0">
+      <section className="mt-8 absolute z-10 w-full max-w-7xl mx-auto right-0 left-0 -bottom-16 xl:bottom-10">
         <HeroFilter />
       </section>
     </div>

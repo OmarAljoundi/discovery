@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import MultipleImageForm from '../common/multiple-image-form'
 import { toast } from 'sonner'
 import { http } from '@/service/httpService'
-import { REVALIDATE_HOTEL_LIST } from '@/lib/keys'
+import { REVALIDATE_HOTEL_LIST, REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { createHotel, updateHotel } from '@/lib/operations'
 import { HotalSchema } from '@/types/validations'
 import { cn } from '@/lib/utils'
@@ -27,10 +27,11 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
       toast.promise(updateHotel(formData), {
         loading: 'Loading, Updating your Hotel...',
         error(error) {
-          return error
+          return error.message
         },
         async success(data) {
           await http(`/api/revalidate?tag=${REVALIDATE_HOTEL_LIST}`).get()
+          await http(`/api/revalidate?tag=${REVALIDATE_TOUR_LIST}`).get()
           router.refresh()
           resetForm()
           onClose()
@@ -41,7 +42,7 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
       toast.promise(createHotel(formData), {
         loading: 'Loading, Creating your hotel...',
         error(error) {
-          return error
+          return error.message
         },
         async success(data) {
           await http(`/api/revalidate?tag=${REVALIDATE_HOTEL_LIST}`).get()
@@ -167,19 +168,6 @@ const HotelModal: FunctionComponent<HotelModalProps> = () => {
                 />
               </div>
               <div className="flex gap-x-4">
-                <Input
-                  label="Period"
-                  labelPlacement="outside"
-                  placeholder="Enter staying period"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onClear={() => setFieldValue('period', '')}
-                  value={values.period?.toString()}
-                  name="period"
-                  type="number"
-                  isInvalid={touched.period && !!errors.period}
-                  errorMessage={errors.period}
-                />
                 <Input
                   label="Hotal Place"
                   labelPlacement="outside"

@@ -10,6 +10,7 @@ import { useFormik } from 'formik'
 import SeoForm from '@/components/common/seo-form'
 import { Button } from '@nextui-org/react'
 import { Save } from 'lucide-react'
+import FooterForm from '@/components/settings/home-setting/footer-form'
 
 interface HomePageProps {}
 
@@ -71,6 +72,13 @@ const HomePage: FunctionComponent<HomePageProps> = () => {
             Save Changes
           </Button>
         </form>
+
+        <Separator />
+        <div>
+          <p className="text-xl">Footer Setting!</p>
+          <p className="text-muted-foreground">Add footer settings!</p>
+        </div>
+        <FooterForm />
       </div>
     </div>
   )

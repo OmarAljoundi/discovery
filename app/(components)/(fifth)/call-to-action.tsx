@@ -79,7 +79,7 @@ const CallToAction: FunctionComponent<CallToActionProps> = () => {
       >
         <div className="flex-col md:flex-row flex justify-between space-y-9 items-center">
           <div className="justify-items-center md:justify-items-start grid text-black space-y-2">
-            <h3 className="text-4xl text-white ">لكل رحلة .. حكاية</h3>
+            <h3 className="text-6xl text-white font-specialAr">لكل رحلة .. حكاية</h3>
             <h1 className="text-2xl text-center  font-specialEn md:text-right  lg:text-4xl text-white direc">Every Journey .. Has a story</h1>
           </div>
 
@@ -101,7 +101,7 @@ const CallToAction: FunctionComponent<CallToActionProps> = () => {
             {response?.success != true && (
               <Button
                 variant="solid"
-                className="h-12 bg-black text-white font-bold w-fit px-10"
+                className="h-12 bg-[#18c2dc] text-black font-bold w-fit px-10"
                 size="sm"
                 isLoading={loading}
                 onPress={() => {
