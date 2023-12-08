@@ -20,6 +20,7 @@ import dynamics from 'next/dynamic'
 import NextUIProvider from '@/provider/next-ui-provider'
 import { fontSpecialAr, fontSpecialEn } from './fonts'
 import CustomerFormModal from '@/components/modals/customer-form-modal'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
       <body className={cn(cairo.className, fontSpecialAr.variable, fontSpecialEn.variable, 'h-full')}>
         <Toaster position="top-right" expand={true} richColors />
+        <SpeedInsights />
         <ReactQueryProvider>
           <NextUIProvider>
             {headersList.get('x-dir') == 'rtl' ? (
