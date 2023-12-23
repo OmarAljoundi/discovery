@@ -46,7 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-const ReactQueryProvider = dynamics(() => import('@/provider/react-query-provider').then((mod) => mod.default), {
+const ReactQueryProvider = dynamics(() => import('@/provider/react-query-provider'), {
   ssr: false,
 })
 export default function RootLayout({ children }: { children: React.ReactNode }) {

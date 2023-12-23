@@ -1,3 +1,4 @@
+'use client'
 import TourCardLoading from '@/components/common/tour-card-loading'
 import { Button } from '@nextui-org/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'

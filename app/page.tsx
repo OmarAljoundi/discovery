@@ -9,20 +9,20 @@ import TourTypeLoading from './(components)/(third)/tour-type-loading'
 import { Metadata } from 'next'
 import HeroSlides from './(components)/(hero)/hero-slides'
 
-const Destination = ImportDynamic(() => import('./(components)/(first)/destination').then((mod) => mod.default), {
+const Destination = ImportDynamic(() => import('./(components)/(first)/destination'), {
   ssr: false,
   loading: () => <DestinationLoading />,
 })
 
-const BestTours = ImportDynamic(() => import('./(components)/(second)/best-tours').then((mod) => mod.default), {
+const BestTours = ImportDynamic(() => import('./(components)/(second)/best-tours'), {
   ssr: false,
   loading: () => <BestToursLoading />,
 })
-const TourTypes = ImportDynamic(() => import('./(components)/(third)/tour-type').then((mod) => mod.default), {
+const TourTypes = ImportDynamic(() => import('./(components)/(third)/tour-type'), {
   ssr: false,
 })
 
-const CallToAction = ImportDynamic(() => import('./(components)/(fifth)/call-to-action').then((mod) => mod.default), {
+const CallToAction = ImportDynamic(() => import('./(components)/(fifth)/call-to-action'), {
   ssr: false,
 })
 

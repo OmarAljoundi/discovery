@@ -58,7 +58,6 @@ const TourForm: FunctionComponent<TourFormProps> = ({ data }) => {
   const router = useRouter()
 
   const handleSubmitData = async (formData: Tour) => {
-    debugger
     if (!formData.slug) {
       formData.slug = formData.name?.trim().replaceAll(' ', '-')
     }

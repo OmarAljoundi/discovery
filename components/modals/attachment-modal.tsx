@@ -34,7 +34,6 @@ const AttachmentModal: FunctionComponent<AttachmentModalProps> = () => {
         return `${ATTACHMENT_PATH}/${i.name}`
       }),
     )
-    debugger
     await queryClient.invalidateQueries()
     if (!success) {
       console.log('error', error)
