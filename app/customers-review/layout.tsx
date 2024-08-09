@@ -1,6 +1,4 @@
-import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
 import { getContentData } from '@/lib/operations'
-import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
 import { Metadata } from 'next'
 import { FunctionComponent, ReactNode } from 'react'
 

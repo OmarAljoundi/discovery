@@ -34,7 +34,7 @@ export async function POST(req: Request, res: Response) {
     var OrQuries: OrQuriesProp[] = []
 
     const requestData = (await req.json()) as SearchQuery
-    var query = supabase.from(requestData.Table!).select(requestData.Select, { count: 'exact' })
+    var query = supabase.from(requestData.Table! as any).select(requestData.Select, { count: 'exact' })
 
     requestData.FilterByOptions.map((i) => {
       if (i.MemberName.includes('.')) {

@@ -17,8 +17,11 @@ const nextConfig = {
       {
         hostname: 'flagcdn.com',
       },
+      {
+        hostname: 'vxvdlhgsekjgjrynhkdt.supabase.co',
+      },
     ],
   },
 }
 
-module.exports = nextConfig
+export default nextConfig
