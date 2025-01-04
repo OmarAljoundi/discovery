@@ -99,7 +99,6 @@ export const columns: ColumnDef<Hotel>[] = [
             action: async () => {
               const { data, error } = await supabaseClient.from('hotel').delete().eq('id', row.original.id!)
               if (error) {
-                console.log('error', error)
                 return {
                   success: false,
                   message: error.message,

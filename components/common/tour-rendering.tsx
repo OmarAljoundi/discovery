@@ -27,7 +27,6 @@ const TourRendering: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
   })
 
   useEffect(() => {
-    console.log(inView)
     if (inView) {
       setCurrentSize(currentSize + 10)
     }

@@ -62,8 +62,8 @@ const UploadNewImages: FC<{
                   <CardHeader className="p-0">
                     <Image
                       shadow="none"
-                      width={1000}
-                      height={1000}
+                      width={200}
+                      height={200}
                       loading="lazy"
                       isBlurred
                       isZoomed

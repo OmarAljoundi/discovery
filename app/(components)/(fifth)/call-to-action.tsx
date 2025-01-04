@@ -87,7 +87,7 @@ const CallToAction: FunctionComponent<CallToActionProps> = () => {
             <Input
               label="البريد الإلكتروني او رقم الهاتف"
               classNames={{
-                label: 'text-white lg:text-right right-0 text-base lg:text-xl mx-auto left-0 text-center',
+                label: '!text-white lg:text-right right-0 text-base lg:text-xl mx-auto left-0 text-center',
                 inputWrapper: 'rounded-sm',
                 input: 'placeholder:text-right',
               }}

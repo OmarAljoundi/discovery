@@ -61,10 +61,18 @@ const Footer = () => {
 
         <Separator className="my-6 md:my-8 " />
 
-        <div className="flex-col sm:flex-row flex items-center justify-between">
-          <a href="#">
-            <BlurImage src={'/images/discovery-footer.png'} className="max-w-[200px]" alt="Discovery Logo" width={300} height={100} />
-          </a>
+        <div className="flex-col sm:flex-row flex items-center justify-between space-y-2">
+          <Link href="/">
+            <BlurImage
+              src={'/images/discovery-footer.png'}
+              className="sm:max-w-[200px] "
+              containerClassName={'text-center md:text-right  flex justify-around md:block'}
+              alt="Discovery Logo"
+              width={300}
+              height={100}
+            />
+            <p className="text-center lg:text-right font-bold">HORIZONS INTERNATIONAL BUSINESS ENTERPRISES</p>
+          </Link>
 
           <div className="flex -mx-2">
             <a

@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Hotel, Tour } from './custom'
+import { Article, Hotel, Tour } from './custom'
 
 export const UserSchema = yup.object().shape({
   email: yup.string().email('Email not in a correct format!').required('Email is required'),
@@ -12,7 +12,6 @@ type SchemaObject<T> = {
 
 export const TourSchema = yup.object().shape<SchemaObject<Tour>>({
   name: yup.string().required('Name is required'),
-  //slug: yup.string().required('Slug is required!'),
   code: yup.string().required('Code is required!'),
   is_active: yup.boolean().nullable(),
   is_ticket_included: yup.boolean().nullable(),
@@ -27,4 +26,12 @@ export const HotalSchema = yup.object().shape<SchemaObject<Hotel>>({
   images: yup.array().min(1, 'You need to add at least one image').max(5, 'For better performance max images are 5').required('Images are required'),
   name: yup.string().required('Please enter the hotel name'),
   rating: yup.number().min(0, 'Rating must be greater than 1').max(5, 'Rating must be less than 5').required('Rating is required'),
+})
+
+export const ArticleSchema = yup.object().shape<SchemaObject<Article>>({
+  title: yup.string().required('Name is required'),
+  author: yup.string().required('Author is required!'),
+  content: yup.string().required('Content is required!'),
+  image: yup.string().required('Image is required!'),
+  tag: yup.string().required('Tag is required!'),
 })

@@ -236,7 +236,6 @@ html {
 .swiper-slide {
   flex: 0 0 auto;
   width: 80%; /* Adjust the width as needed */
-  margin: 0 auto;
 }
 
 .swiper-button-prev,
@@ -316,4 +315,19 @@ html {
   100% {
     transform: rotate(-360deg);
   }
+}
+
+@keyframes border-flow {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-border-flow {
+  animation: border-flow 3s ease infinite;
+  background-size: 200% 200%;
 }

@@ -3,11 +3,9 @@ import BlurImage from '@/components/common/blur-image'
 import { Separator } from '@/components/ui/separator'
 import { REVALIDATE_LOCATION_LIST } from '@/lib/keys'
 import { getDestination } from '@/lib/operations'
-import { cn } from '@/lib/utils'
 import { Location } from '@/types/custom'
-import { Button } from '@nextui-org/react'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowRight, ChevronRight, MapPin } from 'lucide-react'
+import { ChevronRight, MapPin } from 'lucide-react'
 import Link from 'next/link'
 
 const DestinationListing = () => {

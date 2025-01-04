@@ -24,6 +24,36 @@ export async function generateMetadata({ params }: { params: { destination: stri
       description: description,
       type: 'website',
       siteName: 'Discovery',
+      url: `https://www.discovery-om.com/tour-listing/${decodeURIComponent(params.destination)}/${decodeURIComponent(
+        params.section.replaceAll('-', ' '),
+      )}`,
+      images: [
+        {
+          url: `${process.env.NEXT_PUBLIC_IMAGE_URL}${response?.image?.url}`,
+          width: 640,
+          height: 427,
+          alt: response?.name,
+        },
+      ],
+      locale: 'ar_OM',
+    },
+    creator: 'Discovery tours',
+    publisher: 'Discovery Inc.',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
     keywords: tags,
   }

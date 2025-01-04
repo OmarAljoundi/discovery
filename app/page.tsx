@@ -8,6 +8,7 @@ import { getContentData } from '@/lib/operations'
 import TourTypeLoading from './(components)/(third)/tour-type-loading'
 import { Metadata } from 'next'
 import HeroSlides from './(components)/(hero)/hero-slides'
+import ArticlesLoading from './(components)/(sixth)/articles-loading'
 
 const Destination = ImportDynamic(() => import('./(components)/(first)/destination'), {
   ssr: false,
@@ -17,6 +18,11 @@ const Destination = ImportDynamic(() => import('./(components)/(first)/destinati
 const BestTours = ImportDynamic(() => import('./(components)/(second)/best-tours'), {
   ssr: false,
   loading: () => <BestToursLoading />,
+})
+
+const Articles = ImportDynamic(() => import('./(components)/(sixth)/articles-list'), {
+  ssr: false,
+  loading: () => <ArticlesLoading />,
 })
 const TourTypes = ImportDynamic(() => import('./(components)/(third)/tour-type'), {
   ssr: false,
@@ -67,6 +73,9 @@ export default async function Home() {
         <TourTypes />
       </Suspense>
 
+      <Suspense fallback={<ArticlesLoading />}>
+        <Articles />
+      </Suspense>
       <CallToAction />
     </div>
   )

@@ -1,13 +1,10 @@
 export const dynamic = 'force-dynamic'
 
 import Navbar from '@/layout/dashboard/navbar'
-import SidebarNav from '@/layout/dashboard/sidebar-nav'
 import SubSidebarNav from '@/layout/dashboard/sub-sidebar-nav'
 import { getTourTypes } from '@/lib/operations'
 import ClientProvider from '@/provider/client-provider'
 import { FunctionComponent, ReactNode } from 'react'
-import { Cairo } from 'next/font/google'
-import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/provider/theme-provider'
 import { Metadata } from 'next'
 import { ModalProvider } from '@/provider/modal-provider'

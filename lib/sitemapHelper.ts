@@ -1,7 +1,13 @@
-import { getDestination, getTours } from './operations'
+import { IImageEntry, ISitemapField } from 'next-sitemap'
+import { getArticles, getDestination, getTours } from './operations'
 
 export const getAllPaths = async () => {
-  const [tours, destination, destination_sections] = await Promise.all([getAllTours(), getAllDestination(), getAllDestinationSections()])
+  const [tours, destination, destination_sections, articles] = await Promise.all([
+    getAllTours(),
+    getAllDestination(),
+    getAllDestinationSections(),
+    getAllArticles(),
+  ])
   return [
     {
       loc: `${process.env.NEXT_PUBLIC_URL}`,
@@ -12,18 +18,19 @@ export const getAllPaths = async () => {
     ...(tours ?? []),
     ...destination,
     ...destination_sections,
+    ...(articles ?? []),
   ]
 }
 
-const getAllTours = async () => {
+const getAllTours = async (): Promise<ISitemapField[]> => {
   const response = await getTours()
-  return response?.map((tour) => ({
+  return (response ?? [])?.map((tour) => ({
     loc: `${process.env.NEXT_PUBLIC_URL}/tour/${tour.slug}`,
-    lastmod: tour.created_at || new Date(),
+    lastmod: tour.created_at?.toString(),
     changefreq: 'daily',
     priority: 0.8,
     images: tour?.images?.map((o) => {
-      return { loc: o }
+      return { loc: new URL(`${process.env.NEXT_PUBLIC_IMAGE_URL}${o}`) }
     }),
   }))
 }
@@ -62,4 +69,19 @@ const getAllDestinationSections = async () => {
     })
 
   return results
+}
+
+const getAllArticles = async (): Promise<ISitemapField[]> => {
+  const response = await getArticles()
+  return (response ?? [])?.map((article) => ({
+    loc: `${process.env.NEXT_PUBLIC_URL}/articles/${article.slug}`,
+    lastmod: article.created_at?.toString(),
+    changefreq: 'daily',
+    priority: 0.8,
+    images: [
+      {
+        loc: new URL(`${process.env.NEXT_PUBLIC_IMAGE_URL}${article.image}`),
+      },
+    ],
+  }))
 }

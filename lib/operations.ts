@@ -1,9 +1,10 @@
 'use server'
-import { Customer, Hotel, Location, LocationAttributes, Newsletter, Response, Setting, Tour, TourType } from '@/types/custom'
+import { Article, Customer, Hotel, Location, LocationAttributes, Newsletter, Response, Setting, Tour, TourType } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
 import {
   CONFIG_PATH,
+  REVALIDATE_ARTICLE_LIST,
   REVALIDATE_CUSTOMER_LIST,
   REVALIDATE_HOTEL_LIST,
   REVALIDATE_LOCATION_LIST,
@@ -17,6 +18,7 @@ import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types/supabase'
 import { cookies } from 'next/headers'
 import { format } from 'date-fns'
+import { delay } from '@/dev'
 
 export async function updateTourStatus(status: boolean, id: number): Promise<Response<any>> {
   const { error } = await supabaseClient.from('tour').update({ is_active: status }).eq('id', id)
@@ -258,7 +260,6 @@ export async function createDestinationAttr(destinationAttr: LocationAttributes)
     }
   }
 }
-
 export const getCurrentUser = async (): Promise<boolean | undefined> => {
   const supabase = createRouteHandlerClient<Database>({ cookies })
   const { data: session_response, error: session_error } = await supabase.auth.getUser()
@@ -333,7 +334,6 @@ export const joinNewLetter = async (req: Newsletter) => {
     success: true,
   }
 }
-
 export async function submitForm(formData: Customer) {
   const { data, error } = await supabaseClient
     .from('customer')
@@ -365,4 +365,65 @@ export async function submitForm(formData: Customer) {
   return {
     success: true,
   }
+}
+
+export async function createArticle(article: Article) {
+  const { data, error } = await supabaseClient
+    .from('article')
+    .insert(article as any)
+    .select('*')
+    .single()
+
+  if (error) {
+    console.log('Errors in creating article.. ', error)
+    throw new Error(error.message)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_ARTICLE_LIST}`, { revalidate: 0 }).get()
+
+  return data
+}
+export async function updateArticle(article: Article) {
+  const { data, error } = await supabaseClient
+    .from('article')
+    .update(article as any)
+    .eq('id', article.id!)
+    .select('*')
+    .single()
+
+  if (error) {
+    console.log('Errors in updating article.. ', error)
+    throw new Error(error.message)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_ARTICLE_LIST}`, { revalidate: 0 }).get()
+
+  return data
+}
+export async function updateArticleStatus(status: boolean, id: number): Promise<Response<any>> {
+  const { error } = await supabaseClient.from('article').update({ is_active: status }).eq('id', id)
+
+  if (error) {
+    throw new Error(`faild to update article status, ${error.message}`)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_ARTICLE_LIST}`, { revalidate: 0 }).get()
+
+  return {
+    message: 'Article updated successfully..',
+    success: true,
+  }
+}
+
+export async function getArticles() {
+  var _SQ: SearchQuery = {
+    FilterByOptions: [],
+    OrderByOptions: [],
+    PageIndex: 0,
+    PageSize: 1000,
+    Select: '*',
+    Table: 'article',
+  }
+  const response = await http<Response<Article>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_ARTICLE_LIST] }).post(_SQ)
+  return response.results
 }

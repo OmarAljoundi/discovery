@@ -5,7 +5,6 @@ import type { Metadata } from 'next'
 import { Cairo } from 'next/font/google'
 import { Toaster } from 'sonner'
 import { cn } from '@/lib/utils'
-import { ModalProvider } from '@/provider/modal-provider'
 import { headers } from 'next/headers'
 import 'swiper/css'
 import 'swiper/css/pagination'
@@ -21,13 +20,14 @@ import NextUIProvider from '@/provider/next-ui-provider'
 import { fontSpecialAr, fontSpecialEn } from './fonts'
 import CustomerFormModal from '@/components/modals/customer-form-modal'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-
+import { TooltipProvider } from '@/components/ui/tooltip'
+import '@/components/minimal-tiptap/styles/index.css'
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
   display: 'swap',
   preload: true,
   style: 'normal',
-  weight: ['1000', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['200', '300', '400', '500', '600', '700', '800', '900'],
 })
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,21 +57,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={cn(cairo.className, fontSpecialAr.variable, fontSpecialEn.variable, 'h-full')}>
         <Toaster position="top-right" expand={true} richColors />
         <SpeedInsights />
-        <ReactQueryProvider>
-          <NextUIProvider>
-            {headersList.get('x-dir') == 'rtl' ? (
-              <>
-                <CustomerFormModal />
-                <ToolBar />
-                <Menu />
-                {children}
-                <Footer />
-              </>
-            ) : (
-              <> {children}</>
-            )}
-          </NextUIProvider>
-        </ReactQueryProvider>
+        <TooltipProvider>
+          <ReactQueryProvider>
+            <NextUIProvider>
+              {headersList.get('x-dir') == 'rtl' ? (
+                <>
+                  <CustomerFormModal />
+                  <ToolBar />
+                  <Menu />
+                  {children}
+                  <Footer />
+                </>
+              ) : (
+                <> {children}</>
+              )}
+            </NextUIProvider>
+          </ReactQueryProvider>
+        </TooltipProvider>
       </body>
     </html>
   )

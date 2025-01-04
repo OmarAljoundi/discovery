@@ -79,7 +79,6 @@ export const columns: ColumnDef<TourType>[] = [
             action: async () => {
               const { data, error } = await supabaseClient.from('tour_type').delete().eq('id', row.original.id!)
               if (error) {
-                console.log('error', error)
                 return {
                   success: false,
                   message: error.message,

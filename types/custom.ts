@@ -86,6 +86,19 @@ export type Location = {
   location_attributes?: LocationAttributes[]
 }
 
+export type Article = {
+  id?: number
+  image?: string
+  title?: string
+  content?: string
+  author?: string
+  tag?: string
+  is_active?: boolean
+  seo?: Seo
+  created_at?: Date
+  slug?: string
+}
+
 export type LocationTours = {
   id?: number
   location_attr_id?: number | null
@@ -149,6 +162,7 @@ export type Setting = {
   faq?: Faq[]
   about_us?: FaqSeo
   faq_seo?: FaqSeo
+  article_seo?: FaqSeo
   customers_review?: CustomerReview
   best_tours?: BestTours
 }

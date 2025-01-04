@@ -181,7 +181,6 @@ export const columns: ColumnDef<Tour>[] = [
             action: async () => {
               const { data, error } = await supabaseClient.from('tour').delete().eq('id', row.original.id!)
               if (error) {
-                console.log(error)
                 throw new Error(`Error while deleting the tour ${error.message}`)
               }
               await fetch(`/api/revalidate?tag=${REVALIDATE_TOUR_LIST}`)
