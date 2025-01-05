@@ -44,10 +44,40 @@ export async function generateMetadata(): Promise<Metadata> {
       description: description,
       type: 'website',
       siteName: 'Discovery',
+      url: `https://www.discovery-om.com`,
+      countryName: 'Oman',
+      images: [
+        {
+          url: `https://www.discovery-om.com/_next/image?url=/images/discovery-footer.png&w=384&q=100`,
+          width: 120,
+          height: 60,
+          alt: 'Discovery Logo',
+        },
+      ],
+      locale: 'ar_OM',
+    },
+    creator: 'Discovery tours',
+    publisher: 'Discovery Inc.',
+    formatDetection: {
+      email: false,
+      address: false,
+      telephone: false,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
     keywords: tags,
   }
 }
+
 export default async function Home() {
   const query = new QueryClient()
   await query.prefetchQuery({

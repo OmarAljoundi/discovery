@@ -13,6 +13,7 @@ module.exports = {
     await config.transform(config, '/faq'),
     await config.transform(config, '/tour-listing'),
     await config.transform(config, '/visa'),
+    await config.transform(config, '/articles'),
   ],
   robotsTxtOptions: {
     policies: [

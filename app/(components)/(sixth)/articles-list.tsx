@@ -94,7 +94,7 @@ const ArticlesList: FunctionComponent<ArticlesListProps> = () => {
     <div className="py-16" ref={sectionRef}>
       <div className="container">
         <div className="flex justify-between items-end">
-          <h1 className="text-xl">المقالات</h1>
+          <h1 className="text-xl">المدونات</h1>
           <div className="flex justify-end">
             <Button isIconOnly size="sm" className="group hover:text-primary duration-500 transition-all" variant="light" onPress={goPrev}>
               <ArrowRight className="w-4 h-4 group-hover:scale-110 duration-200 transition-all" />

@@ -33,6 +33,10 @@ const SettingMenu = [
     label: 'Best Tours',
     href: '/admin/dashboard/setting/best-tours',
   },
+  {
+    label: 'Articles Seo',
+    href: '/admin/dashboard/setting/articles',
+  },
 ]
 
 export function SidebarNav({ className, ...props }: SidebarNavProps) {

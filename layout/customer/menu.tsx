@@ -4,9 +4,6 @@ import MobileMenu from './mobile-menu'
 import BlurImage from '@/components/common/blur-image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
-import { getContentData } from '@/lib/operations'
-import { REVALIDATE_CONTENT_LIST } from '@/lib/keys'
 
 export const MenuItems = [
   {
@@ -32,6 +29,10 @@ export const MenuItems = [
   {
     title: 'الأسئلة الشائعة',
     link: '/faq',
+  },
+  {
+    title: 'المدونات',
+    link: '/articles',
   },
 ]
 

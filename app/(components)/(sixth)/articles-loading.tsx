@@ -11,7 +11,7 @@ const ArticlesLoading: FunctionComponent<ArticlesLoadingProps> = () => {
     <div className=" bg-[#f1f6ff] b py-16">
       <div className="container">
         <div className="flex justify-between items-end">
-          <h1 className="text-xl">المقالات</h1>
+          <h1 className="text-xl">المدونات</h1>
           <div className="flex justify-end">
             <Button isIconOnly size="sm" className="group hover:text-primary duration-500 transition-all" variant="light">
               <ArrowRight className="w-4 h-4 group-hover:scale-110 duration-200 transition-all" />

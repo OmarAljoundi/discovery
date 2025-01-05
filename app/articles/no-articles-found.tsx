@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import { Scale } from 'lucide-react'
+import { Plane } from 'lucide-react'
 
 export default function NoArticleFound() {
   return (
@@ -20,11 +20,11 @@ export default function NoArticleFound() {
           }}
           className="mb-8 inline-block"
         >
-          <Scale size={64} className="text-gray-400" />
+          <Plane size={64} className="text-gray-400" />
         </motion.div>
-        <h1 className="mb-4 text-3xl font-bold text-gray-800">لا يوجد اي مقالات حاليا</h1>
+        <h1 className="mb-4 text-3xl font-bold text-gray-800">لا يوجد اي مدونات حاليا</h1>
         <p className="mb-8 text-xl text-gray-600">
-          حاليًا، لا توجد أي مقالات متاحة للعرض في هذا القسم. قد يكون ذلك بسبب عدم توفر محتوى جديد أو لأن البيانات المتعلقة بالمقالات لم تتم إضافتها
+          حاليًا، لا توجد أي مدونات متاحة للعرض في هذا القسم. قد يكون ذلك بسبب عدم توفر محتوى جديد أو لأن البيانات المتعلقة بالمدونات لم تتم إضافتها
           بعد. يُرجى التحقق لاحقًا للحصول على تحديثات أو مراجعة مصادر أخرى للحصول على المعلومات المطلوبة
         </p>
         <TourElements />
