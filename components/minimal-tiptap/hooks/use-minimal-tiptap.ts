@@ -14,6 +14,7 @@ import { useThrottle } from '../hooks/use-throttle'
 import { toast } from 'sonner'
 //@ts-ignore
 import UniqueId from 'tiptap-unique-id'
+import { UploadProductImages } from '@/lib/storage-operations'
 
 export interface UseMinimalTiptapEditorProps extends UseEditorOptions {
   value?: Content
@@ -52,20 +53,14 @@ const createExtensions = (placeholder: string) => [
     HTMLAttributes: {
       class: 'object-cover rounded-lg shadow-lg',
     },
-    maxFileSize: 5 * 1024 * 1024,
+    maxFileSize: 10 * 1024 * 1024,
     allowBase64: true,
     uploadFn: async (file) => {
-      // NOTE: This is a fake upload function. Replace this with your own upload logic.
-      // This function should return the uploaded image URL.
-
-      // wait 3s to simulate upload
-      await new Promise((resolve) => setTimeout(resolve, 3000))
-
-      const src = await fileToBase64(file)
-
-      // either return { id: string | number, src: string } or just src
-      // return src;
-      return { id: randomId(), src }
+      const src = await UploadProductImages([{ file }], 'articles')
+      if (src && src.length > 0 && src[0].image) {
+        return { id: randomId(), src: `${process.env.NEXT_PUBLIC_IMAGE_URL!}${src[0].image}` }
+      }
+      throw new Error('Image couldnt be uploaded')
     },
     onToggle(editor, files, pos) {
       editor.commands.insertContentAt(
