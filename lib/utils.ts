@@ -66,6 +66,8 @@ export const COUNTIRESLIST = [
   { label: 'الاردن', countryCode: 'JO' },
   { label: 'الامارات', countryCode: 'AE' },
   { label: 'السعودية', countryCode: 'SA' },
+  { label: 'فيتنام', countryCode: 'VN' },
+  { label: 'موريشيوس', countryCode: 'MU' },
 ]
 
 type OrderFilter = {
@@ -145,6 +147,8 @@ export const europeanCountries = [
   { label: 'الاردن', countryCode: 'JO' },
   { label: 'الامارات', countryCode: 'AE' },
   { label: 'السعودية', countryCode: 'SA' },
+  { label: 'فيتنام', countryCode: 'VN' },
+  { label: 'موريشيوس', countryCode: 'MU' },
 ]
 export type QueryString = {
   country?: any[]

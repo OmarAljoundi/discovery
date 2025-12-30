@@ -147,6 +147,8 @@ export const COUNTRIES = [
   { label: 'مقدونيا', countryCode: 'MK' },
   { label: 'ألبانيا', countryCode: 'AL' },
   { label: 'سلوفينيا', countryCode: 'SI' },
+  { label: 'فيتنام', countryCode: 'VN' },
+  { label: 'موريشيوس', countryCode: 'MU' },
 ]
 
 export const DAYS = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'كل يوم']
