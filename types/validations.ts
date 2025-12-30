@@ -1,5 +1,5 @@
 import * as yup from 'yup'
-import { Article, Hotel, Tour } from './custom'
+import { Article, Hotel, News, Tour } from './custom'
 
 export const UserSchema = yup.object().shape({
   email: yup.string().email('Email not in a correct format!').required('Email is required'),
@@ -29,6 +29,14 @@ export const HotalSchema = yup.object().shape<SchemaObject<Hotel>>({
 })
 
 export const ArticleSchema = yup.object().shape<SchemaObject<Article>>({
+  title: yup.string().required('Name is required'),
+  author: yup.string().required('Author is required!'),
+  content: yup.string().required('Content is required!'),
+  image: yup.string().required('Image is required!'),
+  tag: yup.string().required('Tag is required!'),
+})
+
+export const NewsSchema = yup.object().shape<SchemaObject<News>>({
   title: yup.string().required('Name is required'),
   author: yup.string().required('Author is required!'),
   content: yup.string().required('Content is required!'),

@@ -37,6 +37,10 @@ const SettingMenu = [
     label: 'Articles Seo',
     href: '/admin/dashboard/setting/articles',
   },
+  {
+    label: 'News Seo',
+    href: '/admin/dashboard/setting/news',
+  },
 ]
 
 export function SidebarNav({ className, ...props }: SidebarNavProps) {

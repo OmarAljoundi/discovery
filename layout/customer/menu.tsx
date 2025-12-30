@@ -4,6 +4,7 @@ import MobileMenu from './mobile-menu'
 import BlurImage from '@/components/common/blur-image'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import CurrencySwitcher from '@/components/common/currency-switcher'
 
 export const MenuItems = [
   {
@@ -15,10 +16,6 @@ export const MenuItems = [
     link: '/tour-listing',
   },
   {
-    title: 'التأشيرات',
-    link: '/visa',
-  },
-  {
     title: 'آراء العملاء',
     link: '/customers-review',
   },
@@ -27,12 +24,12 @@ export const MenuItems = [
     link: '/about-us',
   },
   {
-    title: 'الأسئلة الشائعة',
-    link: '/faq',
-  },
-  {
     title: 'المدونات',
     link: '/articles',
+  },
+  {
+    title: 'الأخبار',
+    link: '/news',
   },
 ]
 
@@ -68,6 +65,9 @@ const Menu = () => {
           </nav>
 
           <div className="flex items-center gap-4">
+            <div className="block">
+              <CurrencySwitcher />
+            </div>
             <MobileMenu />
           </div>
         </div>

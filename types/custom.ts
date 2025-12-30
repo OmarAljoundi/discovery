@@ -16,6 +16,12 @@ export type Tour = {
   price_child?: number | null
   price_child_no_bed?: number | null
   price_infant?: number | null
+
+  price_bhd?: number | null
+  price_child_bhd?: number | null
+  price_child_no_bed_bhd?: number | null
+  price_infant_bhd?: number | null
+
   seo?: Seo | null
   start_day?: string[] | null
   tour_countries?: string[] | null
@@ -99,6 +105,19 @@ export type Article = {
   slug?: string
 }
 
+export type News = {
+  id?: number
+  image?: string
+  title?: string
+  content?: string
+  author?: string
+  tag?: string
+  is_active?: boolean
+  seo?: Seo
+  created_at?: Date
+  slug?: string
+}
+
 export type LocationTours = {
   id?: number
   location_attr_id?: number | null
@@ -163,6 +182,7 @@ export type Setting = {
   about_us?: FaqSeo
   faq_seo?: FaqSeo
   article_seo?: FaqSeo
+  news_seo?: FaqSeo
   customers_review?: CustomerReview
   best_tours?: BestTours
 }

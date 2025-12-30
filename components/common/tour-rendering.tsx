@@ -8,8 +8,7 @@ import { filterTours } from '@/lib/utils'
 import TourCard from './tour-card'
 import { MdSearchOff } from 'react-icons/md'
 import { IconContext } from 'react-icons'
-import { Button, Link } from '@nextui-org/react'
-import { ArrowLeft } from 'lucide-react'
+import { Link } from '@nextui-org/react'
 import { useQuery } from '@tanstack/react-query'
 import { REVALIDATE_TOUR_LIST } from '@/lib/keys'
 import { getTours } from '@/lib/operations'
@@ -18,7 +17,7 @@ const TourRendering: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
   const { ref, inView } = useInView()
   const [currentSize, setCurrentSize] = useState(10)
 
-  const { data: tours } = useQuery({
+  const { data: tours,isLoading,isRefetching } = useQuery({
     queryKey: [REVALIDATE_TOUR_LIST],
     queryFn: async () => await getTours(),
     select: (response) => {
@@ -46,16 +45,12 @@ const TourRendering: FC<{ tourIds?: number[] }> = ({ tourIds }) => {
       tours || [],
     )
   }, [
-    searchParams?.get('country'),
-    searchParams?.get('days'),
-    searchParams?.get('tab'),
-    searchParams?.get('type'),
-    searchParams?.get('page'),
-    searchParams?.get('maxprice'),
-    searchParams?.get('minprice'),
-    searchParams?.get('sortMemebr'),
-    searchParams?.get('sortOrder'),
+    searchParams,
+    tours,
   ])
+
+  // if(isRefetching && isLoading == false)
+  //   return <h1>Loading...</h1>
 
   if (currentTours.length == 0) {
     return (

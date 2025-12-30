@@ -1,5 +1,4 @@
 import TourForm from '@/components/tour-form'
-import { getTours } from '@/lib/operations'
 import { http } from '@/service/httpService'
 import { Response, Tour } from '@/types/custom'
 import { SearchQuery, eFilterOperator } from '@/types/search'
@@ -7,17 +6,11 @@ import { formatDistance, subDays } from 'date-fns'
 import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 
+// Force dynamic rendering for admin routes
+export const dynamic = 'force-dynamic'
+
 interface NewTourPageProps {
   params: { tourId: string }
-}
-export async function generateStaticParams() {
-  const response = await getTours()
-  if (response && response.length > 0) {
-    return response.map((tour) => ({
-      tourId: `${tour.id}`,
-    }))
-  }
-  return []
 }
 
 const NewTourPage: FunctionComponent<NewTourPageProps> = async ({ params }) => {

@@ -1,4 +1,4 @@
-import { getTours } from '@/lib/operations'
+import { getTours, getToursStatic } from '@/lib/operations'
 import { notFound } from 'next/navigation'
 import { FunctionComponent } from 'react'
 import TourBreadcrumb from './tour-breadcrumb'
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 export async function generateStaticParams() {
-  const response = await getTours()
+  const response = await getToursStatic()
   if (response && response.length > 0) {
     return response
       .filter((x) => x.is_active)

@@ -9,17 +9,18 @@ import SettingInfo from './setting-info-form'
 import ImageForm from './image-form'
 import ExternalInfoForm from './external-info-form'
 import AirportForm from './airpot-form'
+import PriceInfoBHD from './price-info-bhd-form'
 
 interface GenralInfoFormProps {
   formik: FormikProps<Tour>
 }
 
 const GenralInfoForm: FunctionComponent<GenralInfoFormProps> = ({ formik }) => {
-  const { dirty, errors, values, handleBlur, handleChange, touched, setFieldValue } = formik
+  const { errors, values, handleBlur, handleChange, touched, setFieldValue } = formik
 
   return (
     <div className="grid grid-cols-6 space-y-4 mt-4 gap-x-4">
-      <div className="col-span-3 xl:col-span-4 space-y-4">
+      <div className="col-span-3 xl:col-span-4 space-y-8 pb-8">
         <div className="grid grid-cols-2 gap-x-4 gap-y-6">
           <div className="col-span-2 lg:col-span-1">
             <Input
@@ -137,6 +138,7 @@ const GenralInfoForm: FunctionComponent<GenralInfoFormProps> = ({ formik }) => {
           </div>
         </div>
         <PriceInfo formik={formik} />
+        <PriceInfoBHD formik={formik} />
         <AirportForm formik={formik} />
         <SettingInfo formik={formik} />
         <ExternalInfoForm formik={formik} />

@@ -1,3 +1,4 @@
+import { FromCountryAirport } from '@/components/common/from-country-airport'
 import TourRendering from '@/components/common/tour-rendering'
 import { REVALIDATE_CONTENT_LIST, REVALIDATE_LOCATION_LIST, REVALIDATE_TOUR_LIST, REVALIDATE_TOUR_TYPE } from '@/lib/keys'
 import { getContentData, getDestination, getTourTypes, getTours } from '@/lib/operations'
@@ -67,10 +68,14 @@ export async function generateStaticParams() {
   return []
 }
 
-const TourDestinationListingPage: FunctionComponent<{ params: { destination: string } }> = async ({ params }) => {
+const TourDestinationListingPage: FunctionComponent<{
+  params: { destination: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}> = async ({ params, searchParams }) => {
   let tours_ids: number[] = []
   const destination = await getDestination()
-  const currentDest = destination.results?.find((x) => x.slug == decodeURIComponent(params.destination) && x.is_active)
+  const slug = decodeURIComponent(params.destination)
+  const currentDest = destination.results?.find((x) => x.slug == slug && x.is_active)
 
   if (!currentDest) return notFound()
   currentDest?.location_attributes?.map((x) => {
@@ -97,11 +102,17 @@ const TourDestinationListingPage: FunctionComponent<{ params: { destination: str
     }),
   ])
 
-  return (
-    <HydrationBoundary state={dehydrate(query)}>
-      <TourRendering tourIds={tours_ids} />
-    </HydrationBoundary>
-  )
+  const isTourWithAir = slug == 'رحلات-تشمل-الطيران'
+
+  if (!isTourWithAir || (isTourWithAir && (searchParams.from == 'OMR' || searchParams.from == 'BHD'))) {
+    return (
+      <HydrationBoundary state={dehydrate(query)}>
+        <TourRendering tourIds={tours_ids} />
+      </HydrationBoundary>
+    )
+  }
+
+  return  <FromCountryAirport slug={slug} from={searchParams.from as string} />
 }
 
 export default TourDestinationListingPage

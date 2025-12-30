@@ -1,5 +1,5 @@
 'use server'
-import { Article, Customer, Hotel, Location, LocationAttributes, Newsletter, Response, Setting, Tour, TourType } from '@/types/custom'
+import { Article, Customer, Hotel, Location, LocationAttributes, News, Newsletter, Response, Setting, Tour, TourType } from '@/types/custom'
 import { supabaseClient } from './supabaseClient'
 import { http } from '@/service/httpService'
 import {
@@ -8,6 +8,7 @@ import {
   REVALIDATE_CUSTOMER_LIST,
   REVALIDATE_HOTEL_LIST,
   REVALIDATE_LOCATION_LIST,
+  REVALIDATE_NEWS_LIST,
   REVALIDATE_NEWSLETTER_LIST,
   REVALIDATE_TOUR_LIST,
   REVALIDATE_TOUR_TYPE,
@@ -17,8 +18,6 @@ import { SearchQuery } from '@/types/search'
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '@/types/supabase'
 import { cookies } from 'next/headers'
-import { format } from 'date-fns'
-import { delay } from '@/dev'
 
 export async function updateTourStatus(status: boolean, id: number): Promise<Response<any>> {
   const { error } = await supabaseClient.from('tour').update({ is_active: status }).eq('id', id)
@@ -46,6 +45,7 @@ export async function getTourTypes(): Promise<Response<TourType>> {
   const response = await http<Response<TourType>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_TYPE] }).post(_SQ)
   return response
 }
+
 export async function createTour(tour: Tour) {
   const _tour = { ...tour }
   delete _tour.tour_hotels
@@ -182,6 +182,7 @@ export async function updateDestination(dest: Location) {
   return data
 }
 export async function getTours() {
+  const currency = cookies().get('currency')?.value ?? 'BHD'
   var _SQ: SearchQuery = {
     FilterByOptions: [],
     OrderByOptions: [],
@@ -190,7 +191,28 @@ export async function getTours() {
     Select: '*,tour_type(*),tour_hotels(*,hotel(*))',
     Table: 'tour',
   }
-  const response = await http<Response<Tour>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST] }).post(_SQ)
+  const response = await http<Response<Tour>>(
+    '/api/search',
+    { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST, currency] },
+    cookies().toString(),
+  ).post(_SQ)
+  return response.results
+}
+
+// Version of getTours for use in generateStaticParams (no cookies access)
+export async function getToursStatic() {
+  var _SQ: SearchQuery = {
+    FilterByOptions: [],
+    OrderByOptions: [],
+    PageIndex: 0,
+    PageSize: 1000,
+    Select: '*,tour_type(*),tour_hotels(*,hotel(*))',
+    Table: 'tour',
+  }
+  const response = await http<Response<Tour>>(
+    '/api/search',
+    { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST] },
+  ).post(_SQ)
   return response.results
 }
 export async function getDestination() {
@@ -400,6 +422,42 @@ export async function updateArticle(article: Article) {
 
   return data
 }
+
+export async function createNews(news: News) {
+  const { data, error } = await supabaseClient
+    .from('news' as any)
+    .insert(news as any)
+    .select('*')
+    .single()
+
+  if (error) {
+    console.log('Errors in creating news.. ', error)
+    throw new Error(error.message)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_NEWS_LIST}`, { revalidate: 0 }).get()
+
+  return data
+}
+
+export async function updateNews(news: News) {
+  const { data, error } = await supabaseClient
+    .from('news' as any)
+    .update(news as any)
+    .eq('id', news.id!)
+    .select('*')
+    .single()
+
+  if (error) {
+    console.log('Errors in updating news.. ', error)
+    throw new Error(error.message)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_NEWS_LIST}`, { revalidate: 0 }).get()
+
+  return data
+}
+
 export async function updateArticleStatus(status: boolean, id: number): Promise<Response<any>> {
   const { error } = await supabaseClient.from('article').update({ is_active: status }).eq('id', id)
 
@@ -415,6 +473,24 @@ export async function updateArticleStatus(status: boolean, id: number): Promise<
   }
 }
 
+export async function updateNewsStatus(status: boolean, id: number): Promise<Response<any>> {
+  const { error } = await supabaseClient
+    .from('news' as any)
+    .update({ is_active: status })
+    .eq('id', id)
+
+  if (error) {
+    throw new Error(`faild to update news status, ${error.message}`)
+  }
+
+  await http<any>(`/api/revalidate?tag=${REVALIDATE_NEWS_LIST}`, { revalidate: 0 }).get()
+
+  return {
+    message: 'News updated successfully..',
+    success: true,
+  }
+}
+
 export async function getArticles() {
   var _SQ: SearchQuery = {
     FilterByOptions: [],
@@ -425,5 +501,18 @@ export async function getArticles() {
     Table: 'article',
   }
   const response = await http<Response<Article>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_ARTICLE_LIST] }).post(_SQ)
+  return response.results
+}
+
+export async function getNews() {
+  var _SQ: SearchQuery = {
+    FilterByOptions: [],
+    OrderByOptions: [],
+    PageIndex: 0,
+    PageSize: 1000,
+    Select: '*',
+    Table: 'news',
+  }
+  const response = await http<Response<News>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_NEWS_LIST] }).post(_SQ)
   return response.results
 }

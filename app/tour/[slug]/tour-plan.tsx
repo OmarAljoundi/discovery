@@ -13,7 +13,6 @@ const TourPlan: FunctionComponent<TourPlanProps> = ({ tour }) => {
   const AccordianItems = () => {
     return tour.tour_sections?.map((section, index) => (
       <AccordionItem
-        className="px-0"
         classNames={{
           titleWrapper: 'text-right',
         }}

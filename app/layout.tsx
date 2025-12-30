@@ -19,6 +19,7 @@ import dynamics from 'next/dynamic'
 import NextUIProvider from '@/provider/next-ui-provider'
 import { fontSpecialAr, fontSpecialEn } from './fonts'
 import CustomerFormModal from '@/components/modals/customer-form-modal'
+import { CurrencyProvider } from '@/provider/currency-provider'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import '@/components/minimal-tiptap/styles/index.css'
@@ -60,17 +61,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <TooltipProvider>
           <ReactQueryProvider>
             <NextUIProvider>
-              {headersList.get('x-dir') == 'rtl' ? (
-                <>
-                  <CustomerFormModal />
-                  <ToolBar />
-                  <Menu />
-                  {children}
-                  <Footer />
-                </>
-              ) : (
-                <> {children}</>
-              )}
+              <CurrencyProvider>
+                {headersList.get('x-dir') == 'rtl' ? (
+                  <>
+                    <CustomerFormModal />
+                    <ToolBar />
+                    <Menu />
+                    {children}
+                    <Footer />
+                  </>
+                ) : (
+                  <> {children}</>
+                )}
+              </CurrencyProvider>
             </NextUIProvider>
           </ReactQueryProvider>
         </TooltipProvider>

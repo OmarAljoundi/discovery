@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator'
 import { getContentData } from '@/lib/operations'
 import SettingLayoutProvider from '@/provider/setting-layout-provider'
-import { FunctionComponent, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { SidebarNav } from './sidebar-nav'
 
 export default async function SettingLayout({ children }: { children: ReactNode }) {

@@ -2,20 +2,25 @@ import { getEqOperator } from '@/lib/helpers'
 import { Order, SearchQuery } from '@/types/search'
 import { Database } from '@/types/supabase'
 import { createClient } from '@supabase/supabase-js'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-const supabase = createClient<Database>(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SERVICE_ROLE_KEY!, {
-  auth: {
-    autoRefreshToken: false,
-    persistSession: false,
-    detectSessionInUrl: false,
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SERVICE_ROLE_KEY!,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false,
+    },
   },
-})
+)
 
 type OrQuriesProp = {
   forigenTable: string | null
   query: string
 }
+
 const getPagination = (page: number, size: number) => {
   const limit = size ? +size : 3
   let from = page ? page * limit : 0
@@ -29,16 +34,34 @@ const getPagination = (page: number, size: number) => {
   return { from, to }
 }
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: NextRequest) {
   try {
-    var OrQuries: OrQuriesProp[] = []
+    const OrQuries: OrQuriesProp[] = []
+
+    const currency = (req.cookies.get('currency')?.value ?? 'BHD').toUpperCase()
 
     const requestData = (await req.json()) as SearchQuery
-    var query = supabase.from(requestData.Table! as any).select(requestData.Select, { count: 'exact' })
+
+    let query = supabase
+      .from(requestData.Table! as any)
+      .select(requestData.Select, { count: 'exact' })
+
+    if ((requestData.Table ?? '').toLowerCase() === 'tour') {
+      const priceColumn =
+        currency === 'BHD'
+          ? 'price_bhd'
+          : currency === 'OMR'
+            ? 'price'
+            : null
+
+      if (priceColumn) {
+        query = query.not(priceColumn, 'is', null).gt(priceColumn, 0)
+      }
+    }
 
     requestData.FilterByOptions.map((i) => {
       if (i.MemberName.includes('.')) {
-        let memberNames = i.MemberName?.split('.')
+        const memberNames = i.MemberName.split('.')
         if (OrQuries.find((x) => x.forigenTable == memberNames[0])) {
           OrQuries.map((o) => {
             if (o.forigenTable == memberNames[0]) {
@@ -70,12 +93,14 @@ export async function POST(req: Request, res: Response) {
       })
     }
 
+    // Ordering
     if (requestData.OrderByOptions.length > 0) {
       query = query.order(requestData.OrderByOptions[0].MemberName, {
-        ascending: requestData.OrderByOptions[0].SortOrder == Order.ASC ? true : false,
+        ascending: requestData.OrderByOptions[0].SortOrder == Order.ASC,
       })
     }
 
+    // Pagination
     const { from, to } = getPagination(requestData.PageIndex, requestData.PageSize)
     query = query.range(from, to)
 
@@ -85,10 +110,11 @@ export async function POST(req: Request, res: Response) {
       console.error(error)
       throw new Error(error.details)
     }
+
     return NextResponse.json({
       success: true,
       results: result,
-      result: result[0] ?? null,
+      result: result?.[0] ?? null,
       total: count,
     })
   } catch (ex) {

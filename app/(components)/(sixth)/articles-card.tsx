@@ -5,10 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { format } from 'date-fns'
 import { ar } from 'date-fns/locale'
-import { Pencil, UserIcon } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import { Card, CardBody, CardFooter, CardHeader } from '@nextui-org/react'
 import { Article } from '@/types/custom'
-import Image from 'next/image'
 import BlurImage from '@/components/common/blur-image'
 import Link from 'next/link'
 
@@ -30,8 +29,8 @@ function formatArabicDate(date: Date): string {
   return format(date, 'd MMMM yyyy', { locale: ar })
 }
 
-export default function ArticleCard({ item }: { item: Article }) {
-  const { author, content, created_at, id, image, slug, tag, title } = item
+export default function ArticleCard({ item, prefix = 'articles' }: { item: Article; prefix?: 'articles' | 'news' }) {
+  const { author, content, created_at, image, slug, tag, title } = item
   const formattedDate = formatArabicDate(new Date(created_at ?? ''))
   const lengthOfReading = calculateReadingTime(content ?? '')
 
@@ -98,7 +97,7 @@ export default function ArticleCard({ item }: { item: Article }) {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
-              <Link href={`/articles/${slug}`}>
+              <Link href={`/${prefix}/${slug}`}>
                 <Button variant="ghost" size="sm" className="text-primary  hover:bg-primary hover:text-white transition-colors duration-300">
                   اقرأ المزيد
                 </Button>

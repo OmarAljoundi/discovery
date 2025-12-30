@@ -3,11 +3,12 @@ const onRequest = async <T>(
   method: 'POST' | 'GET' | 'PUT' | 'DELETE',
   data: any = '',
   next?: NextFetchRequestConfig,
+  cookieHeader?: string,
 ): Promise<T> => {
   var headers = new Headers()
   headers.append('Accept', 'application/json')
   headers.append('Content-Type', 'application/json')
-
+  if (cookieHeader) headers.set('cookie', cookieHeader)
   const requestOptions: RequestInit = {
     method,
     headers,
@@ -33,11 +34,11 @@ const onRequest = async <T>(
   }
 }
 
-export function http<T>(endPoint: string, next?: NextFetchRequestConfig) {
+export function http<T>(endPoint: string, next?: NextFetchRequestConfig,cookieHeader?:string) {
   return {
-    post: (data: any = '') => onRequest<T>(endPoint, 'POST', data, next),
-    update: (data: any = '') => onRequest<T>(endPoint, 'PUT', data, next),
-    get: () => onRequest<T>(endPoint, 'GET', undefined, next),
-    delete: () => onRequest<T>(endPoint, 'DELETE', undefined, next),
+    post: (data: any = '') => onRequest<T>(endPoint, 'POST', data, next,cookieHeader),
+    update: (data: any = '') => onRequest<T>(endPoint, 'PUT', data, next,cookieHeader),
+    get: () => onRequest<T>(endPoint, 'GET', undefined, next,cookieHeader),
+    delete: () => onRequest<T>(endPoint, 'DELETE', undefined, next,cookieHeader),
   }
 }

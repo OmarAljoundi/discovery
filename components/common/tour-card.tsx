@@ -6,6 +6,7 @@ import { ArrowLeft, CalendarDays, CircleDollarSign, Clock, MapPin } from 'lucide
 import { Separator } from '../ui/separator'
 import { Button } from '@nextui-org/react'
 import Link from 'next/link'
+import Price from './price'
 
 interface TourCardProps {
   tour: Tour
@@ -14,16 +15,17 @@ interface TourCardProps {
 const TourCard: FunctionComponent<TourCardProps> = ({ tour }) => {
   return (
     <div key={tour.id}>
-      <Carousel
-        uniqueKey={`tour_card__images_${tour.id}`}
-        classNames={{ image: 'aspect-[3/2] rounded-b-none', container: 'rounded-b-none' }}
-        includeArrows={!!tour.images && tour.images.length > 1}
-        images={tour.images?.map((x) => `${process.env.NEXT_PUBLIC_IMAGE_URL}${x}`) ?? []}
-      />
-
+      <Link href={`/tour/${tour.slug}`}>
+        <Carousel
+          uniqueKey={`tour_card__images_${tour.id}`}
+          classNames={{ image: 'aspect-[3/2] rounded-b-none', container: 'rounded-b-none' }}
+          includeArrows={!!tour.images && tour.images.length > 1}
+          images={tour.images?.map((x) => `${process.env.NEXT_PUBLIC_IMAGE_URL}${x}`) ?? []}
+        />
+      </Link>
       <div
         className="py-3 px-5
-       relative bg-white z-40 shadow-card rounded-b-none 
+       relative bg-white z-40 shadow-card rounded-b-none
     "
       >
         <div className="flex justify-start gap-x-2 h-6">
@@ -35,16 +37,20 @@ const TourCard: FunctionComponent<TourCardProps> = ({ tour }) => {
             <span className="text-ellipsis overflow-hidden line-clamp-1">{tour.tour_countries?.join(' ، ')}</span>
           </div>
         </div>
-        <h1 className="text-base md:text-lg lg:text-xl mb-2 text-ellipsis overflow-hidden line-clamp-1 text-primary" title={tour.name}>
-          {tour.name}
-        </h1>
+        <Link href={`/tour/${tour.slug}`}>
+          <h1 className="text-base md:text-lg lg:text-xl mb-2 text-ellipsis overflow-hidden line-clamp-1 text-primary" title={tour.name}>
+            {tour.name}
+          </h1>
+        </Link>
         <div className="flex justify-start gap-x-2 items-center h-6">
           <CalendarDays className="w-4 h-4 text-muted-foreground" />
           <h4 className="text-sm text-muted-foreground">{tour.start_day?.join(' ، ')}</h4>
         </div>
         <div className="flex justify-start gap-x-2 items-center h-6">
           <CircleDollarSign className="w-4 h-4 text-muted-foreground" />
-          <h4 className="text-sm text-muted-foreground">يبدأ السعر من {tour.price} ر.ع</h4>
+          <h4 className="text-sm text-muted-foreground">
+            يبدأ السعر من <Price amount={tour.price || 0} className="text-sm" />
+          </h4>
         </div>
         <Separator className="my-4" />
         <div className="flex  justify-between">

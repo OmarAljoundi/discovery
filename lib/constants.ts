@@ -1,5 +1,5 @@
 import { Brush, BusFront, Contact, Contact2, Hotel, MapPin, Plane, Settings } from 'lucide-react'
-import { MdArticle } from 'react-icons/md'
+import { MdArticle, MdNewspaper } from 'react-icons/md'
 
 type MenuItemsProps = {
   label: string
@@ -44,6 +44,11 @@ export const MenuItems: MenuItemsProps[] = [
     label: 'Article',
     icon: MdArticle,
     href: '/admin/dashboard/article',
+  },
+  {
+    label: 'News',
+    icon: MdNewspaper,
+    href: '/admin/dashboard/news',
   },
   {
     label: 'Customers',

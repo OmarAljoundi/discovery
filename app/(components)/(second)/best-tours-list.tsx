@@ -68,6 +68,10 @@ const BestToursList: FunctionComponent<BestToursListProps> = () => {
       },
     },
   }
+
+  if(data?.length == 0 && isLoading == false) return <></>
+
+  
   return (
     <div className=" py-16">
       <div className="container">
