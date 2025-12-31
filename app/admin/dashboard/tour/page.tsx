@@ -16,6 +16,7 @@ const TourPage: FunctionComponent<TourPageProps> = async () => {
     PageSize: 1000,
     Select: '*,tour_type(*)',
     Table: 'tour',
+    IsAdmin:true
   }
   const data = await http<Response<Tour>>('/api/search', { revalidate: 86400, tags: [REVALIDATE_TOUR_LIST] }).post(_SQ)
 

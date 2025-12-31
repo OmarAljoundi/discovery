@@ -37,7 +37,6 @@ const getPagination = (page: number, size: number) => {
 export async function POST(req: NextRequest) {
   try {
     const OrQuries: OrQuriesProp[] = []
-
     const currency = (req.cookies.get('currency')?.value ?? 'BHD').toUpperCase()
 
     const requestData = (await req.json()) as SearchQuery
@@ -46,7 +45,7 @@ export async function POST(req: NextRequest) {
       .from(requestData.Table! as any)
       .select(requestData.Select, { count: 'exact' })
 
-    if ((requestData.Table ?? '').toLowerCase() === 'tour') {
+    if ((requestData.Table ?? '').toLowerCase() === 'tour' && !requestData.IsAdmin) {
       const priceColumn =
         currency === 'BHD'
           ? 'price_bhd'

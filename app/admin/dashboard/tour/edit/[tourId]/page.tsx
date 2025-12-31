@@ -27,6 +27,7 @@ const NewTourPage: FunctionComponent<NewTourPageProps> = async ({ params }) => {
     PageSize: 1,
     Table: 'tour',
     Select: '*,tour_hotels(*)',
+    IsAdmin:true
   }
   const response = await http<Response<Tour>>('/api/search', { revalidate: 0 }).post(_SQ)
 

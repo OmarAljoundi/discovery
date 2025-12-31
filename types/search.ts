@@ -5,6 +5,7 @@ export type SearchQuery = {
   PageIndex: number
   Select?: string
   Table?: string
+  IsAdmin?:boolean
 }
 
 export type FilterByOptions = {
