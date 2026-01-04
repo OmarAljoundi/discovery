@@ -23,6 +23,7 @@ import { CurrencyProvider } from '@/provider/currency-provider'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import '@/components/minimal-tiptap/styles/index.css'
+import LoadGMScript from '@/provider/load-gm-script'
 const cairo = Cairo({
   subsets: ['arabic', 'latin'],
   display: 'swap',
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html dir={headersList.get('x-dir') ?? 'rtl'} lang={headersList.get('x-lang') ?? 'ar'} style={{ height: '100%' }}>
       <body className={cn(cairo.className, fontSpecialAr.variable, fontSpecialEn.variable, 'h-full')}>
+        <LoadGMScript />
         <Toaster position="top-right" expand={true} richColors />
         <SpeedInsights />
         <TooltipProvider>

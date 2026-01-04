@@ -1,6 +1,8 @@
+import { submitEventForm } from '@/lib/gtm'
 import { submitForm } from '@/lib/operations'
 import { Customer, eCustomerStatus } from '@/types/custom'
 import { useFormik } from 'formik'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import * as yup from 'yup'
@@ -8,6 +10,8 @@ import * as yup from 'yup'
 export default function useSubmitForm({ tourId }: { tourId: number }) {
   const [loading, setLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const pathname = usePathname()
+
   const handleSubmitForm = async (values: Customer) => {
     setLoading(true)
     values.tour_id = tourId
@@ -15,6 +19,8 @@ export default function useSubmitForm({ tourId }: { tourId: number }) {
 
     if (result.success) {
       setIsSuccess(true)
+      if (process.env.NODE_ENV == 'production') submitEventForm(pathname)
+
       formik.resetForm()
     } else {
       toast.error('حدث خطأ ما')
